@@ -1240,6 +1240,17 @@ static Düğüm *sinif_cozumle(Cozumleyici *c) {
         }
     }
 
+    /* Arayüz uygulama: sınıf Kedi uygula Yazdırılabilir, Karşılaştırılabilir */
+    d->veri.sinif.arayuz_sayisi = 0;
+    if (esle_ve_ilerle(c, TOK_UYGULA)) {
+        do {
+            Sözcük *ay = bekle(c, TOK_TANIMLAYICI);
+            if (ay && d->veri.sinif.arayuz_sayisi < 8) {
+                d->veri.sinif.arayuzler[d->veri.sinif.arayuz_sayisi++] = sozcuk_metni(c, ay);
+            }
+        } while (esle_ve_ilerle(c, TOK_VİRGÜL));
+    }
+
     yeni_satir_atla(c);
 
     /* Alanlar ve metotlar */
@@ -1423,6 +1434,49 @@ static Düğüm *her_icin_cozumle(Cozumleyici *c) {
     return d;
 }
 
+/* Arayüz metot imzası çözümleme (gövdesiz işlev) */
+static Düğüm *islev_imza_cozumle(Cozumleyici *c) {
+    Sözcük *başlangıç = ilerle(c); /* işlev */
+    Sözcük *isim = bekle(c, TOK_TANIMLAYICI);
+
+    Düğüm *d = düğüm_oluştur(c->arena, DÜĞÜM_İŞLEV, başlangıç->satir, başlangıç->sutun);
+    d->veri.islev.isim = isim ? sozcuk_metni(c, isim) : arena_strdup(c->arena, "?");
+    d->veri.islev.dönüş_tipi = NULL;
+    d->veri.islev.dekorator = NULL;
+    d->veri.islev.tip_parametre = NULL;
+    d->veri.islev.eszamansiz = 0;
+    d->veri.islev.variadic = 0;
+    d->veri.islev.erisim = 0;
+    d->veri.islev.statik = 0;
+    d->veri.islev.soyut = 1;  /* gövdesiz */
+
+    /* Parametreler */
+    bekle(c, TOK_PAREN_AC);
+    Düğüm *params = düğüm_oluştur(c->arena, DÜĞÜM_BLOK, başlangıç->satir, başlangıç->sutun);
+    if (!kontrol(c, TOK_PAREN_KAPA)) {
+        do {
+            Sözcük *p_isim = bekle(c, TOK_TANIMLAYICI);
+            bekle(c, TOK_İKİ_NOKTA);
+            char *p_tip = tip_oku(c);
+            Düğüm *param = düğüm_oluştur(c->arena, DÜĞÜM_DEĞİŞKEN,
+                p_isim ? p_isim->satir : 0, 0);
+            param->veri.değişken.isim = p_isim ? sozcuk_metni(c, p_isim) : arena_strdup(c->arena, "?");
+            param->veri.değişken.tip = p_tip;
+            düğüm_çocuk_ekle(c->arena, params, param);
+        } while (esle_ve_ilerle(c, TOK_VİRGÜL));
+    }
+    bekle(c, TOK_PAREN_KAPA);
+    düğüm_çocuk_ekle(c->arena, d, params);
+
+    /* Dönüş tipi */
+    if (esle_ve_ilerle(c, TOK_OK)) {
+        d->veri.islev.dönüş_tipi = tip_oku(c);
+    }
+
+    /* Gövde yok — sadece imza */
+    return d;
+}
+
 /* arayüz (interface) çözümleme */
 static Düğüm *arayuz_cozumle(Cozumleyici *c) {
     Sözcük *başlangıç = ilerle(c); /* arayüz */
@@ -1434,16 +1488,23 @@ static Düğüm *arayuz_cozumle(Cozumleyici *c) {
     bekle(c, TOK_İSE);
     yeni_satir_atla(c);
 
-    /* Metot isimleri */
+    /* Metot imzaları veya isimleri */
     while (!kontrol(c, TOK_SON) && !kontrol(c, TOK_DOSYA_SONU)) {
         yeni_satir_atla(c);
         if (kontrol(c, TOK_SON)) break;
 
-        Sözcük *metot = bekle(c, TOK_TANIMLAYICI);
-        if (metot) {
-            Düğüm *dd = düğüm_oluştur(c->arena, DÜĞÜM_TANIMLAYICI, metot->satir, metot->sutun);
-            dd->veri.tanimlayici.isim = sozcuk_metni(c, metot);
-            düğüm_çocuk_ekle(c->arena, d, dd);
+        if (kontrol(c, TOK_İŞLEV)) {
+            /* Tam imza: işlev isim(param: tip, ...) -> dönüş_tipi */
+            Düğüm *metot = islev_imza_cozumle(c);
+            düğüm_çocuk_ekle(c->arena, d, metot);
+        } else {
+            /* Geriye uyumluluk: sadece metot ismi */
+            Sözcük *metot = bekle(c, TOK_TANIMLAYICI);
+            if (metot) {
+                Düğüm *dd = düğüm_oluştur(c->arena, DÜĞÜM_TANIMLAYICI, metot->satir, metot->sutun);
+                dd->veri.tanimlayici.isim = sozcuk_metni(c, metot);
+                düğüm_çocuk_ekle(c->arena, d, dd);
+            }
         }
 
         yeni_satir_atla(c);

@@ -43,6 +43,14 @@ typedef struct {
     int         ozellik_setter_sayisi;
 } SinifBilgi;
 
+/* Arayüz metot imza bilgisi */
+typedef struct {
+    char    *isim;
+    int      param_sayisi;     /* -1 = imza bilgisi yok (geriye uyumluluk) */
+    TipTürü  param_tipleri[32];
+    TipTürü  dönüş_tipi;
+} ArayuzMetotImza;
+
 typedef struct {
     char    *isim;
     TipTürü  tip;
@@ -64,7 +72,7 @@ typedef struct {
     char   *sayim_degerler[64];  /* enum değer isimleri */
     int     sayim_deger_sayisi;  /* enum değer sayısı */
     /* Arayüz bilgisi */
-    char   *arayuz_metotlar[32]; /* arayüz metot isimleri */
+    ArayuzMetotImza arayuz_imzalar[32]; /* arayüz metot imzaları */
     int     arayuz_metot_sayisi;
     /* Modül runtime bilgisi */
     const char *runtime_isim;    /* "_tr_xxx" — NULL ise kullanıcı fonksiyonu */

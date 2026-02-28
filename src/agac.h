@@ -135,6 +135,8 @@ typedef struct Düğüm {
             char *ebeveyn;   /* kalıtım: ebeveyn sınıf adı, NULL ise yok */
             int   soyut;     /* soyut sınıf mı? */
             char *tip_parametre;  /* <T> generic tip parametresi, NULL ise yok */
+            char *arayuzler[8];   /* uygulanan arayüz isimleri */
+            int   arayuz_sayisi;  /* uygulanan arayüz sayısı */
         } sinif;
 
         struct {

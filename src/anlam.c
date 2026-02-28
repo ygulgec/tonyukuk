@@ -636,6 +636,52 @@ static void blok_analiz(AnlamÇözümleyici *ac, Düğüm *blok) {
     }
 }
 
+/* Arayüz uygulama kontrolü: metot isimleri ve imzaları doğrula */
+static void arayuz_kontrol_et(AnlamÇözümleyici *ac, Düğüm *d,
+                               SinifBilgi *sb, Sembol *ay_sem) {
+    for (int i = 0; i < ay_sem->arayuz_metot_sayisi; i++) {
+        ArayuzMetotImza *imza = &ay_sem->arayuz_imzalar[i];
+        if (!imza->isim) continue;
+
+        /* 1. Metot adı var mı? */
+        int bulundu = 0;
+        for (int j = 0; j < sb->metot_sayisi; j++) {
+            if (sb->metot_isimleri[j] &&
+                strcmp(sb->metot_isimleri[j], imza->isim) == 0) {
+                bulundu = 1;
+                break;
+            }
+        }
+        if (!bulundu) {
+            hata_bildir(HATA_ARAYÜZ_UYGULAMA, d->satir, d->sutun,
+                        d->veri.sinif.isim, imza->isim);
+            continue;
+        }
+
+        /* 2. İmza kontrolü (param_sayisi >= 0 ise imza bilgisi var) */
+        if (imza->param_sayisi >= 0) {
+            char mangled[256];
+            snprintf(mangled, sizeof(mangled), "%s_%s", d->veri.sinif.isim, imza->isim);
+            Sembol *metot_sem = sembol_ara(ac->kapsam, mangled);
+            if (metot_sem) {
+                /* Parametre sayısı (bu parametresini çıkar) */
+                int beklenen = imza->param_sayisi;
+                int mevcut = metot_sem->param_sayisi > 0 ? metot_sem->param_sayisi - 1 : 0;
+                if (mevcut != beklenen) {
+                    hata_bildir(HATA_ARAYÜZ_IMZA, d->satir, d->sutun,
+                                d->veri.sinif.isim, imza->isim);
+                }
+                /* Dönüş tipi kontrolü */
+                if (imza->dönüş_tipi != TİP_BOŞLUK &&
+                    metot_sem->dönüş_tipi != imza->dönüş_tipi) {
+                    hata_bildir(HATA_ARAYÜZ_IMZA, d->satir, d->sutun,
+                                d->veri.sinif.isim, imza->isim);
+                }
+            }
+        }
+    }
+}
+
 static TipTürü dugum_analiz(AnlamÇözümleyici *ac, Düğüm *d) {
     if (!d) return TİP_BOŞLUK;
 
@@ -757,29 +803,6 @@ static TipTürü dugum_analiz(AnlamÇözümleyici *ac, Düğüm *d) {
         Sembol *s = sembol_ekle(ac->arena, ac->kapsam, d->veri.sinif.isim, TİP_SINIF);
         if (s) s->sınıf_bilgi = sb;
 
-        /* Arayüz (interface) uygulama kontrolü */
-        if (d->veri.sinif.ebeveyn) {
-            Sembol *ebeveyn_sem = sembol_ara(ac->kapsam, d->veri.sinif.ebeveyn);
-            if (ebeveyn_sem && ebeveyn_sem->arayuz_metot_sayisi > 0) {
-                for (int i = 0; i < ebeveyn_sem->arayuz_metot_sayisi; i++) {
-                    char *gerekli_metot = ebeveyn_sem->arayuz_metotlar[i];
-                    if (!gerekli_metot) continue;
-                    int bulundu = 0;
-                    for (int j = 0; j < sb->metot_sayisi; j++) {
-                        if (sb->metot_isimleri[j] &&
-                            strcmp(sb->metot_isimleri[j], gerekli_metot) == 0) {
-                            bulundu = 1;
-                            break;
-                        }
-                    }
-                    if (!bulundu) {
-                        hata_bildir(HATA_ARAYÜZ_UYGULAMA, d->satir, d->sutun,
-                                    d->veri.sinif.isim, gerekli_metot);
-                    }
-                }
-            }
-        }
-
         /* Metotları analiz et (bu parametresi ile) */
         char *onceki_sinif = ac->mevcut_sinif;
         ac->mevcut_sinif = d->veri.sinif.isim;
@@ -789,6 +812,26 @@ static TipTürü dugum_analiz(AnlamÇözümleyici *ac, Düğüm *d) {
             }
         }
         ac->mevcut_sinif = onceki_sinif;
+
+        /* Arayüz uygulama kontrolü (metot analizi sonrasında) */
+        /* 1. uygula ile belirtilen arayüzler */
+        for (int ai = 0; ai < d->veri.sinif.arayuz_sayisi; ai++) {
+            char *ay_isim = d->veri.sinif.arayuzler[ai];
+            Sembol *ay_sem = sembol_ara(ac->kapsam, ay_isim);
+            if (!ay_sem || ay_sem->arayuz_metot_sayisi == 0) {
+                hata_bildir(HATA_TANIMSIZ_DEĞİŞKEN, d->satir, d->sutun, ay_isim);
+                continue;
+            }
+            arayuz_kontrol_et(ac, d, sb, ay_sem);
+        }
+        /* 2. Geriye uyumluluk: ebeveyn arayüzse kontrol et */
+        if (d->veri.sinif.ebeveyn) {
+            Sembol *ebeveyn_sem = sembol_ara(ac->kapsam, d->veri.sinif.ebeveyn);
+            if (ebeveyn_sem && ebeveyn_sem->arayuz_metot_sayisi > 0) {
+                arayuz_kontrol_et(ac, d, sb, ebeveyn_sem);
+            }
+        }
+
         return TİP_SINIF;
     }
 
@@ -1220,13 +1263,29 @@ static TipTürü dugum_analiz(AnlamÇözümleyici *ac, Düğüm *d) {
     }
 
     case DÜĞÜM_ARAYÜZ: {
-        /* Arayüz (interface) tanımı: metot isimlerini kaydet */
+        /* Arayüz (interface) tanımı: metot imzalarını kaydet */
         Sembol *s = sembol_ekle(ac->arena, ac->kapsam, d->veri.sayim.isim, TİP_BİLİNMİYOR);
         if (s) {
             for (int i = 0; i < d->çocuk_sayısı && i < 32; i++) {
                 Düğüm *metot = d->çocuklar[i];
-                if (metot->veri.tanimlayici.isim) {
-                    s->arayuz_metotlar[i] = metot->veri.tanimlayici.isim;
+                if (metot->tur == DÜĞÜM_İŞLEV) {
+                    /* Tam imza: işlev isim(param: tip) -> dönüş_tipi */
+                    s->arayuz_imzalar[i].isim = metot->veri.islev.isim;
+                    s->arayuz_imzalar[i].dönüş_tipi = metot->veri.islev.dönüş_tipi
+                        ? tip_adı_çevir(metot->veri.islev.dönüş_tipi) : TİP_BOŞLUK;
+                    if (metot->çocuk_sayısı > 0) {
+                        Düğüm *params = metot->çocuklar[0];
+                        s->arayuz_imzalar[i].param_sayisi = params->çocuk_sayısı;
+                        for (int j = 0; j < params->çocuk_sayısı && j < 32; j++)
+                            s->arayuz_imzalar[i].param_tipleri[j] =
+                                tip_adı_çevir(params->çocuklar[j]->veri.değişken.tip);
+                    } else {
+                        s->arayuz_imzalar[i].param_sayisi = 0;
+                    }
+                } else {
+                    /* Geriye uyumluluk: sadece isim (DÜĞÜM_TANIMLAYICI) */
+                    s->arayuz_imzalar[i].isim = metot->veri.tanimlayici.isim;
+                    s->arayuz_imzalar[i].param_sayisi = -1; /* imza yok */
                 }
             }
             s->arayuz_metot_sayisi = d->çocuk_sayısı;

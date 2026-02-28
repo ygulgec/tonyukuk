@@ -1,0 +1,23 @@
+# Kalıtım + arayüz testi
+
+arayüz Ölçülebilir ise
+    işlev ölç() -> tam
+son
+
+sınıf Şekil
+    tam alan
+    işlev bilgi() -> tam
+        döndür bu.alan
+    son
+son
+
+sınıf Kare : Şekil uygula Ölçülebilir
+    tam kenar
+    işlev ölç() -> tam
+        döndür bu.kenar * bu.kenar
+    son
+son
+
+Kare k = Kare(0, 5)
+yazdır(k.ölç())
+yazdır(k.bilgi())

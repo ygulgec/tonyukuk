@@ -44,6 +44,7 @@ static const char *hata_sablonlari[] = {
     [HATA_ARAYÜZ_UYGULAMA]  = "s\xc4\xb1n\xc4\xb1" "f '%s' aray\xc3\xbcz '%s' metodunu uygulam\xc4\xb1yor",
     [HATA_SAYIM_TANIMSIZ]   = "'%s' tan\xc4\xb1ms\xc4\xb1z say\xc4\xb1m de\xc4\x9f" "eri",
     [HATA_SINIR_AŞIMI]      = "%s",
+    [HATA_ARAYÜZ_IMZA]     = "s\xc4\xb1n\xc4\xb1f '%s' aray\xc3\xbcz metodu '%s' imzas\xc4\xb1 uyu\xc5\x9fmuyor",
 };
 
 /* Kaynak koddan ilgili satırı bul ve göster (renkli, sütun işaretçisi ile) */

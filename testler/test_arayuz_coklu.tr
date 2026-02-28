@@ -1,0 +1,23 @@
+# Çoklu arayüz testi
+
+arayüz Gösterilebilir ise
+    işlev göster() -> metin
+son
+
+arayüz Hesaplanabilir ise
+    işlev hesapla() -> tam
+son
+
+sınıf Kutu uygula Gösterilebilir, Hesaplanabilir
+    tam boyut
+    işlev göster() -> metin
+        döndür "kutu"
+    son
+    işlev hesapla() -> tam
+        döndür bu.boyut * bu.boyut
+    son
+son
+
+Kutu k = Kutu(5)
+yazdır(k.göster())
+yazdır(k.hesapla())

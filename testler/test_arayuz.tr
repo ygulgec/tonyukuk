@@ -1,8 +1,10 @@
+# Arayüz testi - uygula anahtar kelimesi ile tam imza
+
 arayüz Yazdırılabilir ise
-    göster
+    işlev göster() -> tam
 son
 
-sınıf Mesaj : Yazdırılabilir
+sınıf Mesaj uygula Yazdırılabilir
     tam deger
     işlev göster() -> tam
         döndür bu.deger

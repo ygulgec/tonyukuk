@@ -22,6 +22,7 @@ typedef enum {
     HATA_ARAYÜZ_UYGULAMA,   /* arayüz metodu uygulanmamış */
     HATA_SAYIM_TANIMSIZ,    /* tanımsız sayım değeri */
     HATA_SINIR_AŞIMI,       /* sabit limit aşıldı */
+    HATA_ARAYÜZ_IMZA,      /* arayüz metot imzası uyumsuz */
 } HataKodu;
 
 /* Hata sayacı */
