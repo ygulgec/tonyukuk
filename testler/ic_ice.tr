@@ -1,0 +1,40 @@
+# İç içe kontrol yapıları testi
+
+# 1. İç içe döngüler
+döngü i = 1, 3 ise
+    döngü j = 1, 3 ise
+        yazdır(i * 10 + j)
+    son
+son
+
+# 2. Döngü içinde koşul
+döngü k = 1, 10 ise
+    eğer k % 3 == 0 ise
+        yazdır(k)
+    son
+son
+
+# 3. İç içe eğer
+tam a = 15
+eğer a > 10 ise
+    eğer a > 20 ise
+        yazdır("20den büyük")
+    yoksa
+        yazdır("10-20 arası")
+    son
+yoksa
+    yazdır("10dan küçük")
+son
+
+# 4. İken içinde iken
+tam x = 1
+iken x <= 3 ise
+    tam y = 1
+    iken y <= 3 ise
+        eğer x == y ise
+            yazdır(x)
+        son
+        y = y + 1
+    son
+    x = x + 1
+son

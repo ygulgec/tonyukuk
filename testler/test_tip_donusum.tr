@@ -1,0 +1,13 @@
+/* Tip dönüşümü testi */
+kullan sistem
+
+tam x = 42
+metin s = tam_metin(x)
+yazdır(s)
+
+metin n = "123"
+tam y = metin_tam(n)
+yazdır(y)
+
+tam uzun = metin_uzunluk("Merhaba")
+yazdır(uzun)

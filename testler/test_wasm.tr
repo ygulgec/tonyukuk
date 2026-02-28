@@ -1,0 +1,5 @@
+/* WASM backend test */
+tam x = 42
+yazdır(x)
+tam y = x + 8
+yazdır(y)

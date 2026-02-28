@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tonyukuk - Türkçe Programlama Dili</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-card: #1c2128;
+            --text: #e6edf3;
+            --text-secondary: #8b949e;
+            --accent: #58a6ff;
+            --accent2: #f0883e;
+            --green: #3fb950;
+            --purple: #bc8cff;
+            --border: #30363d;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        /* Navigation */
+        nav {
+            position: fixed; top: 0; width: 100%;
+            background: rgba(13, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+            padding: 0.8rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        nav .logo { font-size: 1.3rem; font-weight: 700; color: var(--accent); }
+        nav .links { display: flex; gap: 1.5rem; }
+        nav .links a { color: var(--text-secondary); font-size: 0.9rem; }
+        nav .links a:hover { color: var(--text); text-decoration: none; }
+
+        /* Hero */
+        .hero {
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg) 100%);
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero .tagline {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        .hero .buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .btn {
+            padding: 0.8rem 1.8rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: var(--bg);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        .btn:hover { opacity: 0.9; text-decoration: none; }
+
+        /* Code Example */
+        .code-section {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .code-block {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .code-header {
+            background: var(--bg-card);
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+        .code-body {
+            padding: 1.2rem 1.5rem;
+            font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            overflow-x: auto;
+            white-space: pre;
+        }
+        .kw { color: var(--purple); font-weight: 600; }
+        .fn { color: #d2a8ff; }
+        .str { color: #a5d6ff; }
+        .num { color: #79c0ff; }
+        .typ { color: var(--accent2); }
+        .cmt { color: #6e7681; font-style: italic; }
+        .op { color: #ff7b72; }
+        .bi { color: var(--green); }
+
+        /* Features */
+        .features {
+            max-width: 1100px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+        .features h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .feature-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+        .feature-card h3 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Quick Start */
+        .quickstart {
+            max-width: 800px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+        .quickstart h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .step {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            align-items: flex-start;
+        }
+        .step-num {
+            background: var(--accent);
+            color: var(--bg);
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        .step-content { flex: 1; }
+        .step-content h4 { margin-bottom: 0.3rem; }
+        .step-content .code-block { margin-top: 0.5rem; }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 4rem;
+        }
+        footer .links { display: flex; gap: 2rem; justify-content: center; margin-bottom: 1rem; }
+
+        /* Tables */
+        .quickstart table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .quickstart table th {
+            background: var(--bg-card);
+            color: var(--accent);
+            padding: 0.6rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            font-weight: 600;
+        }
+        .quickstart table td {
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+        .quickstart table tr:last-child td {
+            border-bottom: none;
+        }
+        .quickstart table td:first-child {
+            color: var(--green);
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.85rem;
+        }
+        .quickstart h3 {
+            color: var(--accent);
+            font-size: 1.3rem;
+            margin: 2.5rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .quickstart h3:first-of-type {
+            margin-top: 1.5rem;
+        }
+        .quickstart p.module-desc {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2.2rem; }
+            .hero .tagline { font-size: 1rem; }
+            nav { padding: 0.6rem 1rem; }
+            nav .links { gap: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="/" class="logo">Tonyukuk</a>
+    <div class="links">
+        <a href="#ozellikler">&#214;zellikler</a>
+        <a href="#baslangic">Başlangı&#231;</a>
+        <a href="#referans">Dil Referansı</a>
+        <a href="#kutuphane">Kütüphane</a>
+        <a href="#mat-matris">Matris</a>
+        <a href="#mat-istatistik">İstatistik</a>
+        <a href="/playground">Playground</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <h1>Tonyukuk</h1>
+    <p class="tagline">
+        Tamamen T&#252;rk&#231;e s&#246;zdizimi ile programlama. Derlenen, hızlı ve modern bir programlama dili.
+    </p>
+    <div class="buttons">
+        <a href="#baslangic" class="btn btn-primary">Hemen Başla</a>
+        <a href="/playground" class="btn btn-secondary">Playground</a>
+    </div>
+</section>
+
+<div class="code-section">
+    <div class="code-block">
+        <div class="code-header">&#246;rnek.tr</div>
+        <div class="code-body"><span class="cmt"># Fibonacci hesapla</span>
+<span class="kw">işlev</span> <span class="fn">fibonacci</span>(<span class="op">n</span>: <span class="typ">tam</span>) <span class="op">-&gt;</span> <span class="typ">tam</span>
+    <span class="kw">eğer</span> n &lt;= <span class="num">1</span> <span class="kw">ise</span>
+        <span class="kw">d&#246;nd&#252;r</span> n
+    <span class="kw">son</span>
+    <span class="kw">d&#246;nd&#252;r</span> <span class="fn">fibonacci</span>(n <span class="op">-</span> <span class="num">1</span>) <span class="op">+</span> <span class="fn">fibonacci</span>(n <span class="op">-</span> <span class="num">2</span>)
+<span class="kw">son</span>
+
+<span class="kw">d&#246;ng&#252;</span> i <span class="op">=</span> <span class="num">0</span>, <span class="num">10</span> <span class="kw">ise</span>
+    <span class="bi">yazdır</span>(<span class="fn">fibonacci</span>(i))
+<span class="kw">son</span></div>
+    </div>
+</div>
+
+<section class="features" id="ozellikler">
+    <h2>&#214;zellikler</h2>
+    <div class="feature-grid">
+        <div class="feature-card">
+            <h3>T&#252;rk&#231;e S&#246;zdizimi</h3>
+            <p>T&#252;m anahtar s&#246;zc&#252;kler, tip isimleri ve yerleşik fonksiyonlar T&#252;rk&#231;e. Programlamayı kendi dilinizde &#246;ğretin ve yazın.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Derlenen Dil</h3>
+            <p>x86_64 assembly'ye derlenir. GCC ile bağlama yapılır. Hızlı ve verimli &#231;alışma zamanı.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Zengin Tip Sistemi</h3>
+            <p>Tamsayı, ondalık, metin, mantık, dizi ve s&#246;zl&#252;k tipleri. Sınıflar, kalıtım ve aray&#252;z desteği.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Modern &#214;zellikler</h3>
+            <p>String interpolasyon, pipe operat&#246;r&#252;, desen eşleme (eşle/durum), lambda ifadeleri ve daha fazlası.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Mod&#252;l Sistemi</h3>
+            <p>Matematik, metin, sistem, dizi, zaman, JSON, ağ ve daha fazla yerleşik mod&#252;l. Dosya mod&#252;lleri ile kod organizasyonu.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Geliştirici Ara&#231;ları</h3>
+            <p>Kod bi&#231;imleyici, denetleyici (linter), paket y&#246;neticisi, VSCode eklentisi ve REPL modu.</p>
+        </div>
+    </div>
+</section>
+
+<section class="quickstart" id="baslangic">
+    <h2>Hızlı Başlangı&#231;</h2>
+
+    <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+            <h4>Kaynak kodu indirin ve derleyin</h4>
+            <div class="code-block">
+                <div class="code-body">git clone https://github.com/tonyukuk/derleyici.git
+cd derleyici
+make</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+            <h4>İlk programınızı yazın (merhaba.tr)</h4>
+            <div class="code-block">
+                <div class="code-body"><span class="bi">yazdır</span>(<span class="str">"Merhaba D&#252;nya!"</span>)</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+            <h4>Derleyin ve &#231;alıştırın</h4>
+            <div class="code-block">
+                <div class="code-body">./tonyukuk-derle merhaba.tr -o merhaba
+./merhaba</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="quickstart" id="referans">
+    <h2>Dil Referansı</h2>
+    <div class="code-block">
+        <div class="code-header">Değişkenler ve Tipler</div>
+        <div class="code-body"><span class="typ">tam</span> sayı = <span class="num">42</span>
+<span class="typ">ondalık</span> pi = <span class="num">3.14</span>
+<span class="typ">metin</span> ad = <span class="str">"Tonyukuk"</span>
+<span class="typ">mantık</span> aktif = <span class="kw">doğru</span>
+<span class="typ">dizi</span> liste = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>]</div>
+    </div>
+    <br>
+    <div class="code-block">
+        <div class="code-header">İşlevler</div>
+        <div class="code-body"><span class="kw">işlev</span> <span class="fn">topla</span>(a: <span class="typ">tam</span>, b: <span class="typ">tam</span>) <span class="op">-&gt;</span> <span class="typ">tam</span>
+    <span class="kw">d&#246;nd&#252;r</span> a <span class="op">+</span> b
+<span class="kw">son</span></div>
+    </div>
+    <br>
+    <div class="code-block">
+        <div class="code-header">Kontrol Akışı</div>
+        <div class="code-body"><span class="kw">eğer</span> sayı <span class="op">&gt;</span> <span class="num">0</span> <span class="kw">ise</span>
+    <span class="bi">yazdır</span>(<span class="str">"Pozitif"</span>)
+<span class="kw">yoksa</span>
+    <span class="bi">yazdır</span>(<span class="str">"Negatif"</span>)
+<span class="kw">son</span></div>
+    </div>
+    <br>
+    <div class="code-block">
+        <div class="code-header">Sınıflar</div>
+        <div class="code-body"><span class="kw">sınıf</span> <span class="fn">Hayvan</span>
+    <span class="typ">tam</span> yaş
+    <span class="kw">işlev</span> <span class="fn">bilgi</span>() <span class="op">-&gt;</span> <span class="typ">tam</span>
+        <span class="kw">d&#246;nd&#252;r</span> <span class="kw">bu</span>.yaş
+    <span class="kw">son</span>
+<span class="kw">son</span></div>
+    </div>
+    <br>
+    <div class="code-block">
+        <div class="code-header">D&#246;ng&#252;ler</div>
+        <div class="code-body"><span class="cmt"># For d&#246;ng&#252;s&#252;</span>
+<span class="kw">d&#246;ng&#252;</span> i <span class="op">=</span> <span class="num">1</span>, <span class="num">10</span> <span class="kw">ise</span>
+    <span class="bi">yazdır</span>(i)
+<span class="kw">son</span>
+
+<span class="cmt"># While d&#246;ng&#252;s&#252;</span>
+<span class="typ">tam</span> sayaç = <span class="num">0</span>
+<span class="kw">iken</span> sayaç <span class="op">&lt;</span> <span class="num">5</span> <span class="kw">ise</span>
+    sayaç <span class="op">+=</span> <span class="num">1</span>
+<span class="kw">son</span>
+
+<span class="cmt"># For-each</span>
+<span class="typ">dizi</span> d = [<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>]
+<span class="kw">her</span> eleman <span class="kw">i&#231;in</span> d <span class="kw">ise</span>
+    <span class="bi">yazdır</span>(eleman)
+<span class="kw">son</span></div>
+    </div>
+    <br>
+    <div class="code-block">
+        <div class="code-header">Hata Y&#246;netimi</div>
+        <div class="code-body"><span class="kw">dene</span>
+    <span class="kw">fırlat</span> <span class="num">42</span>
+<span class="kw">yakala</span> hata
+    <span class="bi">yazdır</span>(hata)
+<span class="kw">son</span></div>
+    </div>
+    <br>
+    <div class="code-block">
+        <div class="code-header">Eşle / Durum (Pattern Matching)</div>
+        <div class="code-body"><span class="typ">tam</span> puan = <span class="num">85</span>
+
+<span class="kw">eşle</span> puan <span class="op">/</span> <span class="num">10</span> <span class="kw">ise</span>
+    <span class="kw">durum</span> <span class="num">9</span>:
+        <span class="bi">yazdır</span>(<span class="str">"Pekiyi"</span>)
+    <span class="kw">durum</span> <span class="num">8</span>:
+        <span class="bi">yazdır</span>(<span class="str">"İyi"</span>)
+    <span class="kw">durum</span> <span class="num">7</span>:
+        <span class="bi">yazdır</span>(<span class="str">"Orta"</span>)
+    <span class="kw">varsayılan</span>:
+        <span class="bi">yazdır</span>(<span class="str">"Diğer"</span>)
+<span class="kw">son</span></div>
+    </div>
+</section>
+
+<section class="quickstart" id="kutuphane">
+    <h2>Standart Kütüphane Referansı</h2>
+
+    <!-- 1. Matematik Modülü -->
+    <h3 id="mat-temel">1. Matematik Modülü — Temel</h3>
+    <p class="module-desc">Temel matematiksel hesaplamalar. Kullanım: <code style="color:var(--green)">kullan matematik</code></p>
+
+    <h4 style="color: var(--accent2); margin: 1.5rem 0 0.5rem;">Trigonometrik</h4>
+    <table>
+        <tr><th>Fonksiyon</th><th>Parametre</th><th>Dönüş</th><th>Açıklama</th></tr>
+        <tr><td>sin(x)</td><td>ondalık</td><td>ondalık</td><td>Sinüs</td></tr>
+        <tr><td>cos(x)</td><td>ondalık</td><td>ondalık</td><td>Kosinüs</td></tr>
+        <tr><td>tan(x)</td><td>ondalık</td><td>ondalık</td><td>Tanjant</td></tr>
+        <tr><td>asin(x)</td><td>ondalık</td><td>ondalık</td><td>Ters sinüs (arcsin)</td></tr>
+        <tr><td>acos(x)</td><td>ondalık</td><td>ondalık</td><td>Ters kosinüs (arccos)</td></tr>
+        <tr><td>atan(x)</td><td>ondalık</td><td>ondalık</td><td>Ters tanjant (arctan)</td></tr>
+        <tr><td>atan2(y, x)</td><td>ondalık, ondalık</td><td>ondalık</td><td>İki argümanlı ters tanjant</td></tr>
+    </table>
+
+    <h4 style="color: var(--accent2); margin: 1.5rem 0 0.5rem;">Hiperbolik</h4>
+    <table>
+        <tr><th>Fonksiyon</th><th>Parametre</th><th>Dönüş</th><th>Açıklama</th></tr>
+        <tr><td>sinh(x)</td><td>ondalık</td><td>ondalık</td><td>Hiperbolik sinüs</td></tr>
+        <tr><td>cosh(x)</td><td>ondalık</td><td>ondalık</td><td>Hiperbolik kosinüs</td></tr>
+        <tr><td>tanh(x)</td><td>ondalık</td><td>ondalık</td><td>Hiperbolik tanjant</td></tr>
+    </table>
+
+    <h4 style="color: var(--accent2); margin: 1.5rem 0 0.5rem;">Üstel / Logaritmik</h4>
+    <table>
+        <tr><th>Fonksiyon</th><th>Parametre</th><th>Dönüş</th><th>Açıklama</th></tr>
+        <tr><td>log(x)</td><td>ondalık</td><td>ondalık</td><td>Doğal logaritma (ln)</td></tr>
+        <tr><td>log2(x)</td><td>ondalık</td><td>ondalık</td><td>2 tabanında logaritma</td></tr>
+        <tr><td>log10(x)</td><td>ondalık</td><td>ondalık</td><td>10 tabanında logaritma</td></tr>
+        <tr><td>üstel(x)</td><td>ondalık</td><td>ondalık</td><td>e üzeri x (exp)</td></tr>
+        <tr><td>üst(x, y)</td><td>ondalık, ondalık</td><td>ondalık</td><td>x üzeri y (pow)</td></tr>
+        <tr><td>karekök(x)</td><td>ondalık</td><td>ondalık</td><td>Karekök</td></tr>
+        <tr><td>küpkök(x)</td><td>ondalık</td><td>ondalık</td><td>Küpkök (cbrt)</td></tr>
+    </table>
+
+    <h4 style="color: var(--accent2); margin: 1.5rem 0 0.5rem;">Yuvarlama</h4>
+    <table>
+        <tr><th>Fonksiyon</th><th>Parametre</th><th>Dönüş</th><th>Açıklama</th></tr>
+        <tr><td>taban(x)</td><td>ondalık</td><td>ondalık</td><td>Aşağı yuvarla (floor)</td></tr>
+        <tr><td>tavan(x)</td><td>ondalık</td><td>ondalık</td><td>Yukarı yuvarla (ceil)</td></tr>
+        <tr><td>yuvarla(x)</td><td>ondalık</td><td>ondalık</td><td>En yakına yuvarla (round)</td></tr>
+        <tr><td>buda(x)</td><td>ondalık</td><td>ondalık</td><td>Ondalık kısmı kes (trunc)</td></tr>
+    </table>
+
+    <h4 style="color: var(--accent2); margin: 1.5rem 0 0.5rem;">Genel</h4>
+    <table>
+        <tr><th>Fonksiyon</th><th>Parametre</th><th>Dönüş</th><th>Açıklama</th></tr>
+        <tr><td>mutlak(x)</td><td>tam</td><td>tam</td><td>Mutlak değer</td></tr>
+        <tr><td>işaret(x)</td><td>tam</td><td>tam</td><td>İşaret: -1, 0 veya 1</td></tr>
+        <tr><td>min(a, b)</td><td>tam, tam</td><td>tam</td><td>Küçük olan</td></tr>
+        <tr><td>maks(a, b)</td><td>tam, tam</td><td>tam</td><td>Büyük olan</td></tr>
+        <tr><td>mod(a, b)</td><td>tam, tam</td><td>tam</td><td>Kalan</td></tr>
+        <tr><td>kuvvet(x, y)</td><td>tam, tam</td><td>tam</td><td>Tamsayı üs alma</td></tr>
+        <tr><td>hipot(x, y)</td><td>ondalık, ondalık</td><td>ondalık</td><td>Hipotenüs (√(x²+y²))</td></tr>
+        <tr><td>fmod(x, y)</td><td>ondalık, ondalık</td><td>ondalık</td><td>Ondalık kalan</td></tr>
+        <tr><td>faktöriyel(n)</td><td>tam</td><td>tam</td><td>n! faktöriyel</td></tr>
+        <tr><td>obeb(a, b)</td><td>tam, tam</td><td>tam</td><td>En büyük ortak bölen (EBOB)</td></tr>
+        <tr><td>okek(a, b)</td><td>tam, tam</td><td>tam</td><td>En küçük ortak kat (EKOK)</td></tr>
+        <tr><td>rastgele(maks)</td><td>tam</td><td>tam</td><td>0 ile maks arası rastgele</td></tr>
+    </table>
+
+    <h4 style="color: var(--accent2); margin: 1.5rem 0 0.5rem;">Sabitler ve Kontrol</h4>
+    <table>
+        <tr><th>Fonksiyon</th><th>Parametre</th><th>Dönüş</th><th>Açıklama</th></tr>
+        <tr><td>pi()</td><td>—</td><td>ondalık</td><td>Pi sayısı (3.141593...)</td></tr>
+        <tr><td>e()</td><td>—</td><td>ondalık</td><td>Euler sayısı (2.718282...)</td></tr>
+        <tr><td>sonsuz_mu(x)</td><td>ondalık</td><td>mantık</td><td>Değer sonsuz mu?</td></tr>
+        <tr><td>sayidegil_mi(x)</td><td>ondalık</td><td>mantık</td><td>Değer NaN mı?</td></tr>
+    </table>
+
+    <div class="code-block">
+        <div class="code-header">matematik_temel.tr</div>
+        <pre class="code-body"><span class="kw">kullan</span> matematik
+
+<span class="cmt"># Trigonometri</span>
+<span class="typ">ondalık</span> açı <span class="op">=</span> <span class="fn">pi</span>() <span class="op">/</span> <span class="num">4</span>
+<span class="bi">yazdır</span>(<span class="fn">sin</span>(açı) <span class="op">*</span> <span class="fn">sin</span>(açı) <span class="op">+</span> <span class="fn">cos</span>(açı) <span class="op">*</span> <span class="fn">cos</span>(açı))  <span class="cmt"># 1.0</span>
+<span class="bi">yazdır</span>(<span class="fn">asin</span>(<span class="num">1.0</span>))            <span class="cmt"># 1.570796 (π/2)</span>
+<span class="bi">yazdır</span>(<span class="fn">atan2</span>(<span class="num">1.0</span>, <span class="num">1.0</span>))     <span class="cmt"># 0.785398 (π/4)</span>
+
+<span class="cmt"># Üstel ve logaritmik</span>
+<span class="bi">yazdır</span>(<span class="fn">üst</span>(<span class="num">2.0</span>, <span class="num">10.0</span>))       <span class="cmt"># 1024.0</span>
+<span class="bi">yazdır</span>(<span class="fn">üstel</span>(<span class="num">1.0</span>))            <span class="cmt"># 2.718282</span>
+<span class="bi">yazdır</span>(<span class="fn">log2</span>(<span class="num">8.0</span>))             <span class="cmt"># 3.0</span>
+<span class="bi">yazdır</span>(<span class="fn">küpkök</span>(<span class="num">27.0</span>))          <span class="cmt"># 3.0</span>
+
+<span class="cmt"># Yuvarlama</span>
+<span class="bi">yazdır</span>(<span class="fn">taban</span>(<span class="num">3.7</span>))            <span class="cmt"># 3.0</span>
+<span class="bi">yazdır</span>(<span class="fn">tavan</span>(<span class="num">3.2</span>))            <span class="cmt"># 4.0</span>
+<span class="bi">yazdır</span>(<span class="fn">buda</span>(<span class="num">3.9</span>))             <span class="cmt"># 3.0</span>
+
+<span class="cmt"># Genel</span>
+<span class="bi">yazdır</span>(<span class="fn">hipot</span>(<span class="num">3.0</span>, <span class="num">4.0</span>))      <span class="cmt"># 5.0</span>
+<span class="bi">yazdır</span>(<span class="fn">faktöriyel</span>(<span class="num">5</span>))        <span class="cmt"># 120</span>
+<span class="bi">yazdır</span>(<span class="fn">obeb</span>(<span class="num">12</span>, <span class="num">8</span>))           <span class="cmt"># 4</span>
+<span class="bi">yazdır</span>(<span class="fn">okek</span>(<span class="num">4</span>, <span class="num">6</span>))            <span class="cmt"># 12</span>
+<span class="bi">yazdır</span>(<span class="fn">işaret</span>(<span class="op">-</span><span class="num">5</span>))            <span class="cmt"># -1</span></pre>
+    </div>
+
+    <!-- 1b. Matris İşlemleri -->
+    <h3 id="mat-matris">1b. Matematik — Matris İşlemleri</h3>
+    <p class="module-desc">Matris oluşturma, aritmetik ve lineer cebir. Matrisler düz dizi olarak saklanır: <code style="color:var(--green)">[satır, sütun, veri...]</code></p>
+    <table>
+        <tr><th>Fonksiyon</th><th>Parametre</th><th>Dönüş</th><th>Açıklama</th></tr>
+        <tr><td>matris(s, n)</td><td>tam, tam</td><td>dizi</td><td>s×n sıfır matris oluşturur</td></tr>
+        <tr><td>matris_birim(n)</td><td>tam</td><td>dizi</td><td>n×n birim (kimlik) matris</td></tr>
+        <tr><td>matris_topla(a, b)</td><td>dizi, dizi</td><td>dizi</td><td>Matris toplama</td></tr>
+        <tr><td>matris_cikar(a, b)</td><td>dizi, dizi</td><td>dizi</td><td>Matris çıkarma</td></tr>
+        <tr><td>matris_carp(a, b)</td><td>dizi, dizi</td><td>dizi</td><td>Matris çarpma (A×B)</td></tr>
+        <tr><td>matris_skaler(a, k)</td><td>dizi, tam</td><td>dizi</td><td>Skaler çarpma (k·A)</td></tr>
+        <tr><td>matris_transpoz(a)</td><td>dizi</td><td>dizi</td><td>Transpoz (Aᵀ)</td></tr>
+        <tr><td>matris_determinant(a)</td><td>dizi</td><td>tam</td><td>Determinant (LU ayrışımı)</td></tr>
+        <tr><td>matris_ters(a)</td><td>dizi</td><td>dizi</td><td>Ters matris (A⁻¹) — Gauss-Jordan</td></tr>
+        <tr><td>matris_oku(m, i, j)</td><td>dizi, tam, tam</td><td>tam</td><td>Eleman oku (0-indeksli)</td></tr>
+        <tr><td>matris_yaz(m, i, j, v)</td><td>dizi, tam, tam, tam</td><td>dizi</td><td>Eleman yaz (yeni kopya döndürür)</td></tr>
+        <tr><td>matris_iz(a)</td><td>dizi</td><td>tam</td><td>İz (trace) — köşegen toplamı</td></tr>
+    </table>
+    <div class="code-block">
+        <div class="code-header">matris_örnek.tr</div>
+        <pre class="code-body"><span class="kw">kullan</span> matematik
+
+<span class="cmt"># 3×3 birim matris</span>
+<span class="kw">değişken</span> m <span class="op">=</span> <span class="fn">matris_birim</span>(<span class="num">3</span>)
+<span class="bi">yazdır</span>(<span class="fn">matris_determinant</span>(m))   <span class="cmt"># 1</span>
+<span class="bi">yazdır</span>(<span class="fn">matris_iz</span>(m))             <span class="cmt"># 3</span>
+
+<span class="cmt"># 2×2 matris oluştur ve doldur</span>
+<span class="kw">değişken</span> a <span class="op">=</span> <span class="fn">matris</span>(<span class="num">2</span>, <span class="num">2</span>)
+<span class="kw">değişken</span> a <span class="op">=</span> <span class="fn">matris_yaz</span>(a, <span class="num">0</span>, <span class="num">0</span>, <span class="num">1</span>)
+<span class="kw">değişken</span> a <span class="op">=</span> <span class="fn">matris_yaz</span>(a, <span class="num">0</span>, <span class="num">1</span>, <span class="num">2</span>)
+<span class="kw">değişken</span> a <span class="op">=</span> <span class="fn">matris_yaz</span>(a, <span class="num">1</span>, <span class="num">0</span>, <span class="num">3</span>)
+<span class="kw">değişken</span> a <span class="op">=</span> <span class="fn">matris_yaz</span>(a, <span class="num">1</span>, <span class="num">1</span>, <span class="num">4</span>)
+<span class="bi">yazdır</span>(<span class="fn">matris_determinant</span>(a))    <span class="cmt"># -2  (1×4 - 2×3)</span>
+
+<span class="cmt"># Matris toplama</span>
+<span class="kw">değişken</span> b <span class="op">=</span> <span class="fn">matris_birim</span>(<span class="num">2</span>)
+<span class="kw">değişken</span> c <span class="op">=</span> <span class="fn">matris_topla</span>(b, b)
+<span class="bi">yazdır</span>(<span class="fn">matris_oku</span>(c, <span class="num">0</span>, <span class="num">0</span>))     <span class="cmt"># 2</span>
+
+<span class="cmt"># Transpoz</span>
+<span class="kw">değişken</span> t <span class="op">=</span> <span class="fn">matris_transpoz</span>(a)
+<span class="bi">yazdır</span>(<span class="fn">matris_oku</span>(t, <span class="num">0</span>, <span class="num">1</span>))     <span class="cmt"># 3 (a'nın 1,0 elemanı)</span></pre>
+    </div>
+
+    <!-- 1c. İstatistik -->
+    <h3 id="mat-istatistik">1c. Matematik — İstatistik</h3>
+    <p class="module-desc">Diziler üzerinde istatistiksel hesaplamalar.</p>
+    <table>
+        <tr><th>Fonksiyon</th><th>Parametre</th><th>Dönüş</th><th>Açıklama</th></tr>
+        <tr><td>toplam(d)</td><td>dizi</td><td>tam</td><td>Tüm elemanların toplamı</td></tr>
+        <tr><td>ortalama(d)</td><td>dizi</td><td>ondalık</td><td>Aritmetik ortalama</td></tr>
+        <tr><td>medyan(d)</td><td>dizi</td><td>ondalık</td><td>Medyan (ortanca değer)</td></tr>
+        <tr><td>varyans(d)</td><td>dizi</td><td>ondalık</td><td>Varyans (σ²)</td></tr>
+        <tr><td>std_sapma(d)</td><td>dizi</td><td>ondalık</td><td>Standart sapma (σ)</td></tr>
+        <tr><td>en_kucuk(d)</td><td>dizi</td><td>tam</td><td>Minimum eleman</td></tr>
+        <tr><td>en_buyuk(d)</td><td>dizi</td><td>tam</td><td>Maksimum eleman</td></tr>
+        <tr><td>kombinasyon(n, k)</td><td>tam, tam</td><td>tam</td><td>Binom katsayısı C(n,k)</td></tr>
+        <tr><td>permutasyon(n, k)</td><td>tam, tam</td><td>tam</td><td>Permütasyon P(n,k)</td></tr>
+        <tr><td>korelasyon(x, y)</td><td>dizi, dizi</td><td>ondalık</td><td>Pearson korelasyon katsayısı</td></tr>
+    </table>
+    <div class="code-block">
+        <div class="code-header">istatistik_örnek.tr</div>
+        <pre class="code-body"><span class="kw">kullan</span> matematik
+
+<span class="typ">dizi</span> notlar <span class="op">=</span> [<span class="num">70</span>, <span class="num">85</span>, <span class="num">90</span>, <span class="num">60</span>, <span class="num">95</span>]
+<span class="bi">yazdır</span>(<span class="fn">toplam</span>(notlar))       <span class="cmt"># 400</span>
+<span class="bi">yazdır</span>(<span class="fn">ortalama</span>(notlar))     <span class="cmt"># 80.0</span>
+<span class="bi">yazdır</span>(<span class="fn">medyan</span>(notlar))       <span class="cmt"># 85.0</span>
+<span class="bi">yazdır</span>(<span class="fn">en_kucuk</span>(notlar))    <span class="cmt"># 60</span>
+<span class="bi">yazdır</span>(<span class="fn">en_buyuk</span>(notlar))    <span class="cmt"># 95</span>
+
+<span class="typ">dizi</span> v <span class="op">=</span> [<span class="num">2</span>, <span class="num">4</span>, <span class="num">4</span>, <span class="num">4</span>, <span class="num">5</span>, <span class="num">5</span>, <span class="num">7</span>, <span class="num">9</span>]
+<span class="bi">yazdır</span>(<span class="fn">varyans</span>(v))          <span class="cmt"># 4.0</span>
+<span class="bi">yazdır</span>(<span class="fn">std_sapma</span>(v))        <span class="cmt"># 2.0</span>
+
+<span class="cmt"># Kombinatorik</span>
+<span class="bi">yazdır</span>(<span class="fn">kombinasyon</span>(<span class="num">10</span>, <span class="num">3</span>))  <span class="cmt"># 120</span>
+<span class="bi">yazdır</span>(<span class="fn">permutasyon</span>(<span class="num">5</span>, <span class="num">2</span>))   <span class="cmt"># 20</span>
+
+<span class="cmt"># Korelasyon</span>
+<span class="typ">dizi</span> x <span class="op">=</span> [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>]
+<span class="typ">dizi</span> y <span class="op">=</span> [<span class="num">2</span>, <span class="num">4</span>, <span class="num">6</span>, <span class="num">8</span>, <span class="num">10</span>]
+<span class="bi">yazdır</span>(<span class="fn">korelasyon</span>(x, y))     <span class="cmt"># 1.0 (mükemmel pozitif)</span></pre>
+    </div>
+
+    <!-- 1d. Sayısal Analiz -->
+    <h3 id="mat-sayisal">1d. Matematik — Sayısal Analiz</h3>
+    <p class="module-desc">Polinom işlemleri, sayısal integral ve regresyon.</p>
+    <table>
+        <tr><th>Fonksiyon</th><th>Parametre</th><th>Dönüş</th><th>Açıklama</th></tr>
+        <tr><td>polinom_hesapla(k, x)</td><td>dizi, tam</td><td>tam</td><td>Polinom değer hesabı (Horner yöntemi)</td></tr>
+        <tr><td>polinom_turev(k)</td><td>dizi</td><td>dizi</td><td>Polinom türev katsayıları</td></tr>
+        <tr><td>polinom_integral(k)</td><td>dizi</td><td>dizi</td><td>Polinom integral katsayıları (C=0)</td></tr>
+        <tr><td>sayisal_integral(x, y)</td><td>dizi, dizi</td><td>tam</td><td>Yamuk kuralı ile sayısal integral</td></tr>
+        <tr><td>lineer_regresyon(x, y)</td><td>dizi, dizi</td><td>dizi</td><td>En küçük kareler — [eğim, kesişim]</td></tr>
+    </table>
+    <div class="code-block">
+        <div class="code-header">sayisal_analiz_örnek.tr</div>
+        <pre class="code-body"><span class="kw">kullan</span> matematik
+
+<span class="cmt"># Polinom: katsayılar [a, b, c] → ax² + bx + c</span>
+<span class="typ">dizi</span> k <span class="op">=</span> [<span class="num">1</span>, <span class="num">0</span>, <span class="op">-</span><span class="num">4</span>]           <span class="cmt"># x² - 4</span>
+<span class="bi">yazdır</span>(<span class="fn">polinom_hesapla</span>(k, <span class="num">3</span>))  <span class="cmt"># 5  (3² - 4)</span>
+
+<span class="cmt"># Türev: x² - 4 → 2x → [2, 0]</span>
+<span class="typ">dizi</span> td <span class="op">=</span> <span class="fn">polinom_turev</span>(k)
+<span class="bi">yazdır</span>(td[<span class="num">0</span>])                   <span class="cmt"># 2</span>
+<span class="bi">yazdır</span>(td[<span class="num">1</span>])                   <span class="cmt"># 0</span>
+
+<span class="cmt"># İntegral: 3x² + 2x + 1 → x³ + x² + x + C</span>
+<span class="typ">dizi</span> k2 <span class="op">=</span> [<span class="num">3</span>, <span class="num">2</span>, <span class="num">1</span>]
+<span class="typ">dizi</span> ig <span class="op">=</span> <span class="fn">polinom_integral</span>(k2)  <span class="cmt"># [1, 1, 1, 0]</span>
+
+<span class="cmt"># Sayısal integral (yamuk kuralı)</span>
+<span class="typ">dizi</span> xi <span class="op">=</span> [<span class="num">0</span>, <span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>]
+<span class="typ">dizi</span> yi <span class="op">=</span> [<span class="num">0</span>, <span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>]
+<span class="bi">yazdır</span>(<span class="fn">sayisal_integral</span>(xi, yi)) <span class="cmt"># 8 (y=x üzerinde [0,4])</span>
+
+<span class="cmt"># Lineer regresyon</span>
+<span class="typ">dizi</span> x <span class="op">=</span> [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>]
+<span class="typ">dizi</span> y <span class="op">=</span> [<span class="num">2</span>, <span class="num">4</span>, <span class="num">6</span>, <span class="num">8</span>, <span class="num">10</span>]
+<span class="typ">dizi</span> lr <span class="op">=</span> <span class="fn">lineer_regresyon</span>(x, y)
+<span class="bi">yazdır</span>(lr[<span class="num">0</span>])                   <span class="cmt"># 2 (eğim)</span>
+<span class="bi">yazdır</span>(lr[<span class="num">1</span>])                   <span class="cmt"># 0 (kesişim) → y = 2x</span></pre>
+    </div>
+
+    <!-- 2. Metin Modülü -->
+    <h3>2. Metin Modülü</h3>
+    <p class="module-desc">Metin (string) işleme fonksiyonları.</p>
+    <table>
+        <tr><th>Fonksiyon</th><th>Parametre</th><th>Dönüş</th><th>Açıklama</th></tr>
+        <tr><td>kırp(m)</td><td>metin</td><td>metin</td><td>Başındaki ve sonundaki boşlukları siler</td></tr>
+        <tr><td>tersle(m)</td><td>metin</td><td>metin</td><td>Metni tersine çevirir</td></tr>
+        <tr><td>tekrarla(m, n)</td><td>metin, tam</td><td>metin</td><td>Metni n kere tekrarlar</td></tr>
+        <tr><td>başlar_mı(m, önek)</td><td>metin, metin</td><td>mantık</td><td>Metin önek ile başlıyor mu</td></tr>
+        <tr><td>biter_mi(m, sonek)</td><td>metin, metin</td><td>mantık</td><td>Metin sonek ile bitiyor mu</td></tr>
+        <tr><td>değiştir(m, eski, yeni)</td><td>metin, metin, metin</td><td>metin</td><td>Alt metni değiştirir</td></tr>
+        <tr><td>büyük_harf(m)</td><td>metin</td><td>metin</td><td>Tüm harfleri büyük yapar</td></tr>
+        <tr><td>küçük_harf(m)</td><td>metin</td><td>metin</td><td>Tüm harfleri küçük yapar</td></tr>
+        <tr><td>böl(m, ayırıcı)</td><td>metin, metin</td><td>dizi</td><td>Metni ayırıcıya göre böler</td></tr>
+        <tr><td>birleştir_metin(dizi, ayırıcı)</td><td>dizi, metin</td><td>metin</td><td>Diziyi metne birleştirir</td></tr>
+        <tr><td>metin_uzunluk(m)</td><td>metin</td><td>tam</td><td>Metnin karakter uzunluğu</td></tr>
+    </table>
+    <div class="code-block">
+        <div class="code-header">metin_örnek.tr</div>
+        <pre class="code-body"><span class="cmt"># Metin modülü örnekleri</span>
+<span class="typ">metin</span> ad <span class="op">=</span> <span class="str">"  Tonyukuk  "</span>
+<span class="bi">yazdır</span>(<span class="fn">kırp</span>(ad))                  <span class="cmt"># "Tonyukuk"</span>
+<span class="bi">yazdır</span>(<span class="fn">büyük_harf</span>(ad))            <span class="cmt"># "  TONYUKUK  "</span>
+<span class="bi">yazdır</span>(<span class="fn">tersle</span>(<span class="str">"merhaba"</span>))         <span class="cmt"># "abahrem"</span>
+<span class="bi">yazdır</span>(<span class="fn">tekrarla</span>(<span class="str">"ha"</span>, <span class="num">3</span>))        <span class="cmt"># "hahaha"</span>
+<span class="bi">yazdır</span>(<span class="fn">başlar_mı</span>(<span class="str">"merhaba"</span>, <span class="str">"mer"</span>)) <span class="cmt"># doğru</span>
+
+<span class="typ">metin</span> cümle <span class="op">=</span> <span class="str">"elma,armut,kiraz"</span>
+<span class="typ">dizi</span> parçalar <span class="op">=</span> <span class="fn">böl</span>(cümle, <span class="str">","</span>)
+<span class="bi">yazdır</span>(parçalar)                    <span class="cmt"># ["elma", "armut", "kiraz"]</span>
+<span class="bi">yazdır</span>(<span class="fn">birleştir_metin</span>(parçalar, <span class="str">" ve "</span>)) <span class="cmt"># "elma ve armut ve kiraz"</span></pre>
+    </div>
+
+    <!-- 3. Dizi Modülü -->
+    <h3>3. Dizi Modülü</h3>
+    <p class="module-desc">Dizi (array/list) işlemleri ve fonksiyonel programlama desteği.</p>
+    <table>
+        <tr><th>Fonksiyon</th><th>Parametre</th><th>Dönüş</th><th>Açıklama</th></tr>
+        <tr><td>ekle(d, e)</td><td>dizi, herhangi</td><td>dizi</td><td>Diziye eleman ekler</td></tr>
+        <tr><td>çıkar(d)</td><td>dizi</td><td>herhangi</td><td>Son elemanı çıkarır ve döndürür</td></tr>
+        <tr><td>sırala(d)</td><td>dizi</td><td>dizi</td><td>Diziyi sıralar</td></tr>
+        <tr><td>birleştir_dizi(d1, d2)</td><td>dizi, dizi</td><td>dizi</td><td>İki diziyi birleştirir</td></tr>
+        <tr><td>eşle(d, f)</td><td>dizi, işlev</td><td>dizi</td><td>Her elemana fonksiyon uygular (map)</td></tr>
+        <tr><td>filtre(d, f)</td><td>dizi, işlev</td><td>dizi</td><td>Koşula uyan elemanları süzer (filter)</td></tr>
+        <tr><td>indirge(d, baş, f)</td><td>dizi, herhangi, işlev</td><td>herhangi</td><td>Diziyi tek değere indirger (reduce)</td></tr>
+    </table>
+    <div class="code-block">
+        <div class="code-header">dizi_örnek.tr</div>
+        <pre class="code-body"><span class="cmt"># Dizi modülü örnekleri</span>
+<span class="typ">dizi</span> sayılar <span class="op">=</span> [<span class="num">5</span>, <span class="num">3</span>, <span class="num">8</span>, <span class="num">1</span>, <span class="num">9</span>]
+<span class="fn">ekle</span>(sayılar, <span class="num">4</span>)
+<span class="bi">yazdır</span>(sayılar)                <span class="cmt"># [5, 3, 8, 1, 9, 4]</span>
+<span class="fn">sırala</span>(sayılar)
+<span class="bi">yazdır</span>(sayılar)                <span class="cmt"># [1, 3, 4, 5, 8, 9]</span>
+
+<span class="cmt"># Fonksiyonel programlama</span>
+<span class="typ">dizi</span> çiftler <span class="op">=</span> <span class="fn">filtre</span>(sayılar, <span class="kw">işlev</span>(x) <span class="op">-&gt;</span> x <span class="op">%</span> <span class="num">2</span> <span class="op">==</span> <span class="num">0</span>)
+<span class="bi">yazdır</span>(çiftler)                <span class="cmt"># [4, 8]</span>
+
+<span class="typ">dizi</span> kareler <span class="op">=</span> <span class="fn">eşle</span>(sayılar, <span class="kw">işlev</span>(x) <span class="op">-&gt;</span> x <span class="op">*</span> x)
+<span class="bi">yazdır</span>(kareler)                <span class="cmt"># [1, 9, 16, 25, 64, 81]</span>
+
+<span class="typ">tam</span> toplam <span class="op">=</span> <span class="fn">indirge</span>(sayılar, <span class="num">0</span>, <span class="kw">işlev</span>(a, b) <span class="op">-&gt;</span> a <span class="op">+</span> b)
+<span class="bi">yazdır</span>(toplam)                 <span class="cmt"># 30</span></pre>
+    </div>
+
+    <!-- 4. Sözlük Modülü -->
+    <h3>4. Sözlük Modülü</h3>
+    <p class="module-desc">Anahtar-değer çifti (dictionary/map) işlemleri.</p>
+    <table>
+        <tr><th>Fonksiyon</th><th>Parametre</th><th>Dönüş</th><th>Açıklama</th></tr>
+        <tr><td>sözlük_yeni()</td><td>—</td><td>sözlük</td><td>Yeni boş sözlük oluşturur</td></tr>
+        <tr><td>sözlük_ekle(s, a, d)</td><td>sözlük, metin, herhangi</td><td>—</td><td>Anahtar-değer çifti ekler</td></tr>
+        <tr><td>sözlük_oku(s, a)</td><td>sözlük, metin</td><td>herhangi</td><td>Anahtara göre değer okur</td></tr>
+        <tr><td>sözlük_var_mı(s, a)</td><td>sözlük, metin</td><td>mantık</td><td>Anahtar mevcut mu kontrol eder</td></tr>
+        <tr><td>sözlük_sil(s, a)</td><td>sözlük, metin</td><td>—</td><td>Anahtarı siler</td></tr>
+        <tr><td>sözlük_anahtarlar(s)</td><td>sözlük</td><td>dizi</td><td>Tüm anahtarları dizi olarak döndürür</td></tr>
+        <tr><td>sözlük_uzunluk(s)</td><td>sözlük</td><td>tam</td><td>Sözlükteki eleman sayısı</td></tr>
+    </table>
+    <div class="code-block">
+        <div class="code-header">sözlük_örnek.tr</div>
+        <pre class="code-body"><span class="cmt"># Sözlük modülü örnekleri</span>
+<span class="typ">sözlük</span> kişi <span class="op">=</span> <span class="fn">sözlük_yeni</span>()
+<span class="fn">sözlük_ekle</span>(kişi, <span class="str">"ad"</span>, <span class="str">"Bilge"</span>)
+<span class="fn">sözlük_ekle</span>(kişi, <span class="str">"yaş"</span>, <span class="num">30</span>)
+<span class="fn">sözlük_ekle</span>(kişi, <span class="str">"şehir"</span>, <span class="str">"İstanbul"</span>)
+
+<span class="bi">yazdır</span>(<span class="fn">sözlük_oku</span>(kişi, <span class="str">"ad"</span>))       <span class="cmt"># "Bilge"</span>
+<span class="bi">yazdır</span>(<span class="fn">sözlük_var_mı</span>(kişi, <span class="str">"yaş"</span>))  <span class="cmt"># doğru</span>
+<span class="bi">yazdır</span>(<span class="fn">sözlük_anahtarlar</span>(kişi))      <span class="cmt"># ["ad", "yaş", "şehir"]</span>
+<span class="bi">yazdır</span>(<span class="fn">sözlük_uzunluk</span>(kişi))         <span class="cmt"># 3</span>
+
+<span class="fn">sözlük_sil</span>(kişi, <span class="str">"şehir"</span>)
+<span class="bi">yazdır</span>(<span class="fn">sözlük_uzunluk</span>(kişi))         <span class="cmt"># 2</span></pre>
+    </div>
+
+    <!-- 5. Zaman Modülü -->
+    <h3>5. Zaman Modülü</h3>
+    <p class="module-desc">Tarih ve saat işlemleri.</p>
+    <table>
+        <tr><th>Fonksiyon</th><th>Parametre</th><th>Dönüş</th><th>Açıklama</th></tr>
+        <tr><td>şimdi()</td><td>—</td><td>tam</td><td>Unix zaman damgası (epoch saniye)</td></tr>
+        <tr><td>saat()</td><td>—</td><td>tam</td><td>Şu anki saat (0-23)</td></tr>
+        <tr><td>dakika()</td><td>—</td><td>tam</td><td>Şu anki dakika (0-59)</td></tr>
+        <tr><td>saniye()</td><td>—</td><td>tam</td><td>Şu anki saniye (0-59)</td></tr>
+        <tr><td>gün()</td><td>—</td><td>tam</td><td>Ayın günü (1-31)</td></tr>
+        <tr><td>ay()</td><td>—</td><td>tam</td><td>Ay numarası (1-12)</td></tr>
+        <tr><td>yıl()</td><td>—</td><td>tam</td><td>Yıl (ör: 2026)</td></tr>
+        <tr><td>tarih_metin()</td><td>—</td><td>metin</td><td>Tarihi metin olarak döndürür</td></tr>
+    </table>
+    <div class="code-block">
+        <div class="code-header">zaman_örnek.tr</div>
+        <pre class="code-body"><span class="cmt"># Zaman modülü örnekleri</span>
+<span class="bi">yazdır</span>(<span class="fn">tarih_metin</span>())   <span class="cmt"># "2026-01-31 14:30:05"</span>
+<span class="bi">yazdır</span>(<span class="fn">yıl</span>())           <span class="cmt"># 2026</span>
+<span class="bi">yazdır</span>(<span class="fn">ay</span>())            <span class="cmt"># 1</span>
+<span class="bi">yazdır</span>(<span class="fn">gün</span>())           <span class="cmt"># 31</span>
+<span class="bi">yazdır</span>(<span class="fn">saat</span>() <span class="op">*</span> <span class="num">3600</span> <span class="op">+</span> <span class="fn">dakika</span>() <span class="op">*</span> <span class="num">60</span> <span class="op">+</span> <span class="fn">saniye</span>())
+
+<span class="typ">tam</span> başlangıç <span class="op">=</span> <span class="fn">şimdi</span>()
+<span class="cmt"># ... bir işlem ...</span>
+<span class="typ">tam</span> süre <span class="op">=</span> <span class="fn">şimdi</span>() <span class="op">-</span> başlangıç
+<span class="bi">yazdır</span>(<span class="str">"Geçen süre: "</span> <span class="op">+</span> <span class="fn">tam_metin</span>(süre) <span class="op">+</span> <span class="str">" saniye"</span>)</pre>
+    </div>
+
+    <!-- 6. Dosya / Giriş-Çıkış Modülü -->
+    <h3>6. Dosya / Giriş-Çıkış Modülü</h3>
+    <p class="module-desc">Dosya okuma/yazma ve kullanıcı giriş işlemleri.</p>
+    <table>
+        <tr><th>Fonksiyon</th><th>Parametre</th><th>Dönüş</th><th>Açıklama</th></tr>
+        <tr><td>dosya_oku(dosya)</td><td>metin</td><td>metin</td><td>Dosyanın tüm içeriğini okur</td></tr>
+        <tr><td>dosya_yaz(dosya, içerik)</td><td>metin, metin</td><td>—</td><td>Dosyaya yazar (üzerine)</td></tr>
+        <tr><td>dosya_ekle(dosya, içerik)</td><td>metin, metin</td><td>—</td><td>Dosyanın sonuna ekler</td></tr>
+        <tr><td>dosya_satırlar(dosya)</td><td>metin</td><td>dizi</td><td>Dosyayı satır satır okur (dizi döner)</td></tr>
+        <tr><td>satıroku()</td><td>—</td><td>metin</td><td>Kullanıcıdan bir satır giriş alır</td></tr>
+    </table>
+    <div class="code-block">
+        <div class="code-header">dosya_örnek.tr</div>
+        <pre class="code-body"><span class="cmt"># Dosya işlemleri</span>
+<span class="fn">dosya_yaz</span>(<span class="str">"notlar.txt"</span>, <span class="str">"Merhaba Dünya!\n"</span>)
+<span class="fn">dosya_ekle</span>(<span class="str">"notlar.txt"</span>, <span class="str">"İkinci satır.\n"</span>)
+
+<span class="typ">metin</span> içerik <span class="op">=</span> <span class="fn">dosya_oku</span>(<span class="str">"notlar.txt"</span>)
+<span class="bi">yazdır</span>(içerik)
+
+<span class="typ">dizi</span> satırlar <span class="op">=</span> <span class="fn">dosya_satırlar</span>(<span class="str">"notlar.txt"</span>)
+<span class="kw">her</span> satır <span class="kw">için</span> satırlar <span class="kw">ise</span>
+    <span class="bi">yazdır</span>(<span class="str">"&gt; "</span> <span class="op">+</span> satır)
+<span class="kw">son</span>
+
+<span class="cmt"># Kullanıcı girişi</span>
+<span class="bi">yazdır</span>(<span class="str">"Adınız: "</span>)
+<span class="typ">metin</span> ad <span class="op">=</span> <span class="fn">satıroku</span>()
+<span class="bi">yazdır</span>(<span class="str">"Merhaba, "</span> <span class="op">+</span> ad <span class="op">+</span> <span class="str">"!"</span>)</pre>
+    </div>
+
+    <!-- 7. Tip Dönüşümleri -->
+    <h3>7. Tip Dönüşümleri</h3>
+    <p class="module-desc">Tipler arası dönüşüm fonksiyonları.</p>
+    <table>
+        <tr><th>Fonksiyon</th><th>Parametre</th><th>Dönüş</th><th>Açıklama</th></tr>
+        <tr><td>tam_metin(n)</td><td>tam</td><td>metin</td><td>Tamsayıyı metne çevirir</td></tr>
+        <tr><td>metin_tam(m)</td><td>metin</td><td>tam</td><td>Metni tamsayıya çevirir</td></tr>
+        <tr><td>ondalık_metin(n)</td><td>ondalık</td><td>metin</td><td>Ondalık sayıyı metne çevirir</td></tr>
+        <tr><td>metin_ondalık(m)</td><td>metin</td><td>ondalık</td><td>Metni ondalık sayıya çevirir</td></tr>
+    </table>
+    <div class="code-block">
+        <div class="code-header">tip_dönüşüm_örnek.tr</div>
+        <pre class="code-body"><span class="cmt"># Tip dönüşüm örnekleri</span>
+<span class="typ">tam</span> sayı <span class="op">=</span> <span class="num">42</span>
+<span class="typ">metin</span> m <span class="op">=</span> <span class="fn">tam_metin</span>(sayı)
+<span class="bi">yazdır</span>(<span class="str">"Cevap: "</span> <span class="op">+</span> m)         <span class="cmt"># "Cevap: 42"</span>
+
+<span class="typ">metin</span> girdi <span class="op">=</span> <span class="str">"123"</span>
+<span class="typ">tam</span> değer <span class="op">=</span> <span class="fn">metin_tam</span>(girdi)
+<span class="bi">yazdır</span>(değer <span class="op">+</span> <span class="num">1</span>)                <span class="cmt"># 124</span>
+
+<span class="typ">ondalık</span> pi <span class="op">=</span> <span class="num">3.14159</span>
+<span class="bi">yazdır</span>(<span class="fn">ondalık_metin</span>(pi))        <span class="cmt"># "3.14159"</span>
+<span class="bi">yazdır</span>(<span class="fn">metin_ondalık</span>(<span class="str">"2.71"</span>))   <span class="cmt"># 2.71</span></pre>
+    </div>
+
+    <!-- 8. Diğer Modüller -->
+    <h3>8. Diğer Modüller</h3>
+
+    <h4 style="color: var(--accent2); margin: 1.5rem 0 0.5rem;">JSON Modülü</h4>
+    <table>
+        <tr><th>Fonksiyon</th><th>Parametre</th><th>Dönüş</th><th>Açıklama</th></tr>
+        <tr><td>json_çözümle(metin)</td><td>metin</td><td>sözlük</td><td>JSON metnini sözlüğe dönüştürür</td></tr>
+    </table>
+
+    <h4 style="color: var(--accent2); margin: 1.5rem 0 0.5rem;">Ağ Modülü</h4>
+    <table>
+        <tr><th>Fonksiyon</th><th>Parametre</th><th>Dönüş</th><th>Açıklama</th></tr>
+        <tr><td>http_al(url)</td><td>metin</td><td>metin</td><td>HTTP GET isteği yapar</td></tr>
+    </table>
+
+    <h4 style="color: var(--accent2); margin: 1.5rem 0 0.5rem;">Kripto Modülü</h4>
+    <table>
+        <tr><th>Fonksiyon</th><th>Parametre</th><th>Dönüş</th><th>Açıklama</th></tr>
+        <tr><td>md5(m)</td><td>metin</td><td>metin</td><td>MD5 özet değeri</td></tr>
+        <tr><td>sha256(m)</td><td>metin</td><td>metin</td><td>SHA-256 özet değeri</td></tr>
+        <tr><td>base64_kodla(m)</td><td>metin</td><td>metin</td><td>Base64 kodlama</td></tr>
+        <tr><td>base64_çöz(m)</td><td>metin</td><td>metin</td><td>Base64 çözme</td></tr>
+    </table>
+
+    <h4 style="color: var(--accent2); margin: 1.5rem 0 0.5rem;">Düzenli İfade Modülü</h4>
+    <table>
+        <tr><th>Fonksiyon</th><th>Parametre</th><th>Dönüş</th><th>Açıklama</th></tr>
+        <tr><td>eşleşir_mi(m, desen)</td><td>metin, metin</td><td>mantık</td><td>Metin desene uyuyor mu</td></tr>
+        <tr><td>eşleşme_bul(m, desen)</td><td>metin, metin</td><td>dizi</td><td>Tüm eşleşmeleri bulur</td></tr>
+    </table>
+
+    <h4 style="color: var(--accent2); margin: 1.5rem 0 0.5rem;">Veritabanı Modülü</h4>
+    <table>
+        <tr><th>Fonksiyon</th><th>Parametre</th><th>Dönüş</th><th>Açıklama</th></tr>
+        <tr><td>vt_aç(dosya)</td><td>metin</td><td>veritabanı</td><td>SQLite veritabanı açar</td></tr>
+        <tr><td>vt_çalıştır(vt, sql)</td><td>veritabanı, metin</td><td>—</td><td>SQL komutu çalıştırır</td></tr>
+        <tr><td>vt_sorgula(vt, sql)</td><td>veritabanı, metin</td><td>dizi</td><td>SQL sorgusu yapar, sonuç döndürür</td></tr>
+        <tr><td>vt_kapat(vt)</td><td>veritabanı</td><td>—</td><td>Veritabanı bağlantısını kapatır</td></tr>
+    </table>
+
+    <h4 style="color: var(--accent2); margin: 1.5rem 0 0.5rem;">Paralel İşlem Modülü</h4>
+    <table>
+        <tr><th>Fonksiyon</th><th>Parametre</th><th>Dönüş</th><th>Açıklama</th></tr>
+        <tr><td>iş_oluştur(fonk)</td><td>işlev</td><td>iş</td><td>Yeni iş parçacığı (thread) oluşturur</td></tr>
+        <tr><td>iş_bekle(iş)</td><td>iş</td><td>herhangi</td><td>İş tamamlanana kadar bekler</td></tr>
+        <tr><td>kilit_oluştur()</td><td>—</td><td>kilit</td><td>Mutex kilit oluşturur</td></tr>
+        <tr><td>kilitle(k)</td><td>kilit</td><td>—</td><td>Kilidi alır</td></tr>
+        <tr><td>kilit_bırak(k)</td><td>kilit</td><td>—</td><td>Kilidi bırakır</td></tr>
+    </table>
+    <div class="code-block">
+        <div class="code-header">diğer_modüller_örnek.tr</div>
+        <pre class="code-body"><span class="cmt"># JSON örneği</span>
+<span class="typ">metin</span> json <span class="op">=</span> <span class="str">'{"ad": "Bilge", "yaş": 25}'</span>
+<span class="typ">sözlük</span> veri <span class="op">=</span> <span class="fn">json_çözümle</span>(json)
+<span class="bi">yazdır</span>(<span class="fn">sözlük_oku</span>(veri, <span class="str">"ad"</span>))   <span class="cmt"># "Bilge"</span>
+
+<span class="cmt"># Ağ örneği</span>
+<span class="typ">metin</span> yanıt <span class="op">=</span> <span class="fn">http_al</span>(<span class="str">"https://api.example.com/veri"</span>)
+<span class="bi">yazdır</span>(yanıt)
+
+<span class="cmt"># Kripto örneği</span>
+<span class="bi">yazdır</span>(<span class="fn">sha256</span>(<span class="str">"merhaba"</span>))
+<span class="bi">yazdır</span>(<span class="fn">base64_kodla</span>(<span class="str">"Tonyukuk"</span>))  <span class="cmt"># "VG9ueXVrdWs="</span>
+
+<span class="cmt"># Veritabanı örneği</span>
+<span class="typ">veritabanı</span> vt <span class="op">=</span> <span class="fn">vt_aç</span>(<span class="str">"veriler.db"</span>)
+<span class="fn">vt_çalıştır</span>(vt, <span class="str">"CREATE TABLE kullanıcılar (ad TEXT, yaş INTEGER)"</span>)
+<span class="fn">vt_çalıştır</span>(vt, <span class="str">"INSERT INTO kullanıcılar VALUES ('Bilge', 25)"</span>)
+<span class="typ">dizi</span> sonuç <span class="op">=</span> <span class="fn">vt_sorgula</span>(vt, <span class="str">"SELECT * FROM kullanıcılar"</span>)
+<span class="bi">yazdır</span>(sonuç)
+<span class="fn">vt_kapat</span>(vt)</pre>
+    </div>
+
+    <!-- 9. Operatörler Tablosu -->
+    <h3>9. Operatörler Tablosu</h3>
+    <p class="module-desc">Tonyukuk dilinde desteklenen tüm operatörler.</p>
+    <table>
+        <tr><th>Operatör</th><th>Açıklama</th><th>Örnek</th></tr>
+        <tr><td>+ - * / %</td><td>Aritmetik operatörler</td><td><code>5 + 3</code>, <code>10 % 3</code></td></tr>
+        <tr><td>== != &lt; &gt; &lt;= &gt;=</td><td>Karşılaştırma operatörleri</td><td><code>a == b</code>, <code>x &gt; 0</code></td></tr>
+        <tr><td>ve veya değil</td><td>Mantıksal operatörler</td><td><code>a ve b</code>, <code>değil c</code></td></tr>
+        <tr><td>&amp; | ^ &lt;&lt; &gt;&gt;</td><td>Bit işlem operatörleri</td><td><code>a &amp; b</code>, <code>x &lt;&lt; 2</code></td></tr>
+        <tr><td>|&gt;</td><td>Boru (pipe) operatörü</td><td><code>veri |&gt; işle |&gt; yazdır</code></td></tr>
+        <tr><td>??</td><td>Boş birleştirme (null coalescing)</td><td><code>değer ?? varsayılan</code></td></tr>
+        <tr><td>..</td><td>Aralık operatörü</td><td><code>1..10</code></td></tr>
+        <tr><td>= += -= *= /= %=</td><td>Atama operatörleri</td><td><code>x += 1</code>, <code>y *= 2</code></td></tr>
+    </table>
+    <div class="code-block">
+        <div class="code-header">operatörler_örnek.tr</div>
+        <pre class="code-body"><span class="cmt"># Pipe operatörü</span>
+[<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>]
+    <span class="op">|&gt;</span> <span class="fn">filtre</span>(<span class="kw">işlev</span>(x) <span class="op">-&gt;</span> x <span class="op">&gt;</span> <span class="num">2</span>)
+    <span class="op">|&gt;</span> <span class="fn">eşle</span>(<span class="kw">işlev</span>(x) <span class="op">-&gt;</span> x <span class="op">*</span> <span class="num">10</span>)
+    <span class="op">|&gt;</span> <span class="bi">yazdır</span>             <span class="cmt"># [30, 40, 50]</span>
+
+<span class="cmt"># Boş birleştirme</span>
+<span class="typ">metin</span> ad <span class="op">=</span> <span class="kw">boş</span> <span class="op">??</span> <span class="str">"Anonim"</span>
+<span class="bi">yazdır</span>(ad)                     <span class="cmt"># "Anonim"</span>
+
+<span class="cmt"># Aralık operatörü</span>
+<span class="kw">her</span> i <span class="kw">için</span> <span class="num">1</span><span class="op">..</span><span class="num">5</span> <span class="kw">ise</span>
+    <span class="bi">yazdır</span>(i)                  <span class="cmt"># 1, 2, 3, 4, 5</span>
+<span class="kw">son</span></pre>
+    </div>
+
+    <!-- 10. Komut Satırı Kullanımı -->
+    <h3>10. Komut Satırı Kullanımı</h3>
+    <p class="module-desc">Tonyukuk derleyicisi komut satırı seçenekleri.</p>
+    <div class="code-block">
+        <div class="code-header">Kullanım</div>
+        <pre class="code-body">tonyukuk-derle [seçenekler] &lt;dosya.tr&gt;
+
+<span class="kw">Seçenekler:</span>
+  <span class="fn">-o</span> &lt;dosya&gt;       Çıktı dosya adı
+  <span class="fn">-S</span>               Sadece assembly üret (.s dosyası)
+  <span class="fn">-c</span>               Sadece nesne dosyası üret (.o dosyası)
+  <span class="fn">--ast</span>            Soyut sözdizim ağacını (AST) göster
+  <span class="fn">--sembol</span>         Sembol tablosunu yazdır
+  <span class="fn">--optimize</span>       Optimizasyonları etkinleştir
+  <span class="fn">--hata-ayıkla</span>    Hata ayıklama bilgisi ekle
+  <span class="fn">--sürüm</span>          Derleyici sürümünü göster
+  <span class="fn">--yardım</span>         Yardım mesajını göster</pre>
+    </div>
+    <br>
+    <div class="code-block">
+        <div class="code-header">Örnekler</div>
+        <pre class="code-body"><span class="cmt"># Temel derleme</span>
+tonyukuk-derle merhaba.tr -o merhaba
+
+<span class="cmt"># Assembly çıktısı al</span>
+tonyukuk-derle merhaba.tr -S
+
+<span class="cmt"># Optimizasyon ile derle</span>
+tonyukuk-derle program.tr -o program --optimize
+
+<span class="cmt"># AST çıktısını incele</span>
+tonyukuk-derle program.tr --ast
+
+<span class="cmt"># Hata ayıklama modunda derle</span>
+tonyukuk-derle program.tr -o program --hata-ayıkla</pre>
+    </div>
+</section>
+
+<footer>
+    <div class="links">
+        <a href="/">Ana Sayfa</a>
+        <a href="#referans">Dok&#252;mantasyon</a>
+        <a href="/playground">Playground</a>
+    </div>
+    <p>Tonyukuk Programlama Dili &copy; 2026</p>
+</footer>
+
+</body>
+</html>

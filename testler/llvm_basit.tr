@@ -1,0 +1,54 @@
+# Tonyukuk LLVM Backend - Basit Test
+
+# Toplama islevi
+işlev topla(a: tam, b: tam) -> tam
+    döndür a + b
+son
+
+# Carpma islevi
+işlev carp(x: tam, y: tam) -> tam
+    döndür x * y
+son
+
+# Faktoriyel (ozyineleme testi)
+işlev faktoriyel(n: tam) -> tam
+    eğer n <= 1 ise
+        döndür 1
+    son
+    döndür n * faktoriyel(n - 1)
+son
+
+# Degisken tanimlari
+tam a = 10
+tam b = 20
+tam sonuc
+
+# Toplama testi
+sonuc = topla(a, b)
+yazdır("10 + 20 = ")
+yazdır(sonuc)
+
+# Carpma testi
+sonuc = carp(a, b)
+yazdır("10 * 20 = ")
+yazdır(sonuc)
+
+# Faktoriyel testi
+sonuc = faktoriyel(5)
+yazdır("5! = ")
+yazdır(sonuc)
+
+# Kosullu ifade testi
+eğer a < b ise
+    yazdır("a < b dogru")
+yoksa
+    yazdır("a >= b")
+son
+
+# Dongu testi
+yazdır("Dongu: ")
+tam i = 0
+iken i < 5 ise
+    yazdır(i)
+    i = i + 1
+son

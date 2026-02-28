@@ -1,0 +1,50 @@
+/* PWM ile LED Parlaklık Kontrolü
+ *
+ * Bu program PWM kullanarak bir LED'in parlaklığını
+ * kademeli olarak artırıp azaltır (fade efekti).
+ *
+ * Bağlantı:
+ *   LED + direnç (220 ohm) -> Pin 9 -> GND
+ *
+ * Derleme:
+ *   ./tonyukuk-derle testler/gomulu/pwm_parlaklik.tr -hedef avr
+ */
+
+degisken LED_PIN = 9
+degisken CIKIS = 1
+
+islev ana() tam ise
+    /* Pin'i çıkış olarak ayarla */
+    pin_modu(LED_PIN, CIKIS)
+
+    /* PWM kanalını başlat */
+    pwm_baslat(LED_PIN)
+
+    degisken parlaklik = 0
+    degisken artis = 5
+
+    /* Sonsuz döngü */
+    dongu iken dogru ise
+        /* Parlaklığı ayarla */
+        pwm_yaz(LED_PIN, parlaklik)
+
+        /* Parlaklığı artır veya azalt */
+        parlaklik = parlaklik + artis
+
+        /* Sınırlara ulaşınca yön değiştir */
+        eger parlaklik >= 255 ise
+            parlaklik = 255
+            artis = -5
+        son
+
+        eger parlaklik <= 0 ise
+            parlaklik = 0
+            artis = 5
+        son
+
+        /* Kısa bekleme */
+        bekle_ms(30)
+    son
+
+    dondur 0
+son

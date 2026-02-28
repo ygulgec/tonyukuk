@@ -1,0 +1,31 @@
+# Operator overloading testi
+
+sınıf Vektor
+    tam x
+    tam y
+
+    işlev topla(diger: Vektor) -> Vektor
+        döndür Vektor(bu.x + diger.x, bu.y + diger.y)
+    son
+
+    işlev esit(diger: Vektor) -> tam
+        eğer bu.x == diger.x ve bu.y == diger.y ise
+            döndür 1
+        yoksa
+            döndür 0
+        son
+    son
+son
+
+Vektor a = Vektor(1, 2)
+Vektor b = Vektor(3, 4)
+
+# + operatörü -> topla metotu
+Vektor c = a + b
+yazdır(c.x)
+yazdır(c.y)
+
+# == operatörü -> esit metotu
+Vektor d = Vektor(4, 6)
+tam sonuc = c == d
+yazdır(sonuc)

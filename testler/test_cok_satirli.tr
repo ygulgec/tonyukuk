@@ -1,0 +1,5 @@
+# Cok satirli metin testi
+
+metin m = """merhaba
+dunya"""
+yazdır(m)

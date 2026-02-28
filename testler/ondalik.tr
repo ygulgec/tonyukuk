@@ -1,0 +1,14 @@
+# Ondalık sayı testi
+ondalık pi = 3.14
+yazdır(pi)
+
+ondalık x = 2.5
+ondalık y = 4.0
+ondalık toplam = x + y
+yazdır(toplam)
+
+ondalık carpim = x * y
+yazdır(carpim)
+
+ondalık bolum = y / x
+yazdır(bolum)

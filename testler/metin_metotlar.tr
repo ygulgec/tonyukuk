@@ -1,0 +1,28 @@
+# Metin metotları testi
+
+metin m = "Merhaba Dunya"
+
+# uzunluk
+yazdır(m.uzunluk())
+
+# bosmu
+yazdır(m.bosmu())
+
+metin bos = ""
+yazdır(bos.bosmu())
+
+# say
+yazdır(m.say("a"))
+
+# baslar / biter
+yazdır(m.baslar("Mer"))
+yazdır(m.biter("nya"))
+
+# rakammi
+metin sayi = "12345"
+yazdır(sayi.rakammi())
+yazdır(m.rakammi())
+
+# icerir
+yazdır(m.icerir("haba"))
+yazdır(m.icerir("xyz"))

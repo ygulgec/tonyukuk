@@ -1,0 +1,24 @@
+# Sınıf metot çağrısı testi
+
+sınıf Dikdortgen
+    tam en
+    tam boy
+
+    işlev alan() -> tam
+        döndür bu.en * bu.boy
+    son
+
+    işlev cevre() -> tam
+        döndür 2 * (bu.en + bu.boy)
+    son
+son
+
+Dikdortgen d = Dikdortgen(5, 3)
+yazdır(d.en)
+yazdır(d.boy)
+
+tam a = d.alan()
+yazdır(a)
+
+tam c = d.cevre()
+yazdır(c)

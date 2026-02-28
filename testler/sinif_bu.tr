@@ -1,0 +1,18 @@
+# Sınıf metot testi - bu keyword
+
+sınıf Sayac
+    tam deger
+son
+
+# Nesne oluştur
+Sayac s = Sayac(0)
+yazdır(s.deger)
+
+# Alan değiştir
+s.deger = 42
+yazdır(s.deger)
+
+# İkinci nesne bağımsız mı test et
+Sayac s2 = Sayac(100)
+yazdır(s2.deger)
+yazdır(s.deger)

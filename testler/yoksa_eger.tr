@@ -1,0 +1,34 @@
+# yoksa eğer (else if) zinciri testi
+tam puan = 85
+
+eğer puan >= 90 ise
+    yazdır("Pekiyi")
+yoksa eğer puan >= 80 ise
+    yazdır("İyi")
+yoksa eğer puan >= 70 ise
+    yazdır("Orta")
+yoksa eğer puan >= 60 ise
+    yazdır("Geçer")
+yoksa
+    yazdır("Kaldı")
+son
+
+# İkinci test: ilk koşul doğru
+tam x = 100
+eğer x == 100 ise
+    yazdır("ilk doğru")
+yoksa eğer x == 200 ise
+    yazdır("bu yazmamalı")
+yoksa
+    yazdır("bu da yazmamalı")
+son
+
+# Üçüncü test: son yoksa
+tam y = 0
+eğer y > 10 ise
+    yazdır("bu yazmamalı")
+yoksa eğer y > 5 ise
+    yazdır("bu da yazmamalı")
+yoksa
+    yazdır("son yoksa doğru")
+son

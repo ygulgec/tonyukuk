@@ -1,0 +1,11 @@
+# Dizi (array) testi
+
+# 1. Dizi oluşturma ve erişim
+dizi sayilar = [10, 20, 30, 40, 50]
+yazdır(sayilar[0])
+yazdır(sayilar[2])
+yazdır(sayilar[4])
+
+# 2. Dizi elemanı ile aritmetik
+tam toplam = sayilar[0] + sayilar[1] + sayilar[2]
+yazdır(toplam)

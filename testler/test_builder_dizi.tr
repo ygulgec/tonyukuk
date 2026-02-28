@@ -1,0 +1,27 @@
+/* Builder dizi test */
+kullan json
+kullan sistem
+
+yazdır("Builder dizi test:")
+
+tam notlar = json_dizi_yeni()
+yazdır("Dizi oluşturuldu: " + tam_metin(notlar))
+
+json_dizi_tam_ekle(notlar, 85)
+json_dizi_tam_ekle(notlar, 90)
+json_dizi_tam_ekle(notlar, 78)
+yazdır("Elemanlar eklendi")
+
+tam ogrenci = json_nesne_yeni()
+yazdır("Nesne oluşturuldu: " + tam_metin(ogrenci))
+
+json_nesne_metin_ekle(ogrenci, "ad", "Can")
+yazdır("İsim eklendi")
+
+json_nesne_dizi_ekle(ogrenci, "notlar", notlar)
+yazdır("Dizi eklendi")
+
+metin sonuc = json_olustur(ogrenci)
+yazdır("JSON: " + sonuc)
+
+yazdır("Bitti")

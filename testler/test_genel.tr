@@ -1,0 +1,9 @@
+# Global değişken testi
+genel tam sayac = 10
+genel metin isim = "Dünya"
+
+yazdır(sayac)
+yazdır(isim)
+
+sayac = 42
+yazdır(sayac)

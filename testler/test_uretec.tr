@@ -1,0 +1,16 @@
+# Uretec (generator) testi - basitlestirilmis
+
+# uret ifadesi bir islev icinde dondur gibi calisir
+işlev ilk_deger() -> tam
+    üret 42
+son
+
+tam v = ilk_deger()
+yazdır(v)
+
+# Normal islev
+işlev ikinci(a: tam) -> tam
+    döndür a * 2
+son
+
+yazdır(ikinci(5))

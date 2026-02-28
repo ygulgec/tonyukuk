@@ -1,0 +1,120 @@
+{
+    "İşlev Tanımı": {
+        "prefix": ["islev", "işlev"],
+        "body": [
+            "işlev ${1:isim}(${2:parametreler}) -> ${3:tam}",
+            "    ${0}",
+            "son"
+        ],
+        "description": "Yeni işlev tanımı"
+    },
+    "Eğer Bloğu": {
+        "prefix": ["eger", "eğer"],
+        "body": [
+            "eğer ${1:koşul} ise",
+            "    ${0}",
+            "son"
+        ],
+        "description": "Eğer/ise koşul bloğu"
+    },
+    "Eğer/Yoksa Bloğu": {
+        "prefix": ["egeryoksa", "eğeryoksa"],
+        "body": [
+            "eğer ${1:koşul} ise",
+            "    ${2}",
+            "yoksa",
+            "    ${0}",
+            "son"
+        ],
+        "description": "Eğer/yoksa koşul bloğu"
+    },
+    "Döngü": {
+        "prefix": ["dongu", "döngü"],
+        "body": [
+            "döngü ${1:i} = ${2:0}, ${3:10} ise",
+            "    ${0}",
+            "son"
+        ],
+        "description": "Sayısal döngü"
+    },
+    "İken Döngüsü": {
+        "prefix": "iken",
+        "body": [
+            "iken ${1:koşul} ise",
+            "    ${0}",
+            "son"
+        ],
+        "description": "Koşullu döngü (while)"
+    },
+    "Her İçin Döngüsü": {
+        "prefix": ["hericin", "her"],
+        "body": [
+            "her ${1:eleman} içeri ${2:dizi} ise",
+            "    ${0}",
+            "son"
+        ],
+        "description": "Her/içeri döngüsü (for-each)"
+    },
+    "Sınıf Tanımı": {
+        "prefix": ["sinif", "sınıf"],
+        "body": [
+            "sınıf ${1:İsim}",
+            "    ${2:tam} ${3:alan}",
+            "",
+            "    işlev ${4:metot}() -> ${5:tam}",
+            "        ${0}",
+            "    son",
+            "son"
+        ],
+        "description": "Sınıf tanımı"
+    },
+    "Dene/Yakala": {
+        "prefix": ["dene", "deneyakala"],
+        "body": [
+            "dene",
+            "    ${1}",
+            "yakala hata",
+            "    yazdır(hata)",
+            "    ${0}",
+            "son"
+        ],
+        "description": "Dene/yakala hata yönetimi"
+    },
+    "Eşle/Durum": {
+        "prefix": ["esle", "eşle"],
+        "body": [
+            "eşle ${1:değer}",
+            "    durum ${2:1} ise",
+            "        ${3}",
+            "    durum ${4:2} ise",
+            "        ${5}",
+            "    varsayılan ise",
+            "        ${0}",
+            "son"
+        ],
+        "description": "Eşle/durum desen eşleme"
+    },
+    "Değişken Tanımı": {
+        "prefix": ["degisken", "değişken"],
+        "body": [
+            "değişken ${1:isim}: ${2:tam} = ${0}"
+        ],
+        "description": "Değişken tanımı"
+    },
+    "Yazdır": {
+        "prefix": ["yazdir", "yazdır"],
+        "body": [
+            "yazdır(${0})"
+        ],
+        "description": "Ekrana yazdır"
+    },
+    "Test Bloğu": {
+        "prefix": "test",
+        "body": [
+            "test \"${1:test adı}\" ise",
+            "    doğrula(${0})",
+            "son"
+        ],
+        "description": "Test bloğu"
+    }
+}

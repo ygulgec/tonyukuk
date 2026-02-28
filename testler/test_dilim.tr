@@ -1,0 +1,11 @@
+# Dilim (slice) testi
+
+# Dizi dilimi
+dizi d = [10, 20, 30, 40, 50]
+dizi alt = d[1:3]
+yazdır(uzunluk(alt))
+
+# Metin dilimi
+metin m = "merhaba"
+metin alt_m = m[0:3]
+yazdır(alt_m)

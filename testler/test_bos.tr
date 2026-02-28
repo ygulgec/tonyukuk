@@ -1,0 +1,4 @@
+tam x = 0
+metin s = ""
+yazdır(x)
+yazdır(s)

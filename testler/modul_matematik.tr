@@ -1,0 +1,11 @@
+# matematik modülü testi
+
+kullan matematik
+
+yazdır(mutlak(-42))
+yazdır(mutlak(7))
+yazdır(kuvvet(2, 10))
+yazdır(kuvvet(3, 4))
+yazdır(min(5, 3))
+yazdır(maks(5, 3))
+yazdır(mod(17, 5))

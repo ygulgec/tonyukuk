@@ -1,0 +1,7 @@
+kullan "modul_yardimci.tr"
+
+tam sonuc = topla(3, 4)
+yazdır(sonuc)
+
+metin mesaj = selamla("Ali")
+yazdır(mesaj)

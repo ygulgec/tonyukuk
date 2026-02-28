@@ -1,0 +1,23 @@
+# LED Yakip Sondurme Ornegi
+# Tum gomulu hedeflerde calisir: AVR, ESP32, Pico
+
+kullan donanim
+
+tam LED = 13       # Arduino dahili LED
+tam CIKIS = 1
+tam YUKSEK = 1
+tam DUSUK = 0
+
+pin_modu(LED, CIKIS)
+
+yazdır("LED ornegi basliyor...")
+
+# 5 kez yakip sondur
+döngü i = 0, 5 ise
+    dijital_yaz(LED, YUKSEK)
+    bekle_ms(500)
+    dijital_yaz(LED, DUSUK)
+    bekle_ms(500)
+son
+
+yazdır("Tamamlandi!")

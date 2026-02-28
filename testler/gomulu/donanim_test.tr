@@ -1,0 +1,42 @@
+# Donanim Modulu Simulasyon Testi
+kullan donanim
+
+tam LED_PIN = 13
+tam CIKIS = 1
+tam YUKSEK = 1
+tam DUSUK = 0
+
+yazdır("=== Donanım Modülü Testi ===")
+
+# GPIO testi
+pin_modu(LED_PIN, CIKIS)
+dijital_yaz(LED_PIN, YUKSEK)
+tam deger = dijital_oku(LED_PIN)
+dijital_yaz(LED_PIN, DUSUK)
+
+# PWM testi
+pwm_baslat(9)
+pwm_yaz(9, 128)
+
+# ADC testi
+tam sensor = analog_oku(0)
+
+# I2C testi
+i2c_baslat(100)
+i2c_yaz(80, 0)
+tam i2c_veri = i2c_oku(80)
+
+# SPI testi
+spi_baslat(1000)
+tam spi_veri = spi_aktar(170)
+
+# UART testi
+seri_baslat(9600)
+seri_yaz("Merhaba Arduino!")
+
+# Zamanlama testi
+tam baslangic = milis()
+bekle_ms(100)
+tam bitis = milis()
+
+yazdır("=== Test Tamamlandı ===")

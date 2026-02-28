@@ -1,0 +1,9 @@
+# Dizi sınır kontrolü testi
+dizi sayilar = [10, 20, 30]
+
+# Normal erişim - çalışmalı
+yazdır(sayilar[0])
+yazdır(sayilar[2])
+
+# Sınır dışı erişim - hata vermeli
+yazdır(sayilar[5])

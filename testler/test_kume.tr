@@ -1,0 +1,20 @@
+# Küme (Set) testi
+kullan küme
+
+# Küme oluştur ve ekle
+değişken k = küme_yeni()
+küme_ekle(k, 10)
+küme_ekle(k, 20)
+küme_ekle(k, 30)
+
+# Uzunluk kontrolü
+yazdır(küme_uzunluk(k))
+
+# Var mı kontrolü
+yazdır(küme_var_mı(k, 20))
+yazdır(küme_var_mı(k, 99))
+
+# Küme sil
+küme_sil(k, 20)
+yazdır(küme_uzunluk(k))
+yazdır(küme_var_mı(k, 20))

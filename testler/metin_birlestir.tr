@@ -1,0 +1,8 @@
+# Metin birleştirme testi
+metin ad = "Tonyukuk"
+metin selam = "Merhaba "
+metin mesaj = selam + ad
+yazdır(mesaj)
+
+metin tam_mesaj = "Sayı: " + "42"
+yazdır(tam_mesaj)

@@ -1,0 +1,23 @@
+# Çoklu dönüş (tuple unpacking) testi
+
+# Test 1: 2 değerli dönüş
+işlev konum() -> tam
+    döndür 10, 20
+son
+
+tam x = 0
+tam y = 0
+x, y = konum()
+yazdır(x)
+yazdır(y)
+
+# Test 2: Dizi üzerinden unpacking
+dizi veri = [100, 200, 300]
+tam a = 0
+tam b = 0
+tam c = 0
+[a, b, c] = veri
+yazdır(a)
+yazdır(b)
+yazdır(c)
+

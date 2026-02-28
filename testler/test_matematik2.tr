@@ -1,0 +1,24 @@
+kullan matematik
+
+ondalık p = pi()
+yazdır(p)
+
+ondalık s = sin(0.0)
+yazdır(s)
+
+ondalık c = cos(0.0)
+yazdır(c)
+
+ondalık a = taban(3.7)
+yazdır(a)
+
+ondalık b = tavan(3.2)
+yazdır(b)
+
+ondalık r = yuvarla(3.5)
+yazdır(r)
+
+tam rnd = rastgele(100)
+eğer rnd >= 0 ise
+    yazdır(1)
+son

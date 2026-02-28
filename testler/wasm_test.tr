@@ -1,0 +1,26 @@
+# WASM Testi — Tonyukuk WebAssembly desteği
+
+işlev fibonacci(n: tam) -> tam
+    eğer n <= 1 ise
+        döndür n
+    son
+    döndür fibonacci(n - 1) + fibonacci(n - 2)
+son
+
+işlev faktoriyel(n: tam) -> tam
+    eğer n <= 1 ise
+        döndür 1
+    son
+    döndür n * faktoriyel(n - 1)
+son
+
+işlev main()
+    yazdır("Merhaba WASM!")
+
+    döngü i = 0, 10 ise
+        yazdır(fibonacci(i))
+    son
+
+    yazdır(faktoriyel(5))
+    yazdır(faktoriyel(10))
+son

@@ -1,0 +1,86 @@
+/* Zaman Modülü Test Programı */
+kullan zaman
+kullan sistem
+
+yazdır("=== Zaman Modülü Testleri ===")
+yazdır("")
+
+/* Test 1: Temel zaman */
+yazdır("1. Temel zaman:")
+tam ts = simdi()
+yazdır("   Unix timestamp: " + tam_metin(ts))
+yazdır("   Tarih: " + tarih_metin())
+
+/* Test 2: Zaman bileşenleri */
+yazdır("2. Mevcut zaman bileşenleri:")
+yazdır("   Saat: " + tam_metin(saat()))
+yazdır("   Dakika: " + tam_metin(dakika()))
+yazdır("   Saniye: " + tam_metin(saniye()))
+yazdır("   Gün: " + tam_metin(gun()))
+yazdır("   Ay: " + tam_metin(ay()))
+yazdır("   Yıl: " + tam_metin(yil()))
+
+/* Test 3: Hafta bilgileri */
+yazdır("3. Hafta bilgileri:")
+yazdır("   Hafta günü: " + tam_metin(hafta_gunu()))
+yazdır("   Yılın günü: " + tam_metin(yilin_gunu()))
+yazdır("   Hafta numarası: " + tam_metin(hafta_numarasi()))
+
+/* Test 4: Tarih oluşturma */
+yazdır("4. Tarih oluşturma:")
+tam ts2 = tarih_olustur(2024, 7, 15)
+yazdır("   15 Temmuz 2024: " + tam_metin(ts2))
+tam ts3 = zaman_olustur(2024, 12, 31, 23, 59, 59)
+yazdır("   31 Aralık 2024 23:59:59: " + tam_metin(ts3))
+
+/* Test 5: Tarih aritmetiği */
+yazdır("5. Tarih aritmetiği:")
+tam bugun = simdi()
+tam yarin = gun_ekle(bugun, 1)
+yazdır("   Yarın: " + iso_tarih(yarin))
+tam haftaya = gun_ekle(bugun, 7)
+yazdır("   Haftaya: " + iso_tarih(haftaya))
+
+/* Test 6: ISO formatlar */
+yazdır("6. ISO formatlar:")
+yazdır("   ISO tarih: " + iso_tarih(simdi()))
+yazdır("   ISO zaman: " + iso_zaman(simdi()))
+
+/* Test 7: Türkçe isimler */
+yazdır("7. Türkçe isimler:")
+yazdır("   Bugün: " + zaman_hafta_gunu_adi(simdi()))
+yazdır("   Bu ay: " + zaman_ay_adi(simdi()))
+yazdır("   Pazartesi: " + hafta_gunu_adi(1))
+yazdır("   Ocak: " + ay_adi(1))
+
+/* Test 8: Kontroller */
+yazdır("8. Kontroller:")
+eğer artik_yil_mi(2024) ise
+    yazdır("   2024 artık yıl: evet")
+yoksa
+    yazdır("   2024 artık yıl: hayır")
+son
+yazdır("   Şubat 2024: " + tam_metin(aydaki_gun_sayisi(2024, 2)) + " gün")
+yazdır("   Şubat 2023: " + tam_metin(aydaki_gun_sayisi(2023, 2)) + " gün")
+
+/* Test 9: Kronometre */
+yazdır("9. Kronometre testi:")
+tam baslangic = kronometre_baslat()
+/* Kısa bir hesaplama */
+tam toplam = 0
+tam k = 0
+iken k < 10000 ise
+    toplam = toplam + k
+    k = k + 1
+son
+tam gecen = kronometre_gecen_us(baslangic)
+yazdır("   10000 toplam = " + tam_metin(toplam))
+yazdır("   Geçen süre: " + tam_metin(gecen) + " us")
+
+/* Test 10: Yüksek çözünürlüklü zaman */
+yazdır("10. Yüksek çözünürlük:")
+yazdır("   Şimdi (ms): " + tam_metin(simdi_ms()))
+yazdır("   Şimdi (us): " + tam_metin(simdi_us()))
+
+yazdır("")
+yazdır("=== Tüm zaman testleri tamamlandı ===")

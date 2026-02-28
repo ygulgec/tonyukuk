@@ -1,0 +1,25 @@
+# Bit islemleri testi
+
+# AND
+tam a = 12 & 10
+yazdır(a)
+
+# OR (bitwise)
+tam b = 12 | 10
+yazdır(b)
+
+# XOR
+tam c = 12 ^ 10
+yazdır(c)
+
+# Sol kaydirma
+tam d = 1 << 4
+yazdır(d)
+
+# Sag kaydirma
+tam e = 32 >> 2
+yazdır(e)
+
+# NOT (bitwise)
+tam f = ~0
+yazdır(f)

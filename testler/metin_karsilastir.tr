@@ -1,0 +1,24 @@
+# Metin karşılaştırma testi
+metin a = "Merhaba"
+metin b = "Merhaba"
+metin c = "Dünya"
+
+eğer a == b ise
+    yazdır("esit: dogru")
+son
+
+eğer a == c ise
+    yazdır("bu yazmamalı")
+yoksa
+    yazdır("farkli: dogru")
+son
+
+eğer a != c ise
+    yazdır("esit degil: dogru")
+son
+
+eğer a != b ise
+    yazdır("bu yazmamalı")
+yoksa
+    yazdır("esit degil 2: dogru")
+son

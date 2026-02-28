@@ -1,0 +1,89 @@
+/* Düzeni (Regex) Modülü Test Programı */
+kullan duzeni
+kullan sistem
+
+yazdır("=== Düzeni Modülü Testleri ===")
+yazdır("")
+
+/* Test 1: Temel eşleşme */
+yazdır("1. Temel eşleşme:")
+eğer eslesir_mi("merhaba dünya", "mer.*") ise
+    yazdır("   'merhaba dünya' =~ 'mer.*': EŞLEŞTI")
+son
+eğer eslesir_mi("abc123", "[0-9]+") ise
+    yazdır("   'abc123' =~ '[0-9]+': EŞLEŞTI")
+son
+
+/* Test 2: Eşleşme bulma */
+yazdır("2. Eşleşme bulma:")
+metin bulundu = eslesme_bul("abc123def456", "[0-9]+")
+yazdır("   İlk eşleşme: " + bulundu)
+
+/* Test 3: Eşleşme sayısı */
+yazdır("3. Eşleşme sayısı:")
+tam sayi = eslesme_sayisi("a1b2c3d4", "[0-9]")
+yazdır("   '[0-9]' eşleşme sayısı: " + tam_metin(sayi))
+
+/* Test 4: Eşleşme konumu */
+yazdır("4. Eşleşme konumu:")
+tam konum = eslesme_konumu("hello world", "wor")
+yazdır("   'wor' konumu: " + tam_metin(konum))
+
+/* Test 5: Değiştirme */
+yazdır("5. Değiştirme:")
+metin yeni = degistir("hello world", "world", "Tonyukuk")
+yazdır("   Sonuç: " + yeni)
+
+/* Test 6: Hepsini değiştir */
+yazdır("6. Hepsini değiştir:")
+metin yeni2 = degistir_hepsi("a1b2c3", "[0-9]", "X")
+yazdır("   Sonuç: " + yeni2)
+
+/* Test 7: Böl */
+yazdır("7. Böl:")
+metin csv = "ali,veli,ahmet,mehmet"
+yazdır("   Orijinal: " + csv)
+yazdır("   Bölündü...")
+
+/* Test 8: Yakalama grupları */
+yazdır("8. Yakalama grupları:")
+metin tarih = "2024-07-15"
+metin grup0 = grup_al(tarih, "([0-9]+)-([0-9]+)-([0-9]+)", 0)
+metin grup1 = grup_al(tarih, "([0-9]+)-([0-9]+)-([0-9]+)", 1)
+metin grup2 = grup_al(tarih, "([0-9]+)-([0-9]+)-([0-9]+)", 2)
+metin grup3 = grup_al(tarih, "([0-9]+)-([0-9]+)-([0-9]+)", 3)
+yazdır("   Tam eşleşme: " + grup0)
+yazdır("   Yıl: " + grup1)
+yazdır("   Ay: " + grup2)
+yazdır("   Gün: " + grup3)
+
+/* Test 9: Desen doğrulama */
+yazdır("9. Desen doğrulama:")
+eğer gecerli_desen_mi("[a-z]+") ise
+    yazdır("   '[a-z]+' geçerli desen")
+son
+eğer gecerli_desen_mi("[invalid") == yanlış ise
+    yazdır("   '[invalid' geçersiz desen")
+son
+
+/* Test 10: Özel eşleşmeler */
+yazdır("10. Özel eşleşmeler:")
+eğer baslangicta_eslesir_mi("hello world", "hel") ise
+    yazdır("   'hello world' 'hel' ile başlıyor")
+son
+eğer sonunda_eslesir_mi("hello world", "ld") ise
+    yazdır("   'hello world' 'ld' ile bitiyor")
+son
+eğer tam_eslesir_mi("12345", "[0-9]+") ise
+    yazdır("   '12345' tamamen sayılardan oluşuyor")
+son
+
+/* Test 11: Kaçış karakterleri */
+yazdır("11. Kaçış karakterleri:")
+metin ozel_str = "a.b*c?"
+metin kacis = kacis_karakterleri(ozel_str)
+yazdır("   Orijinal: " + ozel_str)
+yazdır("   Kaçışlı: " + kacis)
+
+yazdır("")
+yazdır("=== Tüm düzeni testleri tamamlandı ===")

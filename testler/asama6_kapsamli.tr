@@ -1,0 +1,57 @@
+# Aşama 6: Sınıf kapsamlı testi
+
+# 1. Basit sınıf: alan oluşturma ve erişim
+sınıf Nokta
+    tam x
+    tam y
+son
+
+Nokta p = Nokta(10, 20)
+yazdır(p.x)
+yazdır(p.y)
+
+# 2. Alan atama
+p.x = 99
+yazdır(p.x)
+
+# 3. Birden fazla nesne bağımsızlığı
+Nokta q = Nokta(1, 2)
+yazdır(q.x)
+yazdır(p.x)
+
+# 4. Metotlu sınıf
+sınıf Dikdortgen
+    tam en
+    tam boy
+
+    işlev alan() -> tam
+        döndür bu.en * bu.boy
+    son
+
+    işlev cevre() -> tam
+        döndür 2 * (bu.en + bu.boy)
+    son
+
+    işlev kare_mi() -> tam
+        eğer bu.en == bu.boy ise
+            döndür 1
+        yoksa
+            döndür 0
+        son
+    son
+son
+
+Dikdortgen d = Dikdortgen(5, 3)
+yazdır(d.alan())
+yazdır(d.cevre())
+yazdır(d.kare_mi())
+
+# 5. Kare testi (en == boy)
+Dikdortgen k = Dikdortgen(7, 7)
+yazdır(k.alan())
+yazdır(k.kare_mi())
+
+# 6. Büyük değerler
+Dikdortgen b = Dikdortgen(100, 200)
+yazdır(b.alan())
+yazdır(b.cevre())

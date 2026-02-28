@@ -1,0 +1,15 @@
+# Sözlük üretimi (dict comprehension) testi
+
+# Test 1: Basit sözlük literali
+tam s = {"ad": 42, "yas": 25}
+yazdır(sözlük_uzunluk(s))
+
+# Test 2: Sözlük üretimi
+dizi isimler = ["ali", "veli", "ayse"]
+tam kareler = {isimler[i]: i * i her i için [0, 1, 2]}
+yazdır(sözlük_uzunluk(kareler))
+
+# Test 3: Boş sözlük
+tam bos = {}
+yazdır(sözlük_uzunluk(bos))
+

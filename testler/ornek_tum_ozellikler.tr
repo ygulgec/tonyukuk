@@ -1,0 +1,221 @@
+/* ================================================
+   Tonyukuk Programlama Dili — Tüm Özellikler
+   /* İç içe blok yorum */
+   ================================================ */
+
+kullan matematik
+kullan metin
+kullan sistem
+kullan dizi
+
+sabit tam SINIR = 50
+genel tam islem = 0
+
+/* --- İşlev: varsayılan parametre --- */
+işlev hesapla(a: tam, b: tam, k: tam = 2) -> tam
+    döndür a * k + b
+son
+
+/* --- Çoklu dönüş --- */
+işlev ikili(a: tam, b: tam) -> tam
+    döndür a, b
+son
+
+işlev kare(x: tam) -> tam
+    döndür x * x
+son
+
+/* --- Sınıf + kalıtım --- */
+sınıf Hayvan
+    tam yas
+    işlev bilgi() -> tam
+        döndür bu.yas
+    son
+son
+
+sınıf Kedi : Hayvan
+    tam can
+son
+
+/* --- Her özelliği test eden işlevler --- */
+
+işlev test_sinif()
+    Hayvan h = Hayvan(5)
+    yazdır(h.bilgi())
+    Kedi k = Kedi(3, 9)
+    yazdır(k.yas)
+    yazdır(k.can)
+son
+
+işlev test_metin_modul()
+    metin m = "  Merhaba  "
+    yazdır(kırp(m))
+    yazdır(tersle(kırp(m)))
+son
+
+işlev test_interpolasyon()
+    metin ad = "Ali"
+    metin sy = "Veli"
+    metin tam_ad = "${ad} ${sy}"
+    yazdır(tam_ad)
+son
+
+işlev test_matematik()
+    yazdır(pi())
+    yazdır(mutlak(-42))
+    yazdır(kuvvet(2, 10))
+    yazdır(min(15, 30))
+    yazdır(maks(15, 30))
+son
+
+işlev test_sistem()
+    yazdır(tam_metin(12345))
+    yazdır(metin_tam("9876"))
+son
+
+işlev test_dizi_modul()
+    dizi a = [10, 20]
+    dizi b = [30, 40]
+    dizi c = birleştir(a, b)
+    yazdır(uzunluk(c))
+    c = ekle(c, 50)
+    yazdır(uzunluk(c))
+    c = çıkar(c)
+    yazdır(uzunluk(c))
+son
+
+işlev test_her_icin()
+    dizi d = [10, 20, 30, 40, 50]
+    tam toplam = 0
+    her e için d ise
+        toplam += e
+    son
+    yazdır(toplam)
+son
+
+işlev test_esle()
+    tam n = 91
+    eşle n / 10 ise
+        durum 9:
+            yazdır("Pekiyi")
+        durum 7:
+            yazdır("Orta")
+        varsayılan:
+            yazdır("Diger")
+    son
+son
+
+işlev test_donguler()
+    tam j = 1
+    iken j <= 10 ise
+        eğer j > 3 ise
+            kır
+        son
+        yazdır(kare(j))
+        j += 1
+    son
+
+    döngü i = 1, 9 ise
+        eğer i % 2 == 1 ise
+            yazdır(i)
+        son
+    son
+son
+
+işlev test_dene_yakala()
+    dene
+        fırlat 42
+        yazdır("HATA")
+    yakala
+        yazdır("Yakalandi!")
+    son
+son
+
+işlev test_bilesik()
+    tam v = 100
+    v += 20
+    yazdır(v)
+    v -= 10
+    yazdır(v)
+    v *= 2
+    yazdır(v)
+    v /= 11
+    yazdır(v)
+    v %= 7
+    yazdır(v)
+son
+
+/* ===== ANA PROGRAM ===== */
+
+yazdır("=== Tonyukuk: Tüm Özellikler ===")
+yazdır("")
+
+yazdır("[Sınıf + Kalıtım]")
+test_sinif()
+yazdır("")
+
+yazdır("[Metin Modülü]")
+test_metin_modul()
+yazdır("")
+
+yazdır("[String İnterpolasyon]")
+test_interpolasyon()
+yazdır("")
+
+yazdır("[Matematik Modülü]")
+test_matematik()
+yazdır("")
+
+yazdır("[Sistem Modülü]")
+test_sistem()
+yazdır("")
+
+yazdır("[Dizi Modülü]")
+test_dizi_modul()
+yazdır("")
+
+yazdır("[Her İçin Döngüsü]")
+test_her_icin()
+yazdır("")
+
+yazdır("[Eşle/Durum]")
+test_esle()
+yazdır("")
+
+yazdır("[İşlev + Varsayılan Param]")
+yazdır(hesapla(3, 4))
+yazdır(hesapla(3, 4, 5))
+yazdır("")
+
+yazdır("[Çoklu Dönüş]")
+tam x, tam y = ikili(91, 38)
+yazdır(x)
+yazdır(y)
+yazdır("")
+
+yazdır("[Pipe Operatörü]")
+yazdır(5 |> kare)
+yazdır(7 |> kare)
+yazdır("")
+
+yazdır("[Döngüler + Kır]")
+test_donguler()
+yazdır("")
+
+yazdır("[Dene/Yakala]")
+test_dene_yakala()
+yazdır("")
+
+yazdır("[Bileşik Atama]")
+test_bilesik()
+yazdır("")
+
+yazdır("[Sabit]")
+yazdır(SINIR)
+
+yazdır("[Global Değişken]")
+islem += 7
+yazdır(islem)
+
+yazdır("")
+yazdır("=== Program Sonu ===")

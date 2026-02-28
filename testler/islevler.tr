@@ -1,0 +1,17 @@
+# İşlev tanımlama ve çağırma
+işlev topla(a: tam, b: tam) -> tam
+    döndür a + b
+son
+
+tam sonuc = topla(3, 7)
+yazdır(sonuc)
+
+işlev faktoriyel(n: tam) -> tam
+    eğer n <= 1 ise
+        döndür 1
+    son
+    döndür n * faktoriyel(n - 1)
+son
+
+tam f = faktoriyel(5)
+yazdır(f)

@@ -1,0 +1,26 @@
+# sonunda (finally) bloğu testi
+
+# Test 1: Normal çıkışta sonunda çalışır
+dene
+    yazdır(1)
+yakala hata
+    yazdır(0)
+sonunda
+    yazdır(2)
+son
+
+# Test 2: İstisna durumunda sonunda çalışır
+dene
+    fırlat "hata mesaji"
+yakala hata
+    yazdır(3)
+sonunda
+    yazdır(4)
+son
+
+# Test 3: Sonunda olmadan (geriye uyumluluk)
+dene
+    yazdır(5)
+yakala hata
+    yazdır(0)
+son

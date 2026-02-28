@@ -1,0 +1,20 @@
+kullan metin
+
+metin s = "  Merhaba Dunya  "
+metin k = kırp(s)
+yazdır(k)
+
+metin t = tersle("abc")
+yazdır(t)
+
+metin r = tekrarla("ha", 3)
+yazdır(r)
+
+tam b1 = başlar_mi("Merhaba", "Mer")
+yazdır(b1)
+
+tam b2 = biter_mi("Merhaba", "aba")
+yazdır(b2)
+
+metin d = değiştir("Merhaba Dunya", "Dunya", "Bilge")
+yazdır(d)

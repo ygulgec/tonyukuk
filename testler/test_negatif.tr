@@ -1,0 +1,7 @@
+# Negatif sayı testi
+tam x = -5
+yazdır(x)
+tam y = -10 + 3
+yazdır(y)
+tam z = -1
+yazdır(z)

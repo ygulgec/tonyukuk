@@ -1,0 +1,9 @@
+# Float gösterim testi - sondaki sıfırlar kaldırılmalı
+ondalık a = 3.14
+yazdır(a)
+ondalık b = 2.5
+yazdır(b)
+ondalık c = 1.0 + 0.0
+yazdır(c)
+ondalık d = 0.123456
+yazdır(d)

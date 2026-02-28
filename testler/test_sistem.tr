@@ -1,0 +1,14 @@
+kullan sistem
+kullan matematik
+
+tam x = 42
+metin s = tam_metin(x)
+yazdır(s)
+
+metin sayi_metin = "123"
+tam y = metin_tam(sayi_metin)
+yazdır(y)
+
+ondalık z = 3.14
+metin oz = ondalık_metin(z)
+yazdır(oz)

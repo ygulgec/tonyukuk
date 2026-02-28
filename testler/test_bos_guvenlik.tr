@@ -1,0 +1,8 @@
+/* Boş güvenliği testi */
+metin s = boş
+metin r = s ?? "varsayılan"
+yazdır(r)
+
+metin m = "Merhaba"
+metin n = m ?? "yok"
+yazdır(n)

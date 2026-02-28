@@ -1,0 +1,5 @@
+# Basit ESP32 testi
+kullan donanim
+
+tam x = 42
+yazdır(x)

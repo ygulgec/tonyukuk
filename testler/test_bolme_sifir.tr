@@ -1,0 +1,5 @@
+# Sıfıra bölme testi
+tam x = 10
+tam y = 0
+tam sonuc = x / y
+yazdır(sonuc)

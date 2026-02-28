@@ -1,0 +1,16 @@
+# Metin parametreli işlev testi
+
+işlev selamla(isim: metin)
+    yazdır(isim)
+son
+
+selamla("Tonyukuk")
+
+# Metin döndüren işlev
+işlev mesaj_olustur() -> metin
+    metin m = "Merhaba Dünya"
+    döndür m
+son
+
+metin sonuc = mesaj_olustur()
+yazdır(sonuc)

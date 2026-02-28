@@ -1,0 +1,15 @@
+/* Ondalık test */
+kullan json
+kullan sistem
+
+yazdır("Ondalık test:")
+metin j = "{\"pi\": 3.14159}"
+yazdır("JSON: " + j)
+
+tam n = json_cozumle(j)
+yazdır("Nesne: " + tam_metin(n))
+
+ondalık pi = json_ondalik_al(n, "pi")
+yazdır("Pi: " + ondalık_metin(pi))
+
+yazdır("Bitti")

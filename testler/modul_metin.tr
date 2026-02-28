@@ -1,0 +1,22 @@
+# metin modülü testi
+
+kullan metin
+
+metin s = "merhaba"
+metin b = harf_buyut(s)
+yazdır(b)
+
+metin k = harf_kucult("DUNYA")
+yazdır(k)
+
+metin alt = kes("merhaba dunya", 8, 5)
+yazdır(alt)
+
+tam konum = bul("merhaba dunya", "dunya")
+yazdır(konum)
+
+tam yok = bul("merhaba", "xyz")
+yazdır(yok)
+
+yazdır(içerir("merhaba dunya", "dunya"))
+yazdır(içerir("merhaba", "xyz"))

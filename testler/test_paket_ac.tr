@@ -1,0 +1,13 @@
+# Yapı bozma (unpacking) testi
+
+tam a = 0
+tam b = 0
+tam c = 0
+
+dizi d = [10, 20, 30]
+
+[a, b, c] = d
+
+yazdır(a)
+yazdır(b)
+yazdır(c)

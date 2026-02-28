@@ -1,0 +1,39 @@
+/* UTF-8 karakter tabanlı metin motoru testi */
+kullan metin
+
+/* 1. uzunluk -- karakter sayısı */
+metin t1 = "Merhaba"
+yazdır(uzunluk(t1))
+
+metin t2 = "Türkçe"
+yazdır(uzunluk(t2))
+
+metin t3 = "Şehir"
+yazdır(uzunluk(t3))
+
+metin t4 = "İstanbul"
+yazdır(uzunluk(t4))
+
+/* 2. byte_uzunluk */
+yazdır(t2.byte_uzunluk())
+
+/* 3. Metot olarak uzunluk */
+yazdır(t2.uzunluk())
+
+/* 4. bul -- karakter pozisyonu */
+yazdır(bul("Şehir", "e"))
+yazdır(bul("Şehir", "h"))
+yazdır(bul("Şehir", "x"))
+
+/* 5. kes -- karakter tabanlı */
+metin k1 = kes("Şehir", 1, 3)
+yazdır(k1)
+
+/* 6. tersle -- karakter tabanlı */
+metin r1 = "AŞ"
+yazdır(r1.tersle())
+yazdır("abc".tersle())
+
+/* 7. Boş metin */
+metin bos = ""
+yazdır(uzunluk(bos))

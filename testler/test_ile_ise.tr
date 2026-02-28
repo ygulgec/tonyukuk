@@ -1,0 +1,9 @@
+# Bağlam yöneticisi (ile...ise) testi
+
+tam deger = 42
+
+ile deger olarak d ise
+    yazdır(d)
+son
+
+yazdır(100)

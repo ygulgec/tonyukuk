@@ -1,0 +1,20 @@
+/* Sözlük testi */
+tam s = sözlük_yeni()
+sözlük_ekle(s, "ad", 42)
+sözlük_ekle(s, "yas", 25)
+
+tam v = sözlük_oku(s, "ad")
+yazdır(v)
+
+tam u = sözlük_uzunluk(s)
+yazdır(u)
+
+tam var = sözlük_var_mı(s, "ad")
+yazdır(var)
+
+tam yok = sözlük_var_mı(s, "xyz")
+yazdır(yok)
+
+sözlük_sil(s, "ad")
+tam u2 = sözlük_uzunluk(s)
+yazdır(u2)

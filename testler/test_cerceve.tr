@@ -1,0 +1,37 @@
+## Test cercevesi testi
+
+test "toplama testi" ise
+    dogrula(2 + 3 == 5)
+    dogrula(10 + 20 == 30)
+son
+
+test "cikarma testi" ise
+    dogrula(10 - 3 == 7)
+    dogrula(100 - 50 == 50)
+son
+
+test "karsilastirma testi" ise
+    dogrula(5 > 3)
+    dogrula(3 < 5)
+    dogrula(5 == 5)
+    dogrula(5 != 3)
+son
+
+test "degisken testi" ise
+    degisken x = 42
+    dogrula(x == 42)
+    x = 100
+    dogrula(x == 100)
+son
+
+test "dogrula_esit testi" ise
+    dogrula_esit(2 + 3, 5)
+    dogrula_esit(10 * 2, 20)
+    dogrula_esit(100 - 1, 99)
+son
+
+test "dogrula_farkli testi" ise
+    dogrula_farkli(3, 5)
+    dogrula_farkli(0, 1)
+    dogrula_farkli(42, 43)
+son

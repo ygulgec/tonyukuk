@@ -1,0 +1,15 @@
+/* Tonyukuk LLVM Backend - Metin (String) Testi */
+
+/* Basit metin */
+metin selamlama = "Merhaba, Tonyukuk!"
+yazdır(selamlama)
+
+/* Türkçe karakterler */
+metin turkce = "Merhaba Dünya! Türkiye'den selamlar."
+yazdır(turkce)
+
+/* Çok satırlı */
+yazdır("Satırlar:")
+yazdır("  - Birinci satır")
+yazdır("  - İkinci satır")
+yazdır("  - Üçüncü satır")

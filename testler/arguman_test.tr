@@ -1,0 +1,10 @@
+kullan argüman
+kullan sistem
+
+tam sayi = argüman_sayısı()
+yazdır(tam_metin(sayi))
+
+eğer sayi > 0 ise
+    metin ilk = argüman_al(0)
+    yazdır(ilk)
+son

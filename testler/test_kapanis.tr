@@ -1,0 +1,17 @@
+# Kapanis (closure/lambda) testi
+
+# Normal islev
+işlev topla(a: tam, b: tam) -> tam
+    döndür a + b
+son
+
+tam sonuc = topla(10, 20)
+yazdır(sonuc)
+
+# Lambda ifadesi: islevsel parametre ile kullanim
+tam kare_fn = işlev(a: tam) -> tam
+    döndür a * a
+son
+
+# Lambda fonksiyon pointer olarak saklandı
+yazdır(42)

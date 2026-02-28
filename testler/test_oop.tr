@@ -1,0 +1,105 @@
+/* OOP Erişim Belirleyicileri ve Statik Alanlar Testi */
+kullan sistem
+
+yazdır("=== OOP Testleri ===")
+yazdır("")
+
+/* Test 1: Basit sınıf - metin ve tam alanlar */
+sınıf Kisi
+    metin ad
+    tam yas
+
+    işlev olustur(isim: metin, y: tam) -> tam
+        bu.ad = isim
+        bu.yas = y
+        döndür 1
+    son
+
+    işlev yasini_al() -> tam
+        döndür bu.yas
+    son
+son
+
+yazdır("Test 1: Basit sınıf oluşturma")
+Kisi k = Kisi()
+k.olustur("Ali", 25)
+yazdır("   Kişi oluşturuldu: yaş = " + tam_metin(k.yasini_al()))
+
+/* Test 2: Özel metot sınıf içinden çağrılır */
+sınıf BankaHesabi
+    tam bakiye
+
+    özel işlev faiz_hesapla(miktar: tam) -> tam
+        döndür miktar / 10
+    son
+
+    işlev para_yatir(miktar: tam) -> tam
+        tam faiz = bu.faiz_hesapla(miktar)
+        bu.bakiye = bu.bakiye + miktar + faiz
+        döndür bu.bakiye
+    son
+
+    işlev bakiye_gor() -> tam
+        döndür bu.bakiye
+    son
+son
+
+yazdır("Test 2: Özel metot içten çağrılır")
+BankaHesabi bh = BankaHesabi()
+bh.para_yatir(100)
+yazdır("   100 + %10 faiz = " + tam_metin(bh.bakiye_gor()))
+
+/* Test 3: Birden fazla alan ve metot */
+sınıf Dikdortgen
+    tam genislik
+    tam yukseklik
+
+    işlev boyutlandir(g: tam, y: tam) -> tam
+        bu.genislik = g
+        bu.yukseklik = y
+        döndür 1
+    son
+
+    işlev alan_hesapla() -> tam
+        döndür bu.genislik * bu.yukseklik
+    son
+
+    işlev cevre_hesapla() -> tam
+        döndür 2 * (bu.genislik + bu.yukseklik)
+    son
+son
+
+yazdır("Test 3: Dikdörtgen sınıfı")
+Dikdortgen d = Dikdortgen()
+d.boyutlandir(5, 3)
+yazdır("   5x3 alan = " + tam_metin(d.alan_hesapla()))
+yazdır("   5x3 çevre = " + tam_metin(d.cevre_hesapla()))
+
+/* Test 4: Statik alanlar */
+sınıf Sayac
+    statik tam toplam_sayi
+
+    işlev arttir() -> tam
+        bu.toplam_sayi = bu.toplam_sayi + 1
+        döndür bu.toplam_sayi
+    son
+
+    işlev toplam_al() -> tam
+        döndür bu.toplam_sayi
+    son
+son
+
+yazdır("Test 4: Statik alanlar")
+Sayac s1 = Sayac()
+Sayac s2 = Sayac()
+
+s1.arttir()
+s1.arttir()
+s2.arttir()
+
+yazdır("   s1 toplam: " + tam_metin(s1.toplam_al()))
+yazdır("   s2 toplam: " + tam_metin(s2.toplam_al()))
+yazdır("   (Aynı değer = statik alan paylaşılıyor)")
+
+yazdır("")
+yazdır("=== OOP testleri tamamlandı ===")

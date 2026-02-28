@@ -1,0 +1,35 @@
+/* Generic Fonksiyon Testi - Monomorphization */
+kullan sistem
+
+yazdır("=== Generic Fonksiyon Testleri ===")
+yazdır("")
+
+/* Test 1: Basit generic fonksiyon */
+işlev kimlik<T>(x: T) -> T
+    döndür x
+son
+
+yazdır("Test 1: Basit generic fonksiyon")
+tam r1 = kimlik<tam>(42)
+yazdır("   kimlik<tam>(42) = " + tam_metin(r1))
+
+/* Test 2: İki parametreli generic fonksiyon */
+işlev topla<T>(a: T, b: T) -> T
+    döndür a + b
+son
+
+yazdır("Test 2: İki parametreli generic")
+tam r2 = topla<tam>(10, 20)
+yazdır("   topla<tam>(10, 20) = " + tam_metin(r2))
+
+/* Test 3: Generic değer döndürme */
+işlev deger_dondur<T>(deger: T) -> T
+    döndür deger * 2
+son
+
+yazdır("Test 3: Değer çarpma")
+tam r3 = deger_dondur<tam>(5)
+yazdır("   deger_dondur<tam>(5) = " + tam_metin(r3))
+
+yazdır("")
+yazdır("=== Generic testleri tamamlandı ===")

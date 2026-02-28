@@ -1,0 +1,5 @@
+# Sabit katlama testi
+tam x = 3 + 4
+yazdır(x)
+tam y = 10 * 2
+yazdır(y)

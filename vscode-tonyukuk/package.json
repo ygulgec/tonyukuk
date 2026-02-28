@@ -1,0 +1,68 @@
+{
+    "name": "tonyukuk",
+    "displayName": "Tonyukuk Programlama Dili",
+    "description": "Tonyukuk Türkçe programlama dili için sözdizimi desteği ve LSP istemcisi",
+    "version": "0.2.0",
+    "publisher": "tonyukuk",
+    "engines": {
+        "vscode": "^1.80.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "main": "./out/extension.js",
+    "activationEvents": [
+        "onLanguage:tonyukuk"
+    ],
+    "contributes": {
+        "languages": [
+            {
+                "id": "tonyukuk",
+                "aliases": [
+                    "Tonyukuk",
+                    "tonyukuk"
+                ],
+                "extensions": [
+                    ".tr"
+                ],
+                "configuration": "./language-configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "tonyukuk",
+                "scopeName": "source.tonyukuk",
+                "path": "./syntaxes/tonyukuk.tmLanguage.json"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "tonyukuk",
+                "path": "./snippets/tonyukuk.json"
+            }
+        ],
+        "configuration": {
+            "title": "Tonyukuk",
+            "properties": {
+                "tonyukuk.lspPath": {
+                    "type": "string",
+                    "default": "tonyukuk-lsp",
+                    "description": "Tonyukuk LSP sunucusunun yolu (varsayılan: PATH'teki tonyukuk-lsp)"
+                }
+            }
+        }
+    },
+    "scripts": {
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "vscode:prepublish": "npm run compile"
+    },
+    "dependencies": {
+        "vscode-languageclient": "^9.0.1"
+    },
+    "devDependencies": {
+        "@types/node": "^25.3.2",
+        "@types/vscode": "^1.80.0",
+        "typescript": "^5.3.0"
+    }
+}

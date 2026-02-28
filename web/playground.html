@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tonyukuk Playground</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/resim/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/resim/favicon-192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/resim/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #080b14;
+            --bg-secondary: #0c1220;
+            --bg-editor: #0a0f1a;
+            --text: #e8eaf0;
+            --text-secondary: #8b949e;
+            --gold: #d4a853;
+            --gold-light: #f0c040;
+            --gold-dim: rgba(212,168,83,0.12);
+            --cyan: #38bdf8;
+            --cyan-light: #22d3ee;
+            --accent: #38bdf8;
+            --green: #3fb950;
+            --red: #f85149;
+            --border: rgba(255,255,255,0.06);
+            --glass: rgba(12,18,32,0.7);
+            --glass-border: rgba(255,255,255,0.08);
+            --line-num: #484f58;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        header {
+            background: rgba(8,11,20,0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+            height: 56px;
+        }
+        header .controls { display: flex; gap: 0.8rem; align-items: center; }
+        .btn-run {
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            color: #080b14;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: transform 0.15s, box-shadow 0.15s;
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-run:hover { transform: translateY(-1px); box-shadow: 0 4px 15px rgba(212,168,83,0.3); }
+        .btn-run:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+        select {
+            background: var(--bg);
+            color: var(--text);
+            border: 1px solid var(--border);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+        #beklemeSuresi {
+            font-size: 0.8rem;
+            color: var(--red);
+            font-weight: 600;
+            min-width: 2rem;
+        }
+
+        /* Main layout */
+        .main {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+        .panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+        .panel-header {
+            background: var(--bg-secondary);
+            padding: 0.4rem 1rem;
+            font-size: 0.72rem;
+            color: var(--gold);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+        .divider {
+            width: 3px;
+            background: var(--border);
+            cursor: col-resize;
+            flex-shrink: 0;
+        }
+        .divider:hover { background: var(--gold); }
+
+        /* Editor */
+        .editor-wrap {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            background: var(--bg-editor);
+            position: relative;
+        }
+        .line-numbers {
+            padding: 0.8rem 0;
+            text-align: right;
+            color: var(--line-num);
+            font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            user-select: none;
+            min-width: 3rem;
+            padding-right: 0.8rem;
+            padding-left: 0.5rem;
+            border-right: 1px solid var(--border);
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        .editor-container {
+            flex: 1;
+            position: relative;
+            overflow: auto;
+        }
+        #syntaxOverlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            margin: 0;
+            padding: 0.8rem 1rem;
+            font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            white-space: pre;
+            overflow-wrap: normal;
+            tab-size: 4;
+            pointer-events: none;
+            color: var(--text);
+            min-width: 100%;
+            min-height: 100%;
+        }
+        .editor-container textarea {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            color: transparent;
+            caret-color: var(--text);
+            border: none;
+            outline: none;
+            resize: none;
+            font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            padding: 0.8rem 1rem;
+            tab-size: 4;
+            white-space: pre;
+            overflow-wrap: normal;
+            z-index: 1;
+        }
+
+        /* Autocomplete popup */
+        #otomatikTamamla {
+            display: none;
+            position: absolute;
+            z-index: 10;
+            background: rgba(12,18,32,0.95);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            min-width: 180px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            backdrop-filter: blur(12px);
+        }
+        #otomatikTamamla .ot-item {
+            padding: 4px 10px;
+            color: #e6edf3;
+            font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 0.82rem;
+            cursor: pointer;
+        }
+        #otomatikTamamla .ot-item.secili,
+        #otomatikTamamla .ot-item:hover {
+            background: var(--gold-dim);
+        }
+
+        /* Output */
+        .output-wrap {
+            flex: 1;
+            overflow: auto;
+            background: var(--bg);
+            padding: 0.8rem 1rem;
+            font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+        .output-wrap.error { color: var(--red); }
+        .output-wrap.success { color: var(--text); }
+
+        /* Secondary buttons (Paylas, Sifirla) */
+        .btn-secondary {
+            background: var(--glass);
+            color: var(--text);
+            border: 1px solid var(--glass-border);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: transform 0.15s, border-color 0.2s, box-shadow 0.15s;
+            font-family: 'Inter', sans-serif;
+            backdrop-filter: blur(8px);
+        }
+        .btn-secondary:hover {
+            transform: translateY(-1px);
+            border-color: var(--gold);
+            box-shadow: 0 4px 15px rgba(212,168,83,0.15);
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            color: #080b14;
+            padding: 0.6rem 1.4rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 20px rgba(212,168,83,0.3);
+        }
+        .toast.visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Status bar */
+        .statusbar {
+            background: var(--bg-secondary);
+            border-top: 1px solid transparent;
+            border-image: linear-gradient(90deg, transparent, var(--gold), var(--cyan), transparent) 1;
+            padding: 0.3rem 1rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            display: flex;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        /* Syntax highlight colors */
+        .sh-keyword { color: #ff7b72; }
+        .sh-string { color: #a5d6ff; }
+        .sh-number { color: #79c0ff; }
+        .sh-comment { color: #8b949e; font-style: italic; }
+        .sh-type { color: #ffa657; }
+        .sh-builtin { color: var(--gold); }
+
+        @media (max-width: 768px) {
+            .main { flex-direction: column; }
+            .divider { width: auto; height: 3px; cursor: row-resize; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div style="display:flex;align-items:center;gap:1rem;">
+        <a href="/" style="text-decoration:none;display:flex;align-items:center;gap:0.5rem;">
+            <img src="/resim/tonyukuk-ikon.png" alt="Tonyukuk" style="height:26px;filter:drop-shadow(0 0 8px rgba(212,168,83,0.3));">
+            <span style="font-size:1.15rem;font-weight:800;background:linear-gradient(135deg,var(--gold),var(--gold-light),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Tonyukuk</span>
+        </a>
+        <span style="font-size:0.65rem;font-weight:600;color:var(--gold);background:var(--gold-dim);padding:0.15rem 0.5rem;border-radius:10px;border:1px solid rgba(212,168,83,0.2);">Playground</span>
+        <a href="/docs/" style="color:var(--text-secondary);font-size:0.82rem;text-decoration:none;transition:color 0.2s;">Belgeler</a>
+    </div>
+    <div class="controls">
+        <select id="backendSec" title="Backend seç">
+            <option value="native">Native</option>
+            <option value="llvm">LLVM</option>
+            <option value="wasm">WASM (Tarayıcıda)</option>
+        </select>
+        <select id="optimizeSec" title="Optimizasyon" style="display:none;">
+            <option value="">-O0 (Yok)</option>
+            <option value="-O1">-O1</option>
+            <option value="-O2" selected>-O2 (Önerilen)</option>
+            <option value="-O3">-O3 (Agresif)</option>
+        </select>
+        <label id="irLabel" style="display:none;color:var(--text-secondary);font-size:0.8rem;cursor:pointer;user-select:none;">
+            <input type="checkbox" id="emitIR" style="margin-right:4px;cursor:pointer;"> IR Göster
+        </label>
+        <span id="wasmBilgi" style="display:none;color:var(--cyan-light);font-size:0.75rem;padding:2px 8px;background:rgba(56,189,248,0.1);border-radius:4px;">Tarayıcıda çalışır</span>
+        <select id="ornekler" onchange="ornekYukle()">
+            <option value="">-- Ornek Sec --</option>
+            <option value="merhaba">Merhaba Dunya</option>
+            <option value="degiskenler">Degiskenler</option>
+            <option value="islevler">Islevler</option>
+            <option value="donguler">Donguler</option>
+            <option value="siniflar">Siniflar</option>
+            <option value="fibonacci">Fibonacci</option>
+            <option value="esle">Esle/Durum</option>
+            <option value="kalitim">Kalıtım</option>
+            <option value="dizi_islemleri">Dizi İşlemleri</option>
+            <option value="sozluk">Sözlük</option>
+            <option value="hata_yonetimi">Hata Yönetimi</option>
+            <option value="metin_islemleri">Metin İşlemleri</option>
+            <option value="matematik">Matematik</option>
+            <option value="zaman">Zaman</option>
+            <option value="tip_donusumleri">Tip Dönüşümleri</option>
+            <option value="faktoriyel">Faktöriyel (Rekürsif)</option>
+            <option value="generic">Generic Fonksiyon</option>
+            <option value="dekorator">Dekoratör</option>
+            <option value="esleme_aralik">Desen Eşleme (Aralık)</option>
+            <option value="fonk_ust">Eşlem / Filtre / İndirge</option>
+            <option value="lambda">Lambda & Kapanış</option>
+            <option value="bos_guvenlik">Boş Güvenliği (??)</option>
+            <option value="getter_setter">Getter / Setter</option>
+            <option value="istisna">İstisna İşleme</option>
+        </select>
+        <button class="btn-run" id="calistirBtn" onclick="calistir()">
+            &#9654; Calistir
+        </button>
+        <button class="btn-secondary" onclick="kodPaylas()" title="Kodu paylaş">&#128279; Paylaş</button>
+        <button class="btn-secondary" onclick="kodSifirla()" title="Editörü sıfırla">&#8634; Sıfırla</button>
+        <span id="beklemeSuresi"></span>
+    </div>
+</header>
+
+<div class="toast" id="toast"></div>
+
+<div class="main">
+    <div class="panel">
+        <div class="panel-header">Kaynak Kod</div>
+        <div class="editor-wrap">
+            <div class="line-numbers" id="satirNumaralari">1</div>
+            <div class="editor-container" id="editorContainer">
+                <pre id="syntaxOverlay" aria-hidden="true"></pre>
+                <textarea id="editor" spellcheck="false" oninput="editorGirdisi()" onscroll="editorKaydirma()">yazdır("Merhaba Dünya!")
+yazdır("Tonyukuk programlama dili!")
+
+tam sayi = 42
+yazdır(sayi)
+
+işlev kare(x: tam) -> tam
+    döndür x * x
+son
+
+döngü i = 1, 5 ise
+    yazdır(kare(i))
+son</textarea>
+                <div id="otomatikTamamla"></div>
+            </div>
+        </div>
+    </div>
+    <div class="divider" id="divider"></div>
+    <div class="panel">
+        <div class="panel-header">Cikti</div>
+        <div class="output-wrap" id="cikti">Calistirmak icin yukardaki butona tiklayin veya Ctrl+Enter'a basin.</div>
+    </div>
+</div>
+
+<div class="statusbar">
+    <span id="durum">Hazir</span>
+    <span>Tonyukuk v0.1.0 — Native / LLVM / WASM</span>
+</div>
+
+<script src="/wasm/tonyukuk.js"></script>
+<script>
+const ornekler = {
+    merhaba: 'yazdır("Merhaba Dünya!")\nyazdır("Tonyukuk programlama dili!")',
+    degiskenler: 'tam sayi = 42\nondalık pi = 3.14\nmetin ad = "Tonyukuk"\nmantık aktif = doğru\n\nyazdır(sayi)\nyazdır(pi)\nyazdır(ad)',
+    islevler: 'işlev topla(a: tam, b: tam) -> tam\n    döndür a + b\nson\n\nişlev faktoriyel(n: tam) -> tam\n    eğer n <= 1 ise\n        döndür 1\n    son\n    döndür n * faktoriyel(n - 1)\nson\n\nyazdır(topla(3, 4))\nyazdır(faktoriyel(10))',
+    donguler: 'döngü i = 1, 10 ise\n    yazdır(i)\nson\n\nyazdır("")\n\ntam toplam = 0\niken toplam < 50 ise\n    toplam += 10\n    yazdır(toplam)\nson',
+    siniflar: 'sınıf Hayvan\n    tam yas\n    işlev bilgi() -> tam\n        döndür bu.yas\n    son\nson\n\nHayvan h = Hayvan(5)\nyazdır(h.bilgi())\nyazdır(h.yas)',
+    fibonacci: 'işlev fib(n: tam) -> tam\n    eğer n <= 1 ise\n        döndür n\n    son\n    döndür fib(n - 1) + fib(n - 2)\nson\n\ndöngü i = 0, 15 ise\n    yazdır(fib(i))\nson',
+    esle: 'tam puan = 85\n\neşle puan / 10 ise\n    durum 9:\n        yazdır("Pekiyi")\n    durum 8:\n        yazdır("İyi")\n    durum 7:\n        yazdır("Orta")\n    varsayılan:\n        yazdır("Diğer")\nson',
+    kalitim: `# Sınıf kalıtımı
+sınıf Hayvan
+    metin isim
+    tam yas
+
+    işlev tanıt() -> metin
+        döndür bu.isim
+    son
+son
+
+sınıf Kedi : Hayvan
+    işlev miyavla() -> metin
+        döndür "Miyav!"
+    son
+son
+
+değişken kedi = Kedi()
+kedi.isim = "Tekir"
+kedi.yas = 3
+yazdır(kedi.tanıt())
+yazdır(kedi.miyavla())`,
+    dizi_islemleri: `# Dizi işlemleri
+değişken sayılar: dizi = [5, 2, 8, 1, 9, 3]
+yazdır(uzunluk(sayılar))
+
+ekle(sayılar, 7)
+sırala(sayılar)
+
+döngü i = 0, uzunluk(sayılar) - 1 ise
+    yazdır(sayılar[i])
+son`,
+    sozluk: `kullan metin
+
+# Sözlük kullanımı
+değişken soz = sözlük_yeni()
+sözlük_ekle(soz, "ad", "Tonyukuk")
+sözlük_ekle(soz, "tür", "Derleyici")
+sözlük_ekle(soz, "sürüm", "1.0")
+
+yazdır(sözlük_oku(soz, "ad"))
+yazdır(sözlük_uzunluk(soz))`,
+    hata_yonetimi: `# Dene/yakala ile hata yönetimi
+işlev böl(a: tam, b: tam) -> tam
+    eğer b == 0 ise
+        fırlat "Sıfıra bölme hatası!"
+    son
+    döndür a / b
+son
+
+dene
+    yazdır(böl(10, 2))
+    yazdır(böl(10, 0))
+yakala hata
+    yazdır(hata)
+son`,
+    metin_islemleri: `kullan metin
+
+# Metin işlemleri
+değişken mesaj: metin = "merhaba dünya"
+yazdır(büyük_harf(mesaj))
+yazdır(küçük_harf("TONYUKUK"))
+
+değişken kelimeler = böl(mesaj, " ")
+döngü i = 0, uzunluk(kelimeler) - 1 ise
+    yazdır(kelimeler[i])
+son
+
+yazdır(tersle(mesaj))
+yazdır(kırp("  boşluk  "))`,
+    matematik: `kullan matematik
+
+# Matematik fonksiyonları
+yazdır(sin(3.14159 / 2))
+yazdır(cos(0.0))
+yazdır(karekök(144.0))
+yazdır(üst(2.0, 10.0))
+yazdır(mutlak(-42))
+yazdır(pi())
+
+# Rastgele sayı
+döngü i = 0, 4 ise
+    yazdır(rastgele(100))
+son`,
+    zaman: `kullan zaman
+
+# Zaman fonksiyonları
+yazdır(tarih_metin())
+yazdır(yıl())
+yazdır(ay())
+yazdır(gün())
+yazdır(saat())
+yazdır(dakika())
+yazdır(saniye())`,
+    tip_donusumleri: `kullan sistem
+
+# Tip dönüşümleri
+değişken sayi: tam = 42
+değişken metin_sayi = tam_metin(sayi)
+yazdır(metin_sayi)
+
+değişken geri = metin_tam("123")
+yazdır(geri + 1)
+
+değişken ondalik_sayi: ondalık = 3.14
+yazdır(ondalık_metin(ondalik_sayi))`,
+    faktoriyel: `# Faktöriyel hesaplama (LLVM optimizasyonu test)
+# LLVM backend ile -O2 seçin ve farkı görün
+
+işlev faktoriyel(n: tam) -> tam
+    eğer n <= 1 ise
+        döndür 1
+    son
+    döndür n * faktoriyel(n - 1)
+son
+
+işlev topla(a: tam, b: tam) -> tam
+    döndür a + b
+son
+
+işlev carp(x: tam, y: tam) -> tam
+    döndür x * y
+son
+
+# Test
+yazdır("5! = ")
+yazdır(faktoriyel(5))
+yazdır("10 + 20 = ")
+yazdır(topla(10, 20))
+yazdır("6 * 7 = ")
+yazdır(carp(6, 7))`,
+    generic: `# Generic fonksiyonlar (Monomorphization)
+kullan sistem
+
+işlev kimlik<T>(x: T) -> T
+    döndür x
+son
+
+tam r1 = kimlik<tam>(42)
+yazdır("kimlik<tam>(42) = " + tam_metin(r1))
+
+işlev topla<T>(a: T, b: T) -> T
+    döndür a + b
+son
+
+tam r2 = topla<tam>(10, 20)
+yazdır("topla<tam>(10, 20) = " + tam_metin(r2))
+
+işlev ikikat<T>(d: T) -> T
+    döndür d * 2
+son
+
+tam r3 = ikikat<tam>(7)
+yazdır("ikikat<tam>(7) = " + tam_metin(r3))`,
+    dekorator: `# Dekoratör: fonksiyonu saran fonksiyon
+
+işlev ikikat(x: tam) -> tam
+    döndür x * 2
+son
+
+@ikikat
+işlev hesapla(x: tam) -> tam
+    döndür x + 10
+son
+
+# hesapla(5) = 5 + 10 = 15
+# ikikat(15) = 30
+tam sonuc = hesapla(5)
+yazdır(sonuc)
+
+# Normal çağrı
+yazdır(ikikat(7))`,
+    esleme_aralik: `# Desen eşleme: aralık desenleri
+
+tam puan = 75
+
+eşle puan ise
+    durum 0..59:
+        yazdır("Başarısız")
+    durum 60..79:
+        yazdır("Geçer")
+    durum 80..100:
+        yazdır("Başarılı")
+    varsayılan:
+        yazdır("Geçersiz puan")
+son
+
+# Basit desen eşleme
+tam gün = 3
+eşle gün ise
+    durum 1: yazdır("Pazartesi")
+    durum 2: yazdır("Salı")
+    durum 3: yazdır("Çarşamba")
+    varsayılan: yazdır("Diğer")
+son`,
+    fonk_ust: `# Üst düzey fonksiyonlar: eşlem, filtre, indirge
+
+işlev kare(x: tam) -> tam
+    döndür x * x
+son
+
+işlev cift_mi(x: tam) -> tam
+    döndür x % 2 == 0
+son
+
+işlev topla(a: tam, b: tam) -> tam
+    döndür a + b
+son
+
+dizi d = [1, 2, 3, 4, 5]
+
+# Map: her elemana fonksiyon uygula
+dizi kareler = eşlem(d, kare)
+her e için kareler ise
+    yazdır(e)
+son
+
+# Filter: koşulu sağlayanlari tut
+dizi ciftler = filtre(d, cift_mi)
+her e için ciftler ise
+    yazdır(e)
+son
+
+# Reduce: tek değere indir
+tam toplam = indirge(d, 0, topla)
+yazdır(toplam)`,
+    lambda: `# Lambda ve kapanış (closure)
+
+# Basit lambda
+değişken kare = |x| -> x * x
+yazdır(kare(5))
+yazdır(kare(8))
+
+# Çok parametreli lambda
+değişken topla = |a, b| -> a + b
+yazdır(topla(3, 4))
+
+# Kapanış: dış değişkeni yakala
+tam carpan = 10
+değişken carp = |x| -> x * carpan
+yazdır(carp(5))
+yazdır(carp(7))`,
+    bos_guvenlik: `# Boş güvenliği: ?? operatörü
+
+# Boş değer kontrolu
+metin s = boş
+metin r = s ?? "varsayılan"
+yazdır(r)
+
+# Dolu değer - olduğu gibi geçer
+metin m = "Merhaba"
+metin n = m ?? "yok"
+yazdır(n)`,
+    getter_setter: `# Getter/Setter: al_ ve koy_ önek kuralları
+
+sınıf Sicaklik
+    tam derece
+
+    işlev al_fahrenheit() -> tam
+        döndür bu.derece * 9 / 5 + 32
+    son
+
+    işlev koy_fahrenheit(f: tam)
+        bu.derece = (f - 32) * 5 / 9
+    son
+son
+
+Sicaklik s = Sicaklik(100)
+yazdır(s.derece)
+yazdır(s.fahrenheit)
+
+s.fahrenheit = 32
+yazdır(s.derece)`,
+    istisna: `# İstisna işleme: dene/yakala/fırlat
+
+işlev bol(a: tam, b: tam) -> tam
+    eğer b == 0 ise
+        fırlat 0
+    son
+    döndür a / b
+son
+
+dene
+    yazdır(bol(10, 2))
+    yazdır(bol(10, 0))
+yakala hata
+    yazdır("Hata yakalandı!")
+son
+
+yazdır("Program devam ediyor")`
+};
+
+function ornekYukle() {
+    const secim = document.getElementById('ornekler').value;
+    if (secim && ornekler[secim]) {
+        document.getElementById('editor').value = ornekler[secim];
+        satirlariGuncelle();
+        syntaxVurgula();
+    }
+}
+
+function satirlariGuncelle() {
+    const editor = document.getElementById('editor');
+    const satirlar = editor.value.split('\n');
+    const numaralar = satirlar.map((_, i) => i + 1).join('\n');
+    document.getElementById('satirNumaralari').textContent = numaralar;
+}
+
+function editorGirdisi() {
+    satirlariGuncelle();
+    syntaxVurgula();
+    otomatikTamamlaGoster();
+}
+
+function editorKaydirma() {
+    const editor = document.getElementById('editor');
+    const lineNums = document.getElementById('satirNumaralari');
+    const overlay = document.getElementById('syntaxOverlay');
+    lineNums.style.transform = 'translateY(' + (-editor.scrollTop) + 'px)';
+    overlay.scrollTop = editor.scrollTop;
+    overlay.scrollLeft = editor.scrollLeft;
+}
+
+// ===================== Syntax Highlighting =====================
+
+const shKeywords = [
+    'işlev', 'eğer', 'yoksa', 'ise', 'son', 'döngü', 'iken', 'döndür',
+    'sınıf', 'eşle', 'durum', 'dene', 'yakala', 'fırlat', 'kullan',
+    'doğru', 'yanlış', 'bu', 'her', 'için', 'değişken', 'sabit',
+    'varsayılan', 'kır', 'devam', 'arayüz', 'sayım', 'soyut', 'test', 'doğrula'
+];
+const shTypes = ['tam', 'ondalık', 'metin', 'mantık', 'dizi'];
+const shBuiltins = [
+    // çekirdek
+    'yazdır', 'uzunluk', 'metin_uzunluk', 'eşlem', 'filtre', 'indirge',
+    'biçimle', 'numarala', 'eşleştir', 'ters', 'dilimle',
+    // matematik
+    'mutlak', 'kuvvet', 'karekök', 'min', 'maks', 'mod', 'işaret', 'rastgele',
+    'sin', 'cos', 'tan', 'asin', 'acos', 'atan', 'atan2',
+    'sinh', 'cosh', 'tanh', 'log', 'log10', 'log2',
+    'taban', 'tavan', 'yuvarla', 'buda', 'üstel', 'küpkök', 'üst', 'hipot', 'fmod',
+    'faktöriyel', 'obeb', 'okek', 'kombinasyon', 'permütasyon',
+    'sonsuz_mu', 'sayidegil_mi', 'pi', 'e',
+    'matris', 'matris_birim', 'matris_topla', 'matris_çıkar', 'matris_çarp',
+    'matris_skaler', 'matris_transpoz', 'matris_determinant', 'matris_ters',
+    'matris_oku', 'matris_yaz', 'matris_iz',
+    'toplam', 'ortalama', 'medyan', 'varyans', 'std_sapma',
+    'en_küçük', 'en_büyük', 'korelasyon',
+    'polinom_hesapla', 'polinom_türev', 'polinom_integral',
+    'sayısal_integral', 'lineer_regresyon',
+    // metin
+    'büyük_harf', 'küçük_harf', 'harf_buyut', 'harf_kucult',
+    'kes', 'bul', 'içerir', 'kırp', 'tersle', 'tekrarla',
+    'başlar_mi', 'biter_mi', 'değiştir', 'böl', 'birleştir_metin',
+    'dosya_satırlar', 'dosya_ekle',
+    'sözlük_yeni', 'sözlük_ekle', 'sözlük_oku', 'sözlük_uzunluk',
+    'sözlük_var_mı', 'sözlük_sil',
+    // dizi
+    'ekle', 'çıkar', 'sırala', 'birleştir',
+    // sistem
+    'satıroku', 'dosya_oku', 'dosya_yaz',
+    'tam_metin', 'ondalık_metin', 'metin_tam', 'metin_ondalık',
+    // zaman
+    'şimdi', 'saat', 'dakika', 'saniye', 'gün', 'ay', 'yıl', 'tarih_metin',
+    // json
+    'json_çözümle', 'json_oluştur',
+    // kripto
+    'md5', 'sha256', 'base64_kodla', 'base64_çöz',
+    // ağ
+    'http_al', 'http_gönder',
+    // düzeni
+    'eşleşir_mi', 'eşleşme_bul', 'tüm_eşleşmeler',
+    // paralel
+    'iş_oluştur', 'iş_bekle', 'kilit_oluştur', 'kilitle', 'kilit_bırak',
+    // soket
+    'soket_oluştur', 'soket_bağlan', 'soket_dinle', 'soket_kabul',
+    'soket_gönder', 'soket_al', 'soket_kapat',
+    // küme
+    'küme_yeni', 'küme_ekle', 'küme_sil', 'küme_var_mı',
+    'küme_uzunluk', 'küme_birleşim', 'küme_kesişim', 'küme_fark', 'küme_yazdır',
+    // veritabanı
+    'vt_aç', 'vt_çalıştır', 'vt_sorgula', 'vt_kapat',
+    // ortam
+    'ortam_al', 'ortam_koy', 'ortam_sil', 'ortam_hepsi',
+    // argüman
+    'argüman_sayısı', 'argüman_al', 'argüman_hepsi',
+    // tekrarlayıcı
+    'zincir', 'tekrarla_dizi', 'parçala', 'permütasyonlar', 'kombinasyonlar', 'düz'
+];
+
+function escapeHtml(text) {
+    return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function syntaxVurgula() {
+    const editor = document.getElementById('editor');
+    const overlay = document.getElementById('syntaxOverlay');
+    const code = editor.value;
+    const lines = code.split('\n');
+    let html = '';
+
+    for (let li = 0; li < lines.length; li++) {
+        const line = lines[li];
+        if (li > 0) html += '\n';
+
+        // Check for comment line
+        const trimmed = line.trimStart();
+        if (trimmed.startsWith('#')) {
+            const idx = line.indexOf('#');
+            html += escapeHtml(line.substring(0, idx)) + '<span class="sh-comment">' + escapeHtml(line.substring(idx)) + '</span>';
+            continue;
+        }
+
+        // Tokenize the line
+        let i = 0;
+        while (i < line.length) {
+            // String
+            if (line[i] === '"') {
+                let end = i + 1;
+                while (end < line.length && line[end] !== '"') {
+                    if (line[end] === '\\') end++;
+                    end++;
+                }
+                if (end < line.length) end++; // include closing quote
+                html += '<span class="sh-string">' + escapeHtml(line.substring(i, end)) + '</span>';
+                i = end;
+                continue;
+            }
+
+            // Number
+            if (/[0-9]/.test(line[i]) && (i === 0 || /[\s(,=+\-*/<>![\]]/.test(line[i-1]))) {
+                let end = i;
+                while (end < line.length && /[0-9.]/.test(line[end])) end++;
+                html += '<span class="sh-number">' + escapeHtml(line.substring(i, end)) + '</span>';
+                i = end;
+                continue;
+            }
+
+            // Word (identifier/keyword)
+            if (/[\p{L}_]/u.test(line[i])) {
+                let end = i;
+                while (end < line.length && /[\p{L}\p{N}_]/u.test(line[end])) end++;
+                const word = line.substring(i, end);
+                if (shKeywords.includes(word)) {
+                    html += '<span class="sh-keyword">' + escapeHtml(word) + '</span>';
+                } else if (shTypes.includes(word)) {
+                    html += '<span class="sh-type">' + escapeHtml(word) + '</span>';
+                } else if (shBuiltins.includes(word)) {
+                    html += '<span class="sh-builtin">' + escapeHtml(word) + '</span>';
+                } else {
+                    html += escapeHtml(word);
+                }
+                i = end;
+                continue;
+            }
+
+            // Inline comment
+            if (line[i] === '#') {
+                html += '<span class="sh-comment">' + escapeHtml(line.substring(i)) + '</span>';
+                i = line.length;
+                continue;
+            }
+
+            html += escapeHtml(line[i]);
+            i++;
+        }
+    }
+
+    overlay.innerHTML = html;
+}
+
+// ===================== Autocomplete =====================
+
+const acKelimeler = [
+    // anahtar kelimeler
+    'işlev', 'eğer', 'yoksa', 'ise', 'son', 'döngü', 'iken', 'döndür',
+    'sınıf', 'eşle', 'durum', 'dene', 'yakala', 'fırlat', 'kullan',
+    'tam', 'ondalık', 'metin', 'mantık', 'dizi', 'küme', 'boş',
+    'doğru', 'yanlış', 'bu', 'her', 'için', 'değişken', 'sabit',
+    'varsayılan', 'kır', 'devam', 'arayüz', 'sayım', 'soyut', 'test', 'doğrula',
+    'genel', 'uygula', 'sonunda', 'tip', 've', 'veya', 'değil',
+    // tüm yerleşik fonksiyonlar
+    ...shBuiltins
+];
+
+let acSecili = 0;
+let acSonuclar = [];
+let acAktif = false;
+
+function mevcutKelime() {
+    const editor = document.getElementById('editor');
+    const pos = editor.selectionStart;
+    const text = editor.value.substring(0, pos);
+    const match = text.match(/[\p{L}_][\p{L}\p{N}_]*$/u);
+    return match ? match[0] : '';
+}
+
+function otomatikTamamlaGoster() {
+    const popup = document.getElementById('otomatikTamamla');
+    const kelime = mevcutKelime();
+
+    if (kelime.length < 2) {
+        popup.style.display = 'none';
+        acAktif = false;
+        return;
+    }
+
+    const lower = kelime.toLowerCase();
+    acSonuclar = acKelimeler.filter(k => k.startsWith(lower) && k !== lower);
+
+    if (acSonuclar.length === 0) {
+        popup.style.display = 'none';
+        acAktif = false;
+        return;
+    }
+
+    acSecili = 0;
+    acAktif = true;
+    acPopupCiz();
+    acKonumAyarla();
+    popup.style.display = 'block';
+}
+
+function acPopupCiz() {
+    const popup = document.getElementById('otomatikTamamla');
+    popup.innerHTML = acSonuclar.map((k, i) =>
+        '<div class="ot-item' + (i === acSecili ? ' secili' : '') + '" data-index="' + i + '">' + escapeHtml(k) + '</div>'
+    ).join('');
+
+    popup.querySelectorAll('.ot-item').forEach(el => {
+        el.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+            acSecili = parseInt(this.dataset.index);
+            acTamamla();
+        });
+    });
+}
+
+function acKonumAyarla() {
+    const editor = document.getElementById('editor');
+    const popup = document.getElementById('otomatikTamamla');
+
+    // Approximate cursor position
+    const text = editor.value.substring(0, editor.selectionStart);
+    const lines = text.split('\n');
+    const lineIndex = lines.length - 1;
+    const colIndex = lines[lineIndex].length;
+
+    // Each character is roughly 8.5px wide, each line ~22px tall at 0.85rem with 1.6 line-height
+    const charW = 8.5;
+    const lineH = 22;
+
+    const left = (colIndex * charW) + 10 - editor.scrollLeft;
+    const top = ((lineIndex + 1) * lineH) + 4 - editor.scrollTop;
+
+    popup.style.left = Math.max(0, left) + 'px';
+    popup.style.top = Math.min(top, editor.clientHeight - 100) + 'px';
+}
+
+function acTamamla() {
+    const editor = document.getElementById('editor');
+    const popup = document.getElementById('otomatikTamamla');
+    const kelime = mevcutKelime();
+    const secilen = acSonuclar[acSecili];
+
+    if (!secilen) return;
+
+    const pos = editor.selectionStart;
+    const before = editor.value.substring(0, pos - kelime.length);
+    const after = editor.value.substring(pos);
+    editor.value = before + secilen + after;
+    editor.selectionStart = editor.selectionEnd = before.length + secilen.length;
+
+    popup.style.display = 'none';
+    acAktif = false;
+    satirlariGuncelle();
+    syntaxVurgula();
+    editor.focus();
+}
+
+function otomatikTamamlaKapat() {
+    document.getElementById('otomatikTamamla').style.display = 'none';
+    acAktif = false;
+}
+
+// ===================== Rate limiting & cooldown =====================
+
+let beklemeZamanlayici = null;
+
+function beklemeSayaci(saniye) {
+    const btn = document.getElementById('calistirBtn');
+    const surEl = document.getElementById('beklemeSuresi');
+    btn.disabled = true;
+    let kalan = saniye;
+    surEl.textContent = kalan + 's';
+    beklemeZamanlayici = setInterval(function() {
+        kalan--;
+        if (kalan <= 0) {
+            clearInterval(beklemeZamanlayici);
+            beklemeZamanlayici = null;
+            btn.disabled = false;
+            surEl.textContent = '';
+        } else {
+            surEl.textContent = kalan + 's';
+        }
+    }, 1000);
+}
+
+// ===================== Backend Seçimi =====================
+
+document.getElementById('backendSec').addEventListener('change', function() {
+    const isLLVM = this.value === 'llvm';
+    const isWASM = this.value === 'wasm';
+    document.getElementById('optimizeSec').style.display = isLLVM ? 'inline-block' : 'none';
+    document.getElementById('irLabel').style.display = isLLVM ? 'inline-flex' : 'none';
+    const wasmBilgi = document.getElementById('wasmBilgi');
+    if (wasmBilgi) wasmBilgi.style.display = isWASM ? 'inline' : 'none';
+});
+
+// ===================== WASM Runtime =====================
+
+var tonyukukWasm = null;
+
+// ===================== Run =====================
+
+async function calistir() {
+    const btn = document.getElementById('calistirBtn');
+    const cikti = document.getElementById('cikti');
+    const durum = document.getElementById('durum');
+    const kod = document.getElementById('editor').value;
+    const backend = document.getElementById('backendSec').value;
+
+    btn.disabled = true;
+    cikti.className = 'output-wrap';
+
+    // WASM modu
+    if (backend === 'wasm') {
+        btn.textContent = '\u23f3 WASM derleniyor...';
+        cikti.textContent = 'WASM hedefine derleniyor...';
+        durum.textContent = 'WASM derleniyor...';
+
+        try {
+            if (!tonyukukWasm) tonyukukWasm = new TonyukukWasm();
+
+            var wasmCikti = '';
+            tonyukukWasm.ciktiCallback = function(metin) {
+                wasmCikti += metin;
+                cikti.textContent = wasmCikti;
+            };
+
+            var basla = performance.now();
+            var sonuc = await tonyukukWasm.calistir(kod);
+            var sure = (performance.now() - basla).toFixed(0);
+
+            if (!wasmCikti.trim() && !sonuc) {
+                cikti.textContent = '(Cikti yok)';
+            }
+            cikti.textContent += '\n\u2500\u2500\u2500\n\u2713 WASM (' + sure + 'ms) \u2014 taray\u0131c\u0131da \u00e7al\u0131\u015ft\u0131';
+            cikti.className = 'output-wrap success';
+            durum.textContent = 'WASM tamamlandi (' + sure + 'ms)';
+        } catch (e) {
+            cikti.textContent = '\u274c ' + e.message;
+            cikti.className = 'output-wrap error';
+            durum.textContent = 'WASM hatasi';
+        }
+
+        btn.disabled = false;
+        btn.innerHTML = '\u25b6 Calistir';
+        return;
+    }
+
+    // Mevcut native/LLVM modu
+    const optimize = document.getElementById('optimizeSec').value;
+    const emitIR = document.getElementById('emitIR').checked;
+    cikti.textContent = backend === 'llvm' ? 'LLVM ile derleniyor...' : 'Derleniyor...';
+    durum.textContent = 'Calistiriliyor...';
+
+    try {
+        let body = 'kod=' + encodeURIComponent(kod) + '&backend=' + backend;
+        if (backend === 'llvm') {
+            body += '&optimize=' + encodeURIComponent(optimize);
+            if (emitIR) body += '&emit_ir=true';
+        }
+
+        const response = await fetch('/api/run', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: body
+        });
+
+        if (response.status === 429) {
+            cikti.textContent = '\u00c7ok fazla istek, l\u00fctfen bekleyin...';
+            cikti.className = 'output-wrap error';
+            durum.textContent = 'Hiz limiti';
+            beklemeSayaci(5);
+            return;
+        }
+
+        const sonuc = await response.text();
+
+        if (sonuc.trim().length === 0) {
+            cikti.textContent = '(Cikti yok)';
+            cikti.className = 'output-wrap success';
+        } else if (emitIR && backend === 'llvm' && sonuc.includes('define ')) {
+            cikti.textContent = sonuc;
+            cikti.className = 'output-wrap success';
+        } else if (sonuc.includes('hata') || sonuc.includes('Hata') || sonuc.includes('error')) {
+            cikti.textContent = sonuc;
+            cikti.className = 'output-wrap error';
+        } else {
+            cikti.textContent = sonuc;
+            cikti.className = 'output-wrap success';
+        }
+        durum.textContent = 'Tamamlandi';
+        btn.disabled = false;
+    } catch (e) {
+        cikti.textContent = 'Sunucu baglantisi kurulamadi.\n\nPlayground sunucusunun calistiginden emin olun.';
+        cikti.className = 'output-wrap error';
+        durum.textContent = 'Hata';
+        beklemeSayaci(5);
+    }
+}
+
+// Divider drag
+const divider = document.getElementById('divider');
+let isDragging = false;
+divider.addEventListener('mousedown', () => { isDragging = true; });
+document.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    const main = document.querySelector('.main');
+    const panels = main.querySelectorAll('.panel');
+    const rect = main.getBoundingClientRect();
+    const ratio = (e.clientX - rect.left) / rect.width;
+    panels[0].style.flex = ratio;
+    panels[1].style.flex = 1 - ratio;
+});
+document.addEventListener('mouseup', () => { isDragging = false; });
+
+// Editor keydown: Tab, Ctrl+Enter, Autocomplete navigation
+document.getElementById('editor').addEventListener('keydown', function(e) {
+    // Ctrl+Enter to run
+    if (e.ctrlKey && e.key === 'Enter') {
+        e.preventDefault();
+        otomatikTamamlaKapat();
+        calistir();
+        return;
+    }
+
+    // Autocomplete navigation
+    if (acAktif) {
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            acSecili = (acSecili + 1) % acSonuclar.length;
+            acPopupCiz();
+            return;
+        }
+        if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            acSecili = (acSecili - 1 + acSonuclar.length) % acSonuclar.length;
+            acPopupCiz();
+            return;
+        }
+        if (e.key === 'Tab' || e.key === 'Enter') {
+            e.preventDefault();
+            acTamamla();
+            return;
+        }
+        if (e.key === 'Escape') {
+            e.preventDefault();
+            otomatikTamamlaKapat();
+            return;
+        }
+    }
+
+    // Tab key for indentation
+    if (e.key === 'Tab') {
+        e.preventDefault();
+        const start = this.selectionStart;
+        const end = this.selectionEnd;
+        this.value = this.value.substring(0, start) + '    ' + this.value.substring(end);
+        this.selectionStart = this.selectionEnd = start + 4;
+        satirlariGuncelle();
+        syntaxVurgula();
+    }
+});
+
+// Sync scroll from editor-container
+document.getElementById('editor').addEventListener('scroll', function() {
+    editorKaydirma();
+});
+
+// ===================== Toast Bildirim =====================
+
+function toastGoster(mesaj) {
+    var toast = document.getElementById('toast');
+    toast.textContent = mesaj;
+    toast.classList.add('visible');
+    setTimeout(function() {
+        toast.classList.remove('visible');
+    }, 2000);
+}
+
+// ===================== Kod Paylaşma =====================
+
+function kodPaylas() {
+    var kod = document.getElementById('editor').value;
+    var encoded = btoa(encodeURIComponent(kod));
+    window.location.hash = '#code=' + encoded;
+    var url = window.location.href;
+    navigator.clipboard.writeText(url).then(function() {
+        toastGoster('Bağlantı kopyalandı!');
+    }).catch(function() {
+        // Fallback: select-copy for older browsers
+        var temp = document.createElement('textarea');
+        temp.value = url;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand('copy');
+        document.body.removeChild(temp);
+        toastGoster('Bağlantı kopyalandı!');
+    });
+}
+
+// ===================== Sıfırlama =====================
+
+function kodSifirla() {
+    document.getElementById('editor').value = '';
+    window.location.hash = '';
+    document.getElementById('cikti').textContent = 'Calistirmak icin yukardaki butona tiklayin veya Ctrl+Enter\'a basin.';
+    document.getElementById('cikti').className = 'output-wrap';
+    document.getElementById('ornekler').value = '';
+    satirlariGuncelle();
+    syntaxVurgula();
+}
+
+// ===================== URL'den Kod Yükleme =====================
+
+function hashtenKodYukle() {
+    var hash = window.location.hash;
+    if (hash && hash.startsWith('#code=')) {
+        try {
+            var encoded = hash.substring(6);
+            var kod = decodeURIComponent(atob(encoded));
+            document.getElementById('editor').value = kod;
+            satirlariGuncelle();
+            syntaxVurgula();
+        } catch (e) {
+            // Geçersiz hash, yoksay
+        }
+    }
+}
+
+// Sayfa yüklendiğinde hash kontrol et
+hashtenKodYukle();
+
+// Hash değiştiğinde de kontrol et
+window.addEventListener('hashchange', hashtenKodYukle);
+
+// Initialize
+satirlariGuncelle();
+syntaxVurgula();
+</script>
+
+</body>
+</html>

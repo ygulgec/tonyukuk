@@ -1,0 +1,13 @@
+# Tip cikarimi testi
+
+# degisken ile tam sayi cikarimi
+değişken a = 42
+yazdır(a)
+
+# degisken ile islem sonucu
+değişken b = 10 + 20
+yazdır(b)
+
+# degisken ile mantik
+değişken c = 5 > 3
+yazdır(c)

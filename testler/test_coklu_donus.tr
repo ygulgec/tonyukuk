@@ -1,0 +1,8 @@
+# Çoklu dönüş değeri testi
+işlev bol(a: tam, b: tam) -> tam
+    döndür a + b, a * b
+son
+
+tam toplam, tam carpim = bol(3, 4)
+yazdır(toplam)
+yazdır(carpim)

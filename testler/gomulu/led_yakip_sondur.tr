@@ -1,0 +1,32 @@
+# LED Yakip Sondurme Ornegi
+#
+# Bu program Arduino'nun dahili LED'ini (pin 13) saniyede bir
+# yakip sondurur.
+#
+# Derleme:
+#   ./tonyukuk-derle testler/gomulu/led_yakip_sondur.tr -hedef avr
+#
+# Yukleme:
+#   avrdude -c arduino -p m328p -P /dev/ttyUSB0 -U flash:w:led_yakip_sondur.hex
+
+kullan donanim
+
+# Sabitler
+tam DAHILI_LED = 13
+tam CIKIS = 1
+tam YUKSEK = 1
+tam DUSUK = 0
+
+# LED pinini cikis olarak ayarla
+pin_modu(DAHILI_LED, CIKIS)
+
+# 10 kere yak/sondur
+döngü i = 0, 10 ise
+    # LED'i yak
+    dijital_yaz(DAHILI_LED, YUKSEK)
+    bekle_ms(1000)
+
+    # LED'i sondur
+    dijital_yaz(DAHILI_LED, DUSUK)
+    bekle_ms(1000)
+son

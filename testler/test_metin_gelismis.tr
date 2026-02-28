@@ -1,0 +1,9 @@
+/* Gelişmiş metin işlemleri testi */
+metin s = büyük_harf("merhaba")
+yazdır(s)
+
+metin k = küçük_harf("DUNYA")
+yazdır(k)
+
+tam u = metin_uzunluk("test")
+yazdır(u)

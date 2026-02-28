@@ -1,0 +1,21 @@
+# Walrus operatörü (:=) testi
+
+# Test 1: walrus atama ifadesi
+tam n = 0
+n := 42
+yazdır(n)
+
+# Test 2: walrus koşul ifadesinde
+tam d = 0
+tam deger = 15
+eğer (d := deger) > 10 ise
+    yazdır(d)
+son
+
+# Test 3: walrus aritmetikte
+tam a = 0
+tam b = 0
+tam sonuc = (a := 3) + (b := 4)
+yazdır(a)
+yazdır(b)
+yazdır(sonuc)

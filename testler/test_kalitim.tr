@@ -1,0 +1,24 @@
+# Kalıtım (inheritance) testi
+sınıf Hayvan
+    tam yas
+
+    işlev bilgi() -> tam
+        döndür bu.yas
+    son
+son
+
+sınıf Kedi : Hayvan
+    tam can
+
+    işlev miyavla() -> tam
+        döndür bu.can
+    son
+son
+
+Kedi k = Kedi(3, 9)
+tam y = k.bilgi()
+yazdır(y)
+tam c = k.miyavla()
+yazdır(c)
+yazdır(k.yas)
+yazdır(k.can)

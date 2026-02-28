@@ -1,0 +1,11 @@
+kullan soket
+kullan sistem
+
+tam s = soket_oluştur()
+eğer s >= 0 ise
+    yazdır(tam_metin(s))
+    soket_kapat(s)
+    yazdır("kapat tamam")
+yoksa
+    yazdır("hata")
+son

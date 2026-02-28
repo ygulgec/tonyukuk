@@ -1,0 +1,61 @@
+/* JSON Modülü Test Programı */
+/* Tonyukuk Programlama Dili */
+
+kullan json
+kullan sistem
+
+yazdır("=== JSON Modülü Testleri ===")
+yazdır("")
+
+/* Test 1: Builder API */
+yazdır("1. Builder API:")
+tam n1 = json_nesne_yeni()
+json_nesne_metin_ekle(n1, "ad", "Tonyukuk")
+json_nesne_tam_ekle(n1, "yas", 25)
+json_nesne_mantik_ekle(n1, "aktif", doğru)
+metin s1 = json_olustur(n1)
+yazdır("   " + s1)
+
+/* Test 2: JSON Parçalama */
+yazdır("2. JSON Parçalama:")
+metin j2 = "{\"isim\": \"Ahmet\", \"puan\": 95}"
+tam n2 = json_cozumle(j2)
+metin isim = json_metin_al(n2, "isim")
+tam puan = json_tam_al(n2, "puan")
+yazdır("   İsim: " + isim + ", Puan: " + tam_metin(puan))
+
+/* Test 3: İç İçe Nesne */
+yazdır("3. İç İçe Nesne:")
+metin j3 = "{\"kisi\": {\"ad\": \"Elif\", \"yas\": 30}}"
+tam n3 = json_cozumle(j3)
+tam kisi = json_nesne_al(n3, "kisi")
+metin kisi_ad = json_metin_al(kisi, "ad")
+yazdır("   Kişi adı: " + kisi_ad)
+
+/* Test 4: Sayı Dizisi */
+yazdır("4. Sayı Dizisi:")
+metin j4 = "{\"nums\": [1, 2, 3]}"
+tam n4 = json_cozumle(j4)
+tam d4 = json_dizi_al(n4, "nums")
+tam len4 = json_dizi_uzunluk(d4)
+yazdır("   Dizi uzunluğu: " + tam_metin(len4))
+
+/* Test 5: Builder Dizi */
+yazdır("5. Builder Dizi:")
+tam dizi5 = json_dizi_yeni()
+json_dizi_tam_ekle(dizi5, 10)
+json_dizi_tam_ekle(dizi5, 20)
+tam n5 = json_nesne_yeni()
+json_nesne_dizi_ekle(n5, "d", dizi5)
+metin s5 = json_olustur(n5)
+yazdır("   " + s5)
+
+/* Test 6: Ondalık Sayı */
+yazdır("6. Ondalık Sayı:")
+metin j6 = "{\"pi\": 3.14}"
+tam n6 = json_cozumle(j6)
+ondalık pi = json_ondalik_al(n6, "pi")
+yazdır("   Pi: " + ondalık_metin(pi))
+
+yazdır("")
+yazdır("=== Tüm testler tamamlandı ===")

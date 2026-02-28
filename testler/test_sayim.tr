@@ -1,0 +1,8 @@
+/* Sayım (Enum) testi */
+sayım Renk ise
+    Kirmizi, Yesil, Mavi
+son
+
+yazdır(Kirmizi)
+yazdır(Yesil)
+yazdır(Mavi)

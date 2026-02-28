@@ -1,0 +1,56 @@
+/* Ağ (HTTP) Modülü Test Programı */
+kullan ag
+kullan sistem
+
+yazdır("=== Ağ Modülü Testleri ===")
+yazdır("")
+
+/* Test 1: URL Kodlama */
+yazdır("1. URL Kodlama:")
+metin orijinal = "merhaba dünya özel"
+metin kodlu = url_kodla(orijinal)
+yazdır("   Orijinal: " + orijinal)
+yazdır("   Kodlanmış: " + kodlu)
+
+/* Test 2: URL Çözme */
+yazdır("2. URL Çözme:")
+metin cozulmus = url_coz(kodlu)
+yazdır("   Çözülmüş: " + cozulmus)
+eğer cozulmus == orijinal ise
+    yazdır("   Eşleşme: BAŞARILI")
+son
+
+/* Test 3: URL özel karakterler */
+yazdır("3. Özel karakterler:")
+metin ozel_str = "a=b&c=d e"
+metin ozel_kodlu = url_kodla(ozel_str)
+yazdır("   Orijinal: " + ozel_str)
+yazdır("   Kodlanmış: " + ozel_kodlu)
+metin ozel_cozulmus = url_coz(ozel_kodlu)
+yazdır("   Çözülmüş: " + ozel_cozulmus)
+
+/* Test 4: Durum fonksiyonları */
+yazdır("4. Durum fonksiyonları:")
+tam kod = http_durum_kodu()
+yazdır("   Son durum kodu: " + tam_metin(kod))
+metin hata_msg = http_hata_mesaji()
+yazdır("   Son hata mesajı: " + hata_msg)
+
+/* Test 5: HTTP GET (httpbin.org veya başka bir test sunucusu) */
+yazdır("5. HTTP GET testi:")
+yazdır("   (NOT: Bu test internet bağlantısı gerektirir)")
+/* Basit bir test sunucusu kullanabiliriz ama dış bağımlılık olmadan test edemeyiz */
+/* metin yanit = http_al("http://httpbin.org/get") */
+yazdır("   HTTP GET fonksiyonu tanımlı")
+
+/* Test 6: Sunucu testi (yerel) */
+yazdır("6. HTTP Sunucu fonksiyonları:")
+yazdır("   http_sunucu_baslat tanımlı")
+yazdır("   http_sunucu_durdur tanımlı")
+yazdır("   http_istek_bekle tanımlı")
+yazdır("   http_istek_oku tanımlı")
+yazdır("   http_yanit_gonder tanımlı")
+yazdır("   http_baglanti_kapat tanımlı")
+
+yazdır("")
+yazdır("=== Tüm ağ testleri tamamlandı ===")

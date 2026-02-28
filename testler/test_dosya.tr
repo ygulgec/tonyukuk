@@ -1,0 +1,76 @@
+/* Dosya Modülü Test Programı */
+/* Tonyukuk Programlama Dili */
+
+kullan dosya
+kullan sistem
+
+yazdır("=== Dosya Modülü Testleri ===")
+yazdır("")
+
+/* Test 1: Mevcut dizin */
+yazdır("1. Mevcut dizin:")
+metin mevcut = mevcut_dizin()
+yazdır("   " + mevcut)
+yazdır("")
+
+/* Test 2: Ev dizini */
+yazdır("2. Ev dizini:")
+metin ev = ev_dizini()
+yazdır("   " + ev)
+yazdır("")
+
+/* Test 3: Dosya yazma ve okuma */
+yazdır("3. Dosya yazma/okuma testi:")
+metin test_yolu = "/tmp/tonyukuk_test.txt"
+metin test_icerik = "Merhaba Tonyukuk!\nBu bir test dosyasıdır."
+
+tam yazma_sonuc = yaz(test_yolu, test_icerik)
+eğer yazma_sonuc == 0 ise
+    yazdır("   Dosya yazıldı: " + test_yolu)
+yoksa
+    yazdır("   HATA: Dosya yazılamadı!")
+son
+
+metin okunan = oku(test_yolu)
+yazdır("   Okunan içerik:")
+yazdır("   " + okunan)
+yazdır("")
+
+/* Test 4: Dosya varlık kontrolleri */
+yazdır("4. Varlık kontrolleri:")
+eğer var_mi(test_yolu) ise
+    yazdır("   var_mi(): DOĞRU")
+son
+eğer dosya_mi(test_yolu) ise
+    yazdır("   dosya_mi(): DOĞRU")
+son
+yazdır("")
+
+/* Test 5: Dosya boyutu */
+yazdır("5. Dosya boyutu:")
+tam dosya_boyutu = boyut(test_yolu)
+yazdır("   Boyut: " + tam_metin(dosya_boyutu) + " bayt")
+yazdır("")
+
+/* Test 6: Yol işlemleri */
+yazdır("6. Yol işlemleri:")
+metin test_dosya_yolu = "/home/kullanici/belgeler/rapor.txt"
+yazdır("   Tam yol: " + test_dosya_yolu)
+yazdır("   Üst dizin: " + ust_dizin(test_dosya_yolu))
+yazdır("   Temel ad: " + temel_ad(test_dosya_yolu))
+yazdır("   Uzantı: " + uzanti(test_dosya_yolu))
+yazdır("")
+
+/* Test 7: Yol birleştirme */
+yazdır("7. Yol birleştirme:")
+metin birlesik = yol_birlestir("/usr", "local/bin")
+yazdır("   /usr + local/bin = " + birlesik)
+yazdır("")
+
+/* Temizlik */
+yazdır("8. Temizlik:")
+sil(test_yolu)
+yazdır("   Test dosyası silindi.")
+yazdır("")
+
+yazdır("=== Tüm testler tamamlandı ===")

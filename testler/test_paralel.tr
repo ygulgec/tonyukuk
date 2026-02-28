@@ -1,0 +1,6 @@
+kullan paralel
+işlev hesapla() -> tam
+    döndür 42
+son
+/* Just verify it compiles for now */
+yazdır(1)

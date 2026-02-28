@@ -1,0 +1,6 @@
+dizi d = [10, 20, 30, 40, 50]
+tam toplam = 0
+her eleman için d ise
+    toplam += eleman
+son
+yazdır(toplam)

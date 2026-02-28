@@ -1,0 +1,46 @@
+# İstisna hiyerarşisi + çoklu yakala testi
+
+# Test 1: Basit dene-yakala (geriye uyumluluk)
+dene
+    fırlat "test hatası"
+yakala hata
+    yazdır(1)
+son
+
+# Test 2: Sıfıra bölme istisnası yakalama
+dene
+    tam x = 10 / 0
+    yazdır(0)
+yakala hata
+    yazdır(2)
+son
+
+# Test 3: Çoklu yakala - BolmeHatasi
+dene
+    tam y = 5 / 0
+yakala BolmeHatasi hata
+    yazdır(3)
+yakala hata
+    yazdır(0)
+son
+
+# Test 4: Çoklu yakala - genel hata (fırlat)
+dene
+    fırlat "genel hata"
+yakala BolmeHatasi hata
+    yazdır(0)
+yakala hata
+    yazdır(4)
+son
+
+# Test 5: sonunda ile birlikte çoklu yakala
+dene
+    fırlat "test"
+yakala BolmeHatasi hata
+    yazdır(0)
+yakala hata
+    yazdır(5)
+sonunda
+    yazdır(6)
+son
+

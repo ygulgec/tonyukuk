@@ -1,0 +1,19 @@
+kullan dizi
+
+dizi d = [3, 1, 2]
+d = sırala(d)
+her e için d ise
+    yazdır(e)
+son
+
+d = ekle(d, 4)
+yazdır(d[3])
+
+d = çıkar(d)
+yazdır(uzunluk(d))
+
+dizi a = [10, 20]
+dizi b = [30, 40]
+dizi c = birleştir(a, b)
+yazdır(uzunluk(c))
+yazdır(c[2])

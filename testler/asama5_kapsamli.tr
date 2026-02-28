@@ -1,0 +1,63 @@
+# Aşama 5 - Kapsamlı Metin ve Dizi Testi
+
+# 1. Metin karşılaştırma
+metin a = "Merhaba"
+metin b = "Merhaba"
+metin c = "Dünya"
+
+eğer a == b ise
+    yazdır("metin esit: dogru")
+son
+eğer a != c ise
+    yazdır("metin farkli: dogru")
+son
+
+# 2. Metin birleştirme (tekrar kontrol)
+metin selamlama = a + " " + c
+yazdır(selamlama)
+
+# 3. Dizi oluşturma
+dizi notlar = [90, 85, 78, 92, 88]
+
+# 4. Dizi erişim
+yazdır(notlar[0])
+yazdır(notlar[4])
+
+# 5. Dizi uzunluğu
+yazdır(uzunluk(notlar))
+
+# 6. Dizi elemanı atama
+notlar[2] = 100
+yazdır(notlar[2])
+
+# 7. Döngü ile dizi toplama
+tam toplam = 0
+döngü i = 0, 4 ise
+    toplam = toplam + notlar[i]
+son
+yazdır(toplam)
+
+# 8. Dizi ile fonksiyon
+işlev dizi_toplam(d: dizi, n: tam) -> tam
+    tam s = 0
+    döngü i = 0, n ise
+        s = s + d[i]
+    son
+    döndür s
+son
+
+# Not: dizi parametresi pointer olarak geçirilir
+# Bu test dizi'nin fonksiyona geçirilmesini test eder
+
+# 9. Boş dizi oluşturma ve doldurma
+dizi fibonacci = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+fibonacci[0] = 1
+fibonacci[1] = 1
+döngü k = 2, 9 ise
+    fibonacci[k] = fibonacci[k - 1] + fibonacci[k - 2]
+son
+yazdır(fibonacci[9])
+
+# 10. Metin uzunluğu
+metin isim = "Tonyukuk"
+yazdır(uzunluk(isim))

@@ -1,0 +1,41 @@
+/* Tonyukuk LLVM Backend - Sonuç/Seçenek Testi */
+
+/* Güvenli bölme */
+işlev guvenli_bol(a: tam, b: tam) -> tam
+    eğer b == 0 ise
+        yazdır("Hata: Sıfıra bölme")
+        döndür 0
+    son
+    döndür a / b
+son
+
+/* Karekök hesapla (tam sayı) */
+işlev karekok_hesapla(n: tam) -> tam
+    eğer n < 0 ise
+        yazdır("Hata: Negatif sayının karekökü alınamaz")
+        döndür -1
+    son
+    tam sonuc = 0
+    iken sonuc * sonuc <= n ise
+        sonuc = sonuc + 1
+    son
+    döndür sonuc - 1
+son
+
+/* Test */
+yazdır("=== Güvenli Bölme Testi ===")
+tam s1 = guvenli_bol(100, 5)
+yazdır(s1)
+
+tam s2 = guvenli_bol(42, 0)
+yazdır(s2)
+
+yazdır("=== Karekök Testi ===")
+tam k1 = karekok_hesapla(16)
+yazdır(k1)
+
+tam k2 = karekok_hesapla(25)
+yazdır(k2)
+
+tam k3 = karekok_hesapla(-5)
+yazdır(k3)

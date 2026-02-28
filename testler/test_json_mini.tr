@@ -1,0 +1,25 @@
+/* JSON Mini Test */
+kullan json
+kullan sistem
+
+yazdır("Test 1: json_nesne_yeni")
+tam n = json_nesne_yeni()
+yazdır("  Nesne pointer: " + tam_metin(n))
+
+yazdır("Test 2: json_nesne_metin_ekle")
+json_nesne_metin_ekle(n, "ad", "Tonyukuk")
+yazdır("  Metin eklendi")
+
+yazdır("Test 3: json_nesne_tam_ekle")
+json_nesne_tam_ekle(n, "yas", 25)
+yazdır("  Tam eklendi")
+
+yazdır("Test 4: json_nesne_mantik_ekle")
+json_nesne_mantik_ekle(n, "aktif", doğru)
+yazdır("  Mantık eklendi")
+
+yazdır("Test 5: json_olustur")
+metin s = json_olustur(n)
+yazdır("  Sonuç: " + s)
+
+yazdır("Bitti")

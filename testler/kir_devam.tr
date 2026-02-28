@@ -1,0 +1,29 @@
+# kır (break) ve devam (continue) testi
+
+# 1. kır testi - 3'te dur
+tam i = 1
+iken i <= 10 ise
+    eğer i == 4 ise
+        kır
+    son
+    yazdır(i)
+    i = i + 1
+son
+
+# 2. devam testi - çift sayıları atla
+tam j = 0
+iken j < 10 ise
+    j = j + 1
+    eğer j % 2 == 0 ise
+        devam
+    son
+    yazdır(j)
+son
+
+# 3. döngü ile kır
+döngü k = 1, 20 ise
+    eğer k > 5 ise
+        kır
+    son
+    yazdır(k)
+son

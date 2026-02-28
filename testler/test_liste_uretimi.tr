@@ -1,0 +1,12 @@
+# Liste üretimi (list comprehension) testi
+
+dizi kaynak = [1, 2, 3, 4, 5]
+
+# Basit liste üretimi: her elemanı 2 ile çarp
+dizi sonuc = [x * 2 her x için kaynak]
+
+yazdır(sonuc[0])
+yazdır(sonuc[1])
+yazdır(sonuc[2])
+yazdır(sonuc[3])
+yazdır(sonuc[4])

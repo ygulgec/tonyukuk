@@ -1,0 +1,9 @@
+# matematik modülü testi - karekok
+
+kullan matematik
+
+ondalık k = karekök(144.0)
+yazdır(k)
+
+ondalık k2 = karekök(25.0)
+yazdır(k2)

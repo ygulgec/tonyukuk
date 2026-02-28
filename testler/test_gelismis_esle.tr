@@ -1,0 +1,27 @@
+# Gelişmiş eşle (pattern matching) testi
+
+# Aralık deseni
+tam puan = 75
+eşle puan ise
+    durum 0..59:
+        yazdır(0)
+    durum 60..79:
+        yazdır(1)
+    durum 80..100:
+        yazdır(2)
+    varsayılan:
+        yazdır(9)
+son
+
+# Basit eşle (regresyon testi)
+tam x = 3
+eşle x ise
+    durum 1:
+        yazdır(10)
+    durum 2:
+        yazdır(20)
+    durum 3:
+        yazdır(30)
+    varsayılan:
+        yazdır(99)
+son

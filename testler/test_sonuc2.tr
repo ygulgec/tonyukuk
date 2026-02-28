@@ -1,0 +1,57 @@
+/* Sonuç/Seçenek - Gelişmiş Test */
+kullan sistem
+
+yazdır("=== Gelişmiş Sonuç/Seçenek Testleri ===")
+yazdır("")
+
+/* Test 1: Fonksiyon ile hata döndürme */
+işlev iclem(x: tam) -> tam
+    eğer x < 0 ise
+        döndür -1
+    son
+    döndür x * 2
+son
+
+yazdır("Test 1: Fonksiyon ile hata kontrolü")
+tam r1 = iclem(10)
+yazdır("   iclem(10) = " + tam_metin(r1))
+tam r2 = iclem(-5)
+yazdır("   iclem(-5) = " + tam_metin(r2))
+
+/* Test 2: Tamam/Hata kullanımı */
+işlev sonuc_al() -> tam
+    değ s = Tamam(42)
+    döndür 42
+son
+
+yazdır("Test 2: Sonuç döndüren fonksiyon")
+tam v = sonuc_al()
+yazdır("   Sonuç değeri: " + tam_metin(v))
+
+/* Test 3: Seçenek kullanımı */
+işlev dizi_ara(aranan: tam) -> tam
+    dizi sayilar = [10, 20, 30, 40, 50]
+    döngü i = 0, 5 ise
+        eğer sayilar[i] == aranan ise
+            döndür i
+        son
+    son
+    döndür -1
+son
+
+yazdır("Test 3: Dizi arama")
+tam idx = dizi_ara(30)
+eğer idx >= 0 ise
+    yazdır("   30 bulundu: indeks = " + tam_metin(idx))
+yoksa
+    yazdır("   30 bulunamadı")
+son
+
+/* Test 4: Bir ve Hiç kullanımı */
+yazdır("Test 4: Bir ve Hiç kullanımı")
+değ opt1 = Bir(777)
+değ opt2 = Hiç
+yazdır("   Bir(777) ve Hiç oluşturuldu")
+
+yazdır("")
+yazdır("=== Gelişmiş testler tamamlandı ===")

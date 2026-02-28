@@ -1,0 +1,29 @@
+kullan tarih
+
+yazdır("=== Tarih Modülü Testleri ===")
+
+metin simdi = tarih_simdi()
+yazdır(simdi)
+
+tam gun = tarih_gun()
+yazdır(gun)
+
+tam ay = tarih_ay()
+yazdır(ay)
+
+tam yil = tarih_yil()
+yazdır(yil)
+
+tam saat = tarih_saat()
+yazdır(saat)
+
+tam damga = tarih_damga()
+yazdır(damga)
+
+metin gun_adi = tarih_gun_adi()
+yazdır(gun_adi)
+
+metin ay_adi = tarih_ay_adi()
+yazdır(ay_adi)
+
+yazdır("=== Testler Tamamlandı ===")

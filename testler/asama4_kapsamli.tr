@@ -1,0 +1,98 @@
+# Aşama 4 - Kapsamlı İşlev Testi
+
+# 1. Temel tam sayı işlev
+işlev topla(a: tam, b: tam) -> tam
+    döndür a + b
+son
+
+yazdır(topla(3, 7))
+
+# 2. Parametresiz işlev
+işlev sifir() -> tam
+    döndür 0
+son
+
+yazdır(sifir())
+
+# 3. Void (dönüşsüz) işlev
+işlev merhaba_yaz()
+    yazdır("Merhaba!")
+son
+
+merhaba_yaz()
+
+# 4. Ondalık parametreli işlev
+işlev ortalama(a: ondalık, b: ondalık) -> ondalık
+    döndür (a + b) / 2.0
+son
+
+ondalık ort = ortalama(10.0, 20.0)
+yazdır(ort)
+
+# 5. Özyineleme (recursion)
+işlev fibonacci(n: tam) -> tam
+    eğer n <= 1 ise
+        döndür n
+    son
+    döndür fibonacci(n - 1) + fibonacci(n - 2)
+son
+
+yazdır(fibonacci(10))
+
+# 6. Faktoriyel (özyineleme)
+işlev faktoriyel(n: tam) -> tam
+    eğer n <= 1 ise
+        döndür 1
+    son
+    döndür n * faktoriyel(n - 1)
+son
+
+yazdır(faktoriyel(6))
+
+# 7. İç içe çağrı
+yazdır(topla(topla(1, 2), topla(3, 4)))
+
+# 8. İşlev içinde yerel değişken
+işlev kare_topla(x: tam, y: tam) -> tam
+    tam kx = x * x
+    tam ky = y * y
+    döndür kx + ky
+son
+
+yazdır(kare_topla(3, 4))
+
+# 9. İşlev içinde koşul
+işlev mutlak(x: tam) -> tam
+    eğer x < 0 ise
+        döndür 0 - x
+    son
+    döndür x
+son
+
+yazdır(mutlak(0 - 42))
+yazdır(mutlak(17))
+
+# 10. İşlev içinde döngü
+işlev toplam(n: tam) -> tam
+    tam s = 0
+    döngü i = 1, n ise
+        s = s + i
+    son
+    döndür s
+son
+
+yazdır(toplam(100))
+
+# 11. Metin parametreli işlev
+işlev selam(isim: metin)
+    yazdır(isim)
+son
+
+selam("Tonyukuk")
+
+# 12. Çok parametreli işlev
+işlev dort_param(a: tam, b: tam, c: tam, d: tam) -> tam
+    döndür a + b + c + d
+son
+
+yazdır(dort_param(10, 20, 30, 40))

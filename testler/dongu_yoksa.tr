@@ -1,0 +1,26 @@
+# Döngü-yoksa testi (for...else / while...else)
+
+# Test 1: her...için tamamlanıyor (kır yok) → yoksa çalışır
+dizi d = [1, 2, 3]
+her x için d ise
+    yazdır(x)
+yoksa
+    yazdır(10)
+son
+
+# Test 2: her...için kır ile → yoksa çalışmaz
+dizi e = [4, 5, 6]
+her y için e ise
+    eğer y == 5 ise
+        kır
+    son
+yoksa
+    yazdır(20)
+son
+yazdır(30)
+
+# Test 3: yoksa olmadan (geriye uyumluluk)
+dizi f = [7, 8]
+her z için f ise
+    yazdır(z)
+son

@@ -1,0 +1,17 @@
+# Ondalık parametreli işlev testi
+
+işlev daire_alan(yaricap: ondalık) -> ondalık
+    ondalık pi = 3.141592
+    döndür pi * yaricap * yaricap
+son
+
+ondalık alan = daire_alan(5.0)
+yazdır(alan)
+
+# İki ondalık parametreli
+işlev topla_ondalik(a: ondalık, b: ondalık) -> ondalık
+    döndür a + b
+son
+
+ondalık sonuc = topla_ondalik(3.5, 2.5)
+yazdır(sonuc)

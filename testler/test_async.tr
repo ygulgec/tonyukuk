@@ -1,0 +1,55 @@
+/* Async/Await Testi */
+kullan sistem
+kullan paralel
+
+yazdır("=== Async/Await Testleri ===")
+yazdır("")
+
+/* Test 1: Basit eşzamansız işlev */
+eşzamansız işlev hesapla() -> tam
+    tam sonuc = 0
+    tam i = 0
+    iken i < 100 ise
+        sonuc = sonuc + i
+        i = i + 1
+    son
+    döndür sonuc
+son
+
+yazdır("Test 1: Eşzamansız hesaplama")
+tam sonuc1 = bekle hesapla()
+yazdır("   0-99 toplamı: " + tam_metin(sonuc1))
+
+/* Test 2: İki eşzamansız işlev */
+eşzamansız işlev faktoriyel(n: tam) -> tam
+    eğer n <= 1 ise
+        döndür 1
+    son
+    tam sonuc = 1
+    tam i = 2
+    iken i <= n ise
+        sonuc = sonuc * i
+        i = i + 1
+    son
+    döndür sonuc
+son
+
+yazdır("Test 2: Eşzamansız faktöriyel")
+tam fakt5 = bekle faktoriyel(5)
+yazdır("   5! = " + tam_metin(fakt5))
+
+tam fakt7 = bekle faktoriyel(7)
+yazdır("   7! = " + tam_metin(fakt7))
+
+/* Test 3: Mutex/Kilit kullanımı */
+yazdır("Test 3: Kilit oluşturma")
+tam kilit = kilit_oluştur()
+eğer kilit > 0 ise
+    kilitle(kilit)
+    yazdır("   Kilit alındı")
+    kilit_bırak(kilit)
+    yazdır("   Kilit bırakıldı")
+son
+
+yazdır("")
+yazdır("=== Async testleri tamamlandı ===")

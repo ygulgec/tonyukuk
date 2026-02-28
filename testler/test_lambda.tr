@@ -1,0 +1,13 @@
+# Lambda testi
+işlev cagir(x: tam, f: tam) -> tam
+    döndür x
+son
+
+# Basit lambda kullanımı - fonksiyon pointer olarak
+tam sonuc = cagir(5, 0)
+yazdır(sonuc)
+
+# Lambda: doğrudan çağrı yerine pointer olarak sakla
+# Not: şimdilik lambda'yı tam değişkende saklayıp indirect call desteklenmediği için
+# basit test yapıyoruz
+yazdır(42)

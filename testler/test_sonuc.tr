@@ -1,0 +1,38 @@
+/* Sonuç/Seçenek Tip Sistemi Testi */
+kullan sistem
+
+yazdır("=== Sonuç/Seçenek Tip Sistemi Testleri ===")
+yazdır("")
+
+/* Test 1: Tamam yapıcısı */
+yazdır("Test 1: Tamam yapıcısı")
+değ s1 = Tamam(42)
+yazdır("   Tamam(42) oluşturuldu")
+
+/* Test 2: Hata yapıcısı */
+yazdır("Test 2: Hata yapıcısı")
+değ s2 = Hata(1)
+yazdır("   Hata(1) oluşturuldu")
+
+/* Test 3: Bir yapıcısı (Option::Some) */
+yazdır("Test 3: Bir yapıcısı")
+değ o1 = Bir(100)
+yazdır("   Bir(100) oluşturuldu")
+
+/* Test 4: Hiç yapıcısı (Option::None) */
+yazdır("Test 4: Hiç yapıcısı")
+değ o2 = Hiç
+yazdır("   Hiç oluşturuldu")
+
+/* Test 5: Basit fonksiyon - Tamam döndürme */
+işlev basarili_islem() -> tam
+    değ sonuc = Tamam(99)
+    döndür 99
+son
+
+yazdır("Test 5: Basit fonksiyon")
+tam deger = basarili_islem()
+yazdır("   Başarılı işlem sonucu: " + tam_metin(deger))
+
+yazdır("")
+yazdır("=== Sonuç/Seçenek testleri tamamlandı ===")

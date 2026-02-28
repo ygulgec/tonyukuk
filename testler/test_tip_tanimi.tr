@@ -1,0 +1,9 @@
+# Tip tanimi (alias) testi
+
+tip Sayi = tam
+
+Sayi x = 42
+yazdır(x)
+
+Sayi y = x + 8
+yazdır(y)

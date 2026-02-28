@@ -1,0 +1,34 @@
+/* Statik Alanlar Testi */
+kullan sistem
+
+yazdır("=== Statik Alan Testleri ===")
+yazdır("")
+
+/* Test 1: Statik sayaç */
+sınıf Sayac
+    statik tam toplam_sayi
+
+    işlev arttir() -> tam
+        bu.toplam_sayi = bu.toplam_sayi + 1
+        döndür bu.toplam_sayi
+    son
+
+    işlev toplam_al() -> tam
+        döndür bu.toplam_sayi
+    son
+son
+
+yazdır("Test 1: Statik sayaç")
+Sayac s1 = Sayac()
+Sayac s2 = Sayac()
+
+s1.arttir()
+s1.arttir()
+s2.arttir()
+
+/* Tüm nesneler aynı statik alana erişir */
+yazdır("   s1 sonrası toplam: " + tam_metin(s1.toplam_al()))
+yazdır("   s2 sonrası toplam: " + tam_metin(s2.toplam_al()))
+
+yazdır("")
+yazdır("=== Statik testleri tamamlandı ===")

@@ -1,0 +1,63 @@
+# Aşama 7: Modül sistemi kapsamlı testi
+
+kullan matematik
+kullan metin
+
+# === matematik modülü ===
+
+# mutlak değer
+yazdır(mutlak(-42))
+yazdır(mutlak(7))
+yazdır(mutlak(0))
+
+# kuvvet
+yazdır(kuvvet(2, 10))
+yazdır(kuvvet(3, 4))
+yazdır(kuvvet(5, 0))
+
+# karekök
+ondalık kok = karekök(144.0)
+yazdır(kok)
+ondalık kok2 = karekök(2.0)
+yazdır(kok2)
+
+# min / maks
+yazdır(min(5, 3))
+yazdır(min(-1, 1))
+yazdır(maks(5, 3))
+yazdır(maks(-10, -20))
+
+# mod
+yazdır(mod(17, 5))
+yazdır(mod(100, 7))
+
+# === metin modülü ===
+
+# harf_buyut / harf_kucult
+metin s = "merhaba"
+metin buyuk = harf_buyut(s)
+yazdır(buyuk)
+
+metin kucuk = harf_kucult("DUNYA")
+yazdır(kucuk)
+
+# kes
+metin alt = kes("merhaba dunya", 8, 5)
+yazdır(alt)
+
+# bul
+tam konum = bul("merhaba dunya", "dunya")
+yazdır(konum)
+tam yok = bul("merhaba", "xyz")
+yazdır(yok)
+
+# içerir
+yazdır(içerir("merhaba dunya", "dunya"))
+yazdır(içerir("merhaba", "xyz"))
+
+# === boru operatörü ile kullanıcı fonksiyonu ===
+işlev ikiye_katla(x: tam) -> tam
+    döndür x * 2
+son
+
+yazdır(5 |> ikiye_katla)

@@ -1,0 +1,11 @@
+kullan ortam
+kullan sistem
+
+ortam_koy("TR_TEST", "merhaba")
+metin d = ortam_al("TR_TEST")
+yazdır(d)
+
+ortam_sil("TR_TEST")
+metin s = ortam_al("TR_TEST")
+tam u = metin_uzunluk(s)
+yazdır(tam_metin(u))

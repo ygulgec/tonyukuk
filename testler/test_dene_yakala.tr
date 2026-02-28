@@ -1,0 +1,12 @@
+# dene/yakala/fırlat testi
+yazdır(1)
+
+dene
+    yazdır(2)
+    fırlat 42
+    yazdır(3)
+yakala
+    yazdır(4)
+son
+
+yazdır(5)

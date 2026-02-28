@@ -1,0 +1,7 @@
+işlev topla(a: tam, b: tam) -> tam
+    döndür a + b
+son
+
+işlev selamla(ad: metin) -> metin
+    döndür ad
+son

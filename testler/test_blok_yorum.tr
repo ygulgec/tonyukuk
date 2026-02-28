@@ -1,0 +1,13 @@
+/* Bu bir blok yorumdur */
+tam x = 10
+
+/* Cok satirli
+   yorum
+   destegi */
+tam y = 20
+
+tam z = x + y /* satir ici yorum */
+yazdır(z)
+
+/* ic ice /* yorum */ destegi */
+yazdır(x)

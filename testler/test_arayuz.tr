@@ -1,0 +1,13 @@
+arayüz Yazdırılabilir ise
+    göster
+son
+
+sınıf Mesaj : Yazdırılabilir
+    tam deger
+    işlev göster() -> tam
+        döndür bu.deger
+    son
+son
+
+Mesaj m = Mesaj(42)
+yazdır(m.göster())

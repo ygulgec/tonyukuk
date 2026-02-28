@@ -1,0 +1,33 @@
+işlev kare(x: tam) -> tam
+    döndür x * x
+son
+
+işlev cift_mi(x: tam) -> tam
+    eğer x % 2 == 0 ise
+        döndür 1
+    yoksa
+        döndür 0
+    son
+son
+
+işlev topla(a: tam, b: tam) -> tam
+    döndür a + b
+son
+
+dizi d = [1, 2, 3, 4, 5]
+
+/* eşlem: her elemana kare uygula */
+dizi kareler = eşlem(d, kare)
+her e için kareler ise
+    yazdır(e)
+son
+
+/* filtre: çift olanları filtrele */
+dizi ciftler = filtre(d, cift_mi)
+her e için ciftler ise
+    yazdır(e)
+son
+
+/* indirge: toplam */
+tam toplam = indirge(d, 0, topla)
+yazdır(toplam)

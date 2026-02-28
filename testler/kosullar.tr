@@ -1,0 +1,12 @@
+# Koşullu ifadeler
+tam sayi = 15
+
+eğer sayi > 10 ise
+    yazdır("Sayı 10'dan büyük")
+yoksa
+    yazdır("Sayı 10'dan küçük veya eşit")
+son
+
+eğer sayi == 15 ise
+    yazdır("Sayı tam 15")
+son

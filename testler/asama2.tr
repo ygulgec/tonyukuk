@@ -1,0 +1,15 @@
+# Aşama 2 test - atama ve aritmetik
+tam x = 10
+x = x + 5
+yazdır(x)
+
+tam y = 100
+y = y / 4
+yazdır(y)
+
+tam z = 17
+z = z % 5
+yazdır(z)
+
+metin ad = "Tonyukuk"
+yazdır(ad)

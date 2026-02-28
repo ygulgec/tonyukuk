@@ -1,0 +1,7 @@
+# Hata testi: yanlış parametre sayısı
+işlev topla(a: tam, b: tam) -> tam
+    döndür a + b
+son
+
+tam x = topla(1, 2, 3)
+yazdır(x)

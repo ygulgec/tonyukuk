@@ -1,0 +1,24 @@
+## LLVM backend test cercevesi testi
+
+test "LLVM toplama" ise
+    dogrula(1 + 1 == 2)
+    dogrula(10 + 20 == 30)
+    dogrula_esit(3 + 4, 7)
+son
+
+test "LLVM cikarma" ise
+    dogrula(10 - 3 == 7)
+    dogrula_esit(100 - 50, 50)
+son
+
+test "LLVM carpma" ise
+    dogrula(3 * 4 == 12)
+    dogrula_esit(5 * 5, 25)
+son
+
+test "LLVM karsilastirma" ise
+    dogrula(5 > 3)
+    dogrula(3 < 5)
+    dogrula(5 == 5)
+    dogrula_farkli(3, 5)
+son

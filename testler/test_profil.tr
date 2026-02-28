@@ -1,0 +1,10 @@
+işlev hesapla(x: tam) -> tam
+    döndür x * x
+son
+
+tam i = 0
+iken i < 100 ise
+    tam s = hesapla(i)
+    i = i + 1
+son
+yazdır(i)

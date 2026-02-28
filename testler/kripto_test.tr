@@ -1,0 +1,13 @@
+kullan kripto
+
+metin m = md5("test")
+yazdır(m)
+
+metin s = sha256("test")
+yazdır(s)
+
+metin k = base64_kodla("Tonyukuk")
+yazdır(k)
+
+metin c = base64_çöz(k)
+yazdır(c)

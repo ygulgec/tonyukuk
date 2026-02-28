@@ -1,0 +1,22 @@
+# Soyut sinif testi
+
+soyut sınıf Sekil
+    tam alan
+
+    işlev hesapla() -> tam
+        döndür 0
+    son
+son
+
+sınıf Kare : Sekil
+    tam kenar
+
+    işlev hesapla() -> tam
+        döndür bu.kenar * bu.kenar
+    son
+son
+
+Kare k = Kare(0, 5)
+tam sonuc = k.hesapla()
+yazdır(sonuc)
+yazdır(k.kenar)

@@ -1,0 +1,5 @@
+# Escape sequence testi
+yazdır("Satir1\nSatir2")
+yazdır("Tab\tBurada")
+yazdır("Tirnak: \"merhaba\"")
+yazdır("Ters: \\bitis")

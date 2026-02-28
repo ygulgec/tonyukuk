@@ -1,0 +1,53 @@
+/* Tonyukuk LLVM Backend - Dizi Testi */
+
+/* Dizi toplamı */
+işlev dizi_topla(d: dizi, boyut: tam) -> tam
+    tam toplam = 0
+    döngü i = 0, boyut - 1 ise
+        toplam = toplam + d[i]
+    son
+    döndür toplam
+son
+
+/* Dizi maksimum */
+işlev dizi_maks(d: dizi, boyut: tam) -> tam
+    tam maks = d[0]
+    döngü i = 1, boyut - 1 ise
+        eğer d[i] > maks ise
+            maks = d[i]
+        son
+    son
+    döndür maks
+son
+
+/* Dizi minimum */
+işlev dizi_min(d: dizi, boyut: tam) -> tam
+    tam mn = d[0]
+    döngü i = 1, boyut - 1 ise
+        eğer d[i] < mn ise
+            mn = d[i]
+        son
+    son
+    döndür mn
+son
+
+/* Ana test */
+dizi sayilar = [5, 2, 8, 1, 9, 3, 7, 4, 6, 0]
+tam boyut = 10
+
+yazdır("Orijinal dizi:")
+döngü i = 0, boyut - 1 ise
+    yazdır(sayilar[i])
+son
+
+tam toplam = dizi_topla(sayilar, boyut)
+yazdır("Toplam:")
+yazdır(toplam)
+
+tam maks = dizi_maks(sayilar, boyut)
+yazdır("Maksimum:")
+yazdır(maks)
+
+tam mn = dizi_min(sayilar, boyut)
+yazdır("Minimum:")
+yazdır(mn)

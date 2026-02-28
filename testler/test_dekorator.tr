@@ -1,0 +1,20 @@
+# Dekoratör testi
+
+# Dekoratör fonksiyon: sonucu ikiyle çarpar
+işlev ikikat(x: tam) -> tam
+    döndür x * 2
+son
+
+# @ikikat dekoratörü ile işlev
+@ikikat
+işlev hesapla(x: tam) -> tam
+    döndür x + 10
+son
+
+# hesapla(5) = 5 + 10 = 15, sonra ikikat(15) = 30
+tam sonuc = hesapla(5)
+yazdır(sonuc)
+
+# Normal fonksiyon test
+tam normal = ikikat(7)
+yazdır(normal)

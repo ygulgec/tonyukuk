@@ -1,0 +1,27 @@
+# Üçlü (ternary benzeri) ifade testi - eğer/yoksa ile
+
+tam x = 10
+tam y = 20
+
+# doğru koşul
+tam a = 0
+eğer x < y ise
+    a = 1
+son
+yazdır(a)
+
+# yanlış koşul
+tam b = 0
+eğer x > y ise
+    b = 1
+son
+yazdır(b)
+
+# iç içe
+tam c = 0
+eğer x == 10 ise
+    c = 100
+yoksa
+    c = 200
+son
+yazdır(c)

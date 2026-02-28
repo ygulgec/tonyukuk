@@ -1,0 +1,35 @@
+# Mantık operatörleri testi
+tam x = 10
+tam y = 20
+
+# ve (and)
+eğer x > 5 ve y > 15 ise
+    yazdır("ve: doğru")
+son
+
+eğer x > 15 ve y > 15 ise
+    yazdır("bu yazmamalı")
+yoksa
+    yazdır("ve: yanlış durumu doğru")
+son
+
+# veya (or)
+eğer x > 15 veya y > 15 ise
+    yazdır("veya: doğru")
+son
+
+eğer x > 100 veya y > 100 ise
+    yazdır("bu yazmamalı")
+yoksa
+    yazdır("veya: yanlış durumu doğru")
+son
+
+# değil (not)
+eğer değil x > 100 ise
+    yazdır("değil: doğru")
+son
+
+# karmaşık
+eğer x > 5 ve y < 25 ve değil x == 0 ise
+    yazdır("karmaşık mantık: doğru")
+son

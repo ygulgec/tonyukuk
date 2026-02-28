@@ -1,0 +1,11 @@
+tam x = 10
+x += 5
+yazdır(x)
+x -= 3
+yazdır(x)
+x *= 2
+yazdır(x)
+x /= 6
+yazdır(x)
+x %= 3
+yazdır(x)

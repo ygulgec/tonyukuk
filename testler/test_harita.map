@@ -1,0 +1,9 @@
+{
+  "dosya": "/var/www/tonyukuktr.com/derleyici/testler/test_optimize.tr",
+  "eslesmeler": [
+    {"asm_satir": 5, "kaynak_satir": 2},
+    {"asm_satir": 10, "kaynak_satir": 3},
+    {"asm_satir": 15, "kaynak_satir": 4},
+    {"asm_satir": 20, "kaynak_satir": 5}
+  ]
+}

@@ -1,0 +1,21 @@
+# Sınıf metot testi
+
+sınıf Kutu
+    tam en
+    tam boy
+son
+
+# Yapıcı ile nesne oluştur
+Kutu k = Kutu(4, 6)
+
+# Alan erişimi
+yazdır(k.en)
+yazdır(k.boy)
+
+# Alan atama
+k.en = 8
+yazdır(k.en)
+
+# Aritmetik ile alan
+tam alan = k.en * k.boy
+yazdır(alan)

@@ -1,0 +1,22 @@
+## İki sayıyı toplar ve sonucunu döndürür
+işlev topla(a: tam, b: tam) -> tam
+    döndür a + b
+son
+
+## Bir sayının karesini hesaplar
+işlev kare(x: tam) -> tam
+    döndür x * x
+son
+
+## Faktöriyel hesaplar (özyinelemeli)
+## n! = n * (n-1)!
+işlev faktoriyel(n: tam) -> tam
+    eğer n <= 1 ise
+        döndür 1
+    son
+    döndür n * faktoriyel(n - 1)
+son
+
+yazdır(topla(3, 5))
+yazdır(kare(4))
+yazdır(faktoriyel(5))

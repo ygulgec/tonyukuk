@@ -1,0 +1,6 @@
+# iken (while) döngüsü testi
+tam sayac = 1
+iken sayac <= 5 ise
+    yazdır(sayac)
+    sayac = sayac + 1
+son

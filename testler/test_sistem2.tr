@@ -1,0 +1,11 @@
+kullan sistem
+
+metin s = "3.14"
+ondalık x = metin_ondalık(s)
+yazdır(x)
+
+tam a = 100
+metin sa = tam_metin(a)
+metin sb = tam_metin(200)
+yazdır(sa)
+yazdır(sb)

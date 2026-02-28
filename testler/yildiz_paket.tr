@@ -1,0 +1,19 @@
+# Yıldızlı paket açma (*rest) testi
+
+# Test 1: [ilk, ...geri_kalan] = dizi
+tam ilk = 0
+dizi geri_kalan = [0]
+dizi kaynak = [10, 20, 30, 40, 50]
+[ilk, ...geri_kalan] = kaynak
+yazdır(ilk)
+yazdır(uzunluk(geri_kalan))
+
+# Test 2: [bas, ...orta, son] = dizi
+tam bas = 0
+dizi orta = [0]
+tam son2 = 0
+dizi kaynak2 = [1, 2, 3, 4, 5]
+[bas, ...orta, son2] = kaynak2
+yazdır(bas)
+yazdır(uzunluk(orta))
+yazdır(son2)

@@ -1,0 +1,27 @@
+/* Metin dizisi izole test */
+kullan json
+kullan sistem
+
+yazdır("Metin dizisi test:")
+metin j = "{\"items\": [\"a\", \"b\", \"c\"]}"
+yazdır("JSON: " + j)
+
+tam n = json_cozumle(j)
+yazdır("Nesne: " + tam_metin(n))
+
+tam d = json_dizi_al(n, "items")
+yazdır("Dizi: " + tam_metin(d))
+
+tam u = json_dizi_uzunluk(d)
+yazdır("Uzunluk: " + tam_metin(u))
+
+metin e0 = json_dizi_metin(d, 0)
+yazdır("e0: [" + e0 + "]")
+
+metin e1 = json_dizi_metin(d, 1)
+yazdır("e1: [" + e1 + "]")
+
+metin e2 = json_dizi_metin(d, 2)
+yazdır("e2: [" + e2 + "]")
+
+yazdır("Bitti")

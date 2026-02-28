@@ -1,0 +1,17 @@
+tam x = 2
+eşle x ise
+    durum 1:
+        yazdır(10)
+    durum 2:
+        yazdır(20)
+    durum 3:
+        yazdır(30)
+son
+
+tam y = 5
+eşle y ise
+    durum 1:
+        yazdır(100)
+    varsayılan:
+        yazdır(999)
+son

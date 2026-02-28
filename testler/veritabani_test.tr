@@ -1,0 +1,21 @@
+kullan veritabanı
+kullan sistem
+
+tam vt = vt_aç("/tmp/test_tr.db")
+eğer vt > 0 ise
+    yazdır("acildi")
+yoksa
+    yazdır("hata")
+son
+
+tam s1 = vt_çalıştır(vt, "CREATE TABLE IF NOT EXISTS t1 (id INTEGER PRIMARY KEY, isim TEXT)")
+yazdır(tam_metin(s1))
+
+tam s2 = vt_çalıştır(vt, "INSERT INTO t1 (isim) VALUES ('test')")
+yazdır(tam_metin(s2))
+
+metin sonuc = vt_sorgula(vt, "SELECT * FROM t1")
+yazdır(sonuc)
+
+vt_kapat(vt)
+yazdır("kapatildi")

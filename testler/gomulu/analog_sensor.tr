@@ -1,0 +1,37 @@
+/* Analog Sensor Okuma Örneği
+ *
+ * Bu program bir potansiyometre veya analog sensörden
+ * değer okur ve seri porta yazar.
+ *
+ * Bağlantı:
+ *   Potansiyometre: VCC -> A0 -> GND
+ *
+ * Derleme:
+ *   ./tonyukuk-derle testler/gomulu/analog_sensor.tr -hedef avr
+ */
+
+degisken SENSOR_PIN = 0    /* A0 */
+
+islev ana() tam ise
+    /* Seri portu başlat (9600 baud) */
+    seri_baslat(9600)
+
+    /* Sonsuz döngü */
+    dongu iken dogru ise
+        /* Analog değeri oku (0-1023) */
+        degisken deger = analog_oku(SENSOR_PIN)
+
+        /* Voltaja çevir (5V referans, 10-bit ADC) */
+        /* voltaj = deger * 5000 / 1023 (milivolt) */
+        degisken voltaj_mv = deger * 5000 / 1023
+
+        /* Sonucu seri porta yaz */
+        seri_yaz("Sensor degeri: ")
+        /* Not: Tam sayı yazdırma için ek fonksiyon gerekli */
+
+        /* Yarım saniye bekle */
+        bekle_ms(500)
+    son
+
+    dondur 0
+son

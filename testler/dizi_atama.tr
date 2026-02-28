@@ -1,0 +1,29 @@
+# Dizi atama ve döngü testi
+
+# 1. Dizi oluştur ve elemanı değiştir
+dizi d = [1, 2, 3, 4, 5]
+yazdır(d[2])
+d[2] = 99
+yazdır(d[2])
+
+# 2. Döngü ile dizi elemanlarını topla
+tam toplam = 0
+döngü i = 0, 4 ise
+    toplam = toplam + d[i]
+son
+yazdır(toplam)
+
+# 3. uzunluk yerleşik fonksiyonu
+tam boy = uzunluk(d)
+yazdır(boy)
+
+# 4. Döngü ile dizi doldur
+dizi kareler = [0, 0, 0, 0, 0]
+döngü j = 0, 4 ise
+    kareler[j] = (j + 1) * (j + 1)
+son
+yazdır(kareler[0])
+yazdır(kareler[1])
+yazdır(kareler[2])
+yazdır(kareler[3])
+yazdır(kareler[4])

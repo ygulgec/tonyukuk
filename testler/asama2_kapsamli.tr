@@ -1,0 +1,38 @@
+# Aşama 2 - Kapsamlı Test
+
+# 1. Tam sayı değişkenler ve aritmetik
+tam a = 42
+tam b = 8
+yazdır(a + b)
+yazdır(a - b)
+yazdır(a * b)
+yazdır(a / b)
+yazdır(a % b)
+
+# 2. Atama
+tam x = 100
+x = x + 50
+yazdır(x)
+
+# 3. Ondalık sayılar
+ondalık pi = 3.141592
+yazdır(pi)
+
+ondalık sicaklik = 36.6
+ondalık artis = 1.4
+ondalık yeni = sicaklik + artis
+yazdır(yeni)
+
+# 4. Metin değişkenler
+metin dil = "Tonyukuk"
+yazdır(dil)
+
+# 5. Metin birleştirme
+metin ön = "Merhaba "
+metin son_ek = "Dünya!"
+metin birlesik = ön + son_ek
+yazdır(birlesik)
+
+# 6. Negatif sayı
+tam neg = 0 - 42
+yazdır(neg)

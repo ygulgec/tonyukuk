@@ -1,0 +1,15 @@
+# Matematik genişletme testi
+kullan matematik
+
+# Test 1: faktöriyel
+yazdır(faktoriyel(5))
+yazdır(faktoriyel(0))
+
+# Test 2: OBEB (GCD)
+yazdır(obeb(12, 8))
+yazdır(obeb(100, 75))
+
+# Test 3: OKEK (LCM)
+yazdır(okek(4, 6))
+yazdır(okek(3, 5))
+

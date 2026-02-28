@@ -1,0 +1,18 @@
+# Metin biçimlendirme (format specifiers) testi
+
+# Test 1: Tam sayı sıfır dolgulu
+metin s1 = bicimle(42, "05")
+yazdır(s1)
+
+# Test 2: Tam sayı genişlik
+metin s2 = bicimle(7, "03")
+yazdır(s2)
+
+# Test 3: Metin sağa hizala
+metin s3 = bicimle("abc", ">8")
+yazdır(uzunluk(s3))
+
+# Test 4: Metin sola hizala
+metin s4 = bicimle("xyz", "<8")
+yazdır(uzunluk(s4))
+

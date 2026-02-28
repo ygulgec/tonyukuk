@@ -1,0 +1,24 @@
+/* Ağ HTTP İstek Testi */
+kullan ag
+kullan sistem
+
+yazdır("=== HTTP İstek Testleri ===")
+yazdır("")
+
+/* HTTP GET testi */
+yazdır("1. HTTP GET testi:")
+metin yanit = http_al("http://example.com/")
+tam kod = http_durum_kodu()
+yazdır("   Durum kodu: " + tam_metin(kod))
+
+/* Yanıt uzunluğunu kontrol et */
+eğer uzunluk(yanit) > 0 ise
+    yazdır("   Yanıt uzunluğu: " + tam_metin(uzunluk(yanit)))
+    yazdır("   BAŞARILI: Yanıt alındı")
+yoksa
+    metin hata = http_hata_mesaji()
+    yazdır("   Hata: " + hata)
+son
+
+yazdır("")
+yazdır("=== HTTP testleri tamamlandı ===")

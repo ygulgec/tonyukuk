@@ -1,0 +1,4 @@
+sabit tam PI_TAM = 3
+yazdır(PI_TAM)
+sabit tam MAKS = 100
+yazdır(MAKS)

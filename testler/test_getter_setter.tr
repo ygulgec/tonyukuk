@@ -1,0 +1,23 @@
+# Getter/Setter testi
+
+sınıf Sicaklik
+    tam derece
+
+    işlev al_fahrenheit() -> tam
+        döndür bu.derece * 9 / 5 + 32
+    son
+
+    işlev koy_fahrenheit(f: tam)
+        bu.derece = (f - 32) * 5 / 9
+    son
+son
+
+Sicaklik s = Sicaklik(100)
+yazdır(s.derece)
+
+# Getter: al_fahrenheit çağrılır
+yazdır(s.fahrenheit)
+
+# Setter: koy_fahrenheit çağrılır
+s.fahrenheit = 32
+yazdır(s.derece)

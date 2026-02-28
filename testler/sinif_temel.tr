@@ -1,0 +1,23 @@
+# Temel sınıf testi
+
+# 1. Basit sınıf tanımı
+sınıf Nokta
+    tam x
+    tam y
+son
+
+# 2. Nesne oluştur
+Nokta n = Nokta(3, 5)
+
+# 3. Alan erişimi
+yazdır(n.x)
+yazdır(n.y)
+
+# 4. Alan atama
+n.x = 10
+yazdır(n.x)
+
+# 5. İkinci nesne
+Nokta m = Nokta(7, 9)
+yazdır(m.x)
+yazdır(m.y)

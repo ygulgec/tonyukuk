@@ -1,0 +1,11 @@
+# Değişken tanımlama ve aritmetik
+tam x = 10
+tam y = 20
+tam toplam = x + y
+yazdır(toplam)
+
+tam carpim = x * y
+yazdır(carpim)
+
+tam fark = y - x
+yazdır(fark)

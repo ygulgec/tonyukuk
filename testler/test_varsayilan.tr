@@ -1,0 +1,18 @@
+# Varsayılan parametre testi
+işlev selamla(isim: metin, mesaj: metin = "Merhaba")
+    yazdır(mesaj)
+    yazdır(isim)
+son
+
+işlev topla(a: tam, b: tam, c: tam = 0) -> tam
+    döndür a + b + c
+son
+
+selamla("Dünya")
+selamla("Ali", "Selam")
+
+tam x = topla(3, 4)
+yazdır(x)
+
+tam y = topla(3, 4, 5)
+yazdır(y)

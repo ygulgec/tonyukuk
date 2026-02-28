@@ -1,0 +1,11 @@
+# dene/yakala - normal akış (fırlat yok)
+yazdır(1)
+
+dene
+    yazdır(2)
+    yazdır(3)
+yakala
+    yazdır(99)
+son
+
+yazdır(4)

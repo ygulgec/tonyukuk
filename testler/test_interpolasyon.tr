@@ -1,0 +1,9 @@
+# String interpolasyonu testi
+metin isim = "Dünya"
+metin mesaj = "Merhaba ${isim}!"
+yazdır(mesaj)
+
+metin ad = "Ali"
+metin soyad = "Yılmaz"
+metin tam_ad = "${ad} ${soyad}"
+yazdır(tam_ad)

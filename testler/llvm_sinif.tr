@@ -1,0 +1,47 @@
+/* Tonyukuk LLVM Backend - Sınıf Testi */
+
+/* Basit sınıf tanımı */
+sınıf Nokta
+    tam x
+    tam y
+
+    işlev mesafe() -> tam
+        döndür bu.x * bu.x + bu.y * bu.y
+    son
+son
+
+/* Dikdörtgen sınıfı */
+sınıf Dikdortgen
+    tam genislik
+    tam yukseklik
+
+    işlev alan() -> tam
+        döndür bu.genislik * bu.yukseklik
+    son
+
+    işlev cevre() -> tam
+        döndür 2 * (bu.genislik + bu.yukseklik)
+    son
+son
+
+/* Nokta testi */
+yazdır("=== Nokta Testi ===")
+Nokta p = Nokta(3, 4)
+yazdır(p.x)
+yazdır(p.y)
+
+tam mesafe = p.mesafe()
+yazdır("Mesafe karesi:")
+yazdır(mesafe)
+
+/* Dikdörtgen testi */
+yazdır("=== Dikdörtgen Testi ===")
+Dikdortgen d = Dikdortgen(5, 10)
+yazdır(d.genislik)
+yazdır(d.yukseklik)
+
+yazdır("Alan:")
+yazdır(d.alan())
+
+yazdır("Çevre:")
+yazdır(d.cevre())
