@@ -1,0 +1,11 @@
+# Kapanış testi - yerel değişken yakalama
+işlev toplam_yap() -> tam
+    tam n = 10
+    tam f = işlev(x: tam) -> tam
+        döndür x + n
+    son
+    döndür f(32)
+son
+
+tam sonuc = toplam_yap()
+yazdır(sonuc)

@@ -190,7 +190,7 @@ static void kapanis_yakala_topla(Düğüm *d, Kapsam *lambda_kapsam,
         if (!ic) {
             /* Dış kapsamda var mı? */
             Sembol *dis = sembol_ara(dis_kapsam, isim);
-            if (dis && !dis->global_mi && !dis->parametre_mi) {
+            if (dis && !dis->global_mi) {
                 /* Zaten listeye eklendi mi kontrol et */
                 for (int j = 0; j < *sayac; j++) {
                     if (strcmp((*isimler)[j], isim) == 0) return;
@@ -1997,6 +1997,11 @@ static void cagri_uret(Üretici *u, Düğüm *d) {
         if (fn->dönüş_tipi == TİP_METİN || fn->dönüş_tipi == TİP_DİZİ) {
             yaz(u, "    movq    %%rdx, %%rbx");
         }
+    } else if (fn && fn->tip == TİP_İŞLEV && !fn->runtime_isim) {
+        /* Dolaylı çağrı: fonksiyon pointer'ı değişkenden yükle */
+        int fn_off = (fn->yerel_indeks + 1) * 8;
+        yaz(u, "    movq    -%d(%%rbp), %%r11", fn_off);
+        yaz(u, "    call    *%%r11");
     } else {
         yaz(u, "    call    %s", d->veri.tanimlayici.isim);
     }
@@ -2771,6 +2776,13 @@ static void degisken_uret(Üretici *u, Düğüm *d) {
         }
     } else {
         Sembol *s = sembol_ekle(u->arena, u->kapsam, d->veri.değişken.isim, tip);
+        /* Lambda başlatıcı: tipi TİP_İŞLEV'e yükselt */
+        if (d->çocuk_sayısı > 0 && d->çocuklar[0]->tur == DÜĞÜM_LAMBDA) {
+            s->tip = TİP_İŞLEV;
+            Düğüm *lambda = d->çocuklar[0];
+            if (lambda->çocuk_sayısı > 0)
+                s->param_sayisi = lambda->çocuklar[0]->çocuk_sayısı;
+        }
         if (d->çocuk_sayısı > 0) {
             ifade_üret(u, d->çocuklar[0]);
             int offset = (s->yerel_indeks + 1) * 8;

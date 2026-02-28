@@ -1,17 +1,10 @@
-# Kapanis (closure/lambda) testi
-
-# Normal islev
-işlev topla(a: tam, b: tam) -> tam
-    döndür a + b
+# Kapanış testi - parametre yakalama
+işlev çarpan_yap(k: tam) -> tam
+    tam f = işlev(x: tam) -> tam
+        döndür x * k
+    son
+    döndür f(7)
 son
 
-tam sonuc = topla(10, 20)
+tam sonuc = çarpan_yap(6)
 yazdır(sonuc)
-
-# Lambda ifadesi: islevsel parametre ile kullanim
-tam kare_fn = işlev(a: tam) -> tam
-    döndür a * a
-son
-
-# Lambda fonksiyon pointer olarak saklandı
-yazdır(42)

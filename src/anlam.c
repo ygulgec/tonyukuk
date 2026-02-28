@@ -707,6 +707,15 @@ static TipTürü dugum_analiz(AnlamÇözümleyici *ac, Düğüm *d) {
             s->global_mi = (d->veri.değişken.genel == 1) ? 1 : 0;
             s->sabit_mi = d->veri.değişken.sabit;
             if (tip == TİP_SINIF) s->sınıf_adı = d->veri.değişken.tip;
+            /* Lambda başlatıcı: tipi TİP_İŞLEV'e yükselt */
+            if (d->çocuk_sayısı > 0 && d->çocuklar[0]->tur == DÜĞÜM_LAMBDA) {
+                s->tip = TİP_İŞLEV;
+                Düğüm *lambda = d->çocuklar[0];
+                s->dönüş_tipi = lambda->veri.islev.dönüş_tipi ?
+                    tip_adı_çevir(lambda->veri.islev.dönüş_tipi) : TİP_BOŞLUK;
+                if (lambda->çocuk_sayısı > 0)
+                    s->param_sayisi = lambda->çocuklar[0]->çocuk_sayısı;
+            }
             return tip;
         }
         /* Tip takma adı çözümleme */
@@ -737,6 +746,15 @@ static TipTürü dugum_analiz(AnlamÇözümleyici *ac, Düğüm *d) {
             s->baslangic_var = (d->çocuk_sayısı > 0) || (d->veri.değişken.genel == 2);
             s->global_mi = (d->veri.değişken.genel == 1) ? 1 : 0;
             s->sabit_mi = d->veri.değişken.sabit;
+            /* Lambda başlatıcı: tipi TİP_İŞLEV'e yükselt */
+            if (d->çocuk_sayısı > 0 && d->çocuklar[0]->tur == DÜĞÜM_LAMBDA) {
+                s->tip = TİP_İŞLEV;
+                Düğüm *lambda = d->çocuklar[0];
+                s->dönüş_tipi = lambda->veri.islev.dönüş_tipi ?
+                    tip_adı_çevir(lambda->veri.islev.dönüş_tipi) : TİP_BOŞLUK;
+                if (lambda->çocuk_sayısı > 0)
+                    s->param_sayisi = lambda->çocuklar[0]->çocuk_sayısı;
+            }
         }
         if (d->çocuk_sayısı > 0) {
             ifade_analiz(ac, d->çocuklar[0]);

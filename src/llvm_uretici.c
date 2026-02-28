@@ -1928,6 +1928,34 @@ LLVMValueRef llvm_ifade_uret(LLVMÜretici *u, Düğüm *dugum) {
                 }
             }
 
+            /* Dolaylı çağrı kontrolü: fn->deger fonksiyon değilse pointer'dan çağır */
+            if (!LLVMIsAFunction(fn->deger)) {
+                LLVMTypeRef i64 = LLVMInt64TypeInContext(u->baglam);
+                LLVMValueRef fn_ptr_val = LLVMBuildLoad2(u->olusturucu, i64,
+                    fn->deger, "fn_ptr_yukle");
+
+                /* Fonksiyon tipini argümanlardan oluştur */
+                int arg_say = dugum->çocuk_sayısı < 32 ? dugum->çocuk_sayısı : 32;
+                LLVMTypeRef param_t[32];
+                for (int i = 0; i < arg_say; i++) param_t[i] = i64;
+                LLVMTypeRef fn_tip = LLVMFunctionType(i64, param_t, arg_say, 0);
+                LLVMTypeRef fn_ptr_tip = LLVMPointerType(fn_tip, 0);
+
+                /* i64 → fonksiyon pointer'ına dönüştür */
+                LLVMValueRef fn_ptr = LLVMBuildIntToPtr(u->olusturucu,
+                    fn_ptr_val, fn_ptr_tip, "fn_ptr");
+
+                /* Argümanları üret */
+                LLVMValueRef args[32];
+                for (int i = 0; i < arg_say; i++) {
+                    args[i] = llvm_ifade_uret(u, dugum->çocuklar[i]);
+                    if (!args[i]) args[i] = LLVMConstInt(i64, 0, 0);
+                }
+
+                return LLVMBuildCall2(u->olusturucu, fn_tip, fn_ptr,
+                    args, arg_say, "dolayli_cagri");
+            }
+
             /* Fonksiyonun parametre tiplerini al */
             unsigned fn_param_sayisi = LLVMCountParamTypes(fn->tip);
             LLVMTypeRef fn_param_tipleri[32];

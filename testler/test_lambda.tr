@@ -1,13 +1,9 @@
-# Lambda testi
-işlev cagir(x: tam, f: tam) -> tam
-    döndür x
+# Lambda testi - dolaylı çağrı
+tam f = işlev(a: tam) -> tam
+    döndür a * 2
 son
 
-# Basit lambda kullanımı - fonksiyon pointer olarak
-tam sonuc = cagir(5, 0)
+tam sonuc = f(5)
 yazdır(sonuc)
-
-# Lambda: doğrudan çağrı yerine pointer olarak sakla
-# Not: şimdilik lambda'yı tam değişkende saklayıp indirect call desteklenmediği için
-# basit test yapıyoruz
-yazdır(42)
+tam sonuc2 = f(21)
+yazdır(sonuc2)
