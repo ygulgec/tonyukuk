@@ -16,6 +16,7 @@
 #include "uretici_avr.h"
 #include "uretici_xtensa.h"
 #include "uretici_arm_m0.h"
+#include "uretici_elf.h"
 #include "hata.h"
 #include "bellek.h"
 #include "optimize.h"
@@ -1338,6 +1339,45 @@ int main(int argc, char **argv) {
                 kaynak_dosya, vm_cikti);
 
         metin_serbest(&vm_uretici.cikti);
+        arena_serbest(&arena);
+        sözcük_serbest(&sc);
+        free(kaynak);
+        return 0;
+    }
+
+    /* 4.6. Doğrudan ELF64 Backend (harici araç gerektirmez) */
+    if (strcmp(hedef, "elf64") == 0) {
+        ElfÜretici elf_ü;
+        memset(&elf_ü, 0, sizeof(elf_ü));
+
+        kod_üret_elf64(&elf_ü, program, &arena);
+
+        /* Çıktı dosya adı */
+        char elf_çıktı[256];
+        if (cikti_dosya) {
+            snprintf(elf_çıktı, sizeof(elf_çıktı), "%s", cikti_dosya);
+        } else {
+            cikti_adi_olustur(kaynak_dosya, elf_çıktı, sizeof(elf_çıktı), "");
+        }
+
+        if (elf64_dosya_yaz(&elf_ü, elf_çıktı) != 0) {
+            fprintf(stderr, "tonyukuk-derle: ELF64 dosya yazma hatası\n");
+            elf_üretici_serbest(&elf_ü);
+            icerik_dosyalar_serbest();
+            arena_serbest(&arena);
+            sözcük_serbest(&sc);
+            free(kaynak);
+            return 1;
+        }
+
+        /* Çalıştırılabilir izni ver */
+        chmod(elf_çıktı, 0755);
+
+        fprintf(stderr, "tonyukuk-derle: '%s' doğrudan ELF64 olarak derlendi -> %s\n",
+                kaynak_dosya, elf_çıktı);
+
+        elf_üretici_serbest(&elf_ü);
+        icerik_dosyalar_serbest();
         arena_serbest(&arena);
         sözcük_serbest(&sc);
         free(kaynak);

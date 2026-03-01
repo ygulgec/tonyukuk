@@ -21,6 +21,7 @@ SRCS = src/ana.c src/sozcuk.c src/cozumleyici.c src/agac.c \
        src/anlam.c src/uretici.c src/uretici_arm64.c src/uretici_wasm.c \
        src/uretici_avr.c src/uretici_xtensa.c src/uretici_arm_m0.c \
        src/uretici_vm.c \
+       src/x86_kodlayici.c src/uretici_elf.c \
        src/utf8.c src/hata.c \
        src/tablo.c src/bellek.c src/metin.c \
        src/optimize.c src/kaynak_harita.c \
