@@ -20,6 +20,7 @@ LLVM_MEVCUT = $(shell which $(LLVM_CONFIG) >/dev/null 2>&1 && echo "1" || echo "
 SRCS = src/ana.c src/sozcuk.c src/cozumleyici.c src/agac.c \
        src/anlam.c src/uretici.c src/uretici_arm64.c src/uretici_wasm.c \
        src/uretici_avr.c src/uretici_xtensa.c src/uretici_arm_m0.c \
+       src/uretici_vm.c \
        src/utf8.c src/hata.c \
        src/tablo.c src/bellek.c src/metin.c \
        src/optimize.c src/kaynak_harita.c \
@@ -76,7 +77,7 @@ WIN_COMPAT_OBJS = $(patsubst stdlib/%.c,stdlib/win/compat_%.o,$(WIN_COMPAT_SRCS)
 
 .PHONY: all clean test production llvm-info win test-dogrula test-dogrula-llvm
 
-all: $(TARGET) $(RUNTIME_LIB)
+all: $(TARGET) $(RUNTIME_LIB) trsm
 	@if [ "$(LLVM_MEVCUT)" = "1" ]; then \
 		echo "  LLVM backend aktif ($(shell $(LLVM_CONFIG) --version))"; \
 	else \
@@ -112,6 +113,10 @@ tonyukuk-lsp: src/lsp.o src/sozcuk.o src/cozumleyici.o src/agac.o src/anlam.o sr
 # Hata Ayıklayıcı (Debugger)
 tonyukuk-ha: src/hataayikla.o
 	$(CC) $(CFLAGS) -o $@ $^
+
+# Tonyukuk Sanal Makinesi (bytecode yorumlayıcı)
+trsm: src/trsm.c src/vm.h
+	$(CC) -std=c11 -Wall -Wextra -g -O2 -o trsm src/trsm.c
 
 playground-api: web/playground_api.c
 	$(CC) -std=c11 -O2 -Wall -Wextra -o web/playground-api web/playground_api.c
@@ -169,7 +174,7 @@ stdlib/webgorunum_cz.o: stdlib/webgorunum_cz.c
 clean:
 	rm -f $(OBJS) $(RUNTIME_OBJ) $(MODUL_CZ_OBJS) $(TARGET) $(RUNTIME_LIB)
 	rm -f src/bicimle.o src/denetle.o src/paket.o src/belgeleme.o src/lsp.o src/hataayikla.o src/llvm_uretici.o
-	rm -f bicimle denetle ton trdoc tonyukuk-lsp tonyukuk-ha
+	rm -f bicimle denetle ton trdoc tonyukuk-lsp tonyukuk-ha trsm
 	rm -f testler/*.s testler/*.o testler/*.wat testler/*.ll testler/*.bc
 
 test: $(TARGET)

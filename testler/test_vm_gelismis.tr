@@ -1,0 +1,46 @@
+# VM gelişmiş test
+
+# Aritmetik
+tam a = 100
+tam b = 7
+yazdır(a + b)
+yazdır(a - b)
+yazdır(a * b)
+yazdır(a / b)
+yazdır(a % b)
+
+# Döngü
+tam toplam = 0
+tam i = 1
+iken i <= 10 ise
+    toplam = toplam + i
+    i = i + 1
+son
+yazdır(toplam)
+
+# İç içe fonksiyonlar
+işlev kare(x: tam) -> tam
+    döndür x * x
+son
+
+işlev kup(x: tam) -> tam
+    döndür x * kare(x)
+son
+
+yazdır(kare(5))
+yazdır(kup(3))
+
+# Koşullar
+tam n = 15
+eğer n % 3 == 0 ise
+    eğer n % 5 == 0 ise
+        yazdır(1)
+    yoksa
+        yazdır(2)
+    son
+yoksa
+    yazdır(3)
+son
+
+# Metin
+yazdır("Merhaba" + " " + "Dünya")

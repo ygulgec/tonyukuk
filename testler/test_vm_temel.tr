@@ -1,0 +1,19 @@
+# VM temel test
+tam x = 42
+yazdır(x)
+
+tam y = 10 + 5
+yazdır(y)
+
+eğer y > 10 ise
+    yazdır(1)
+yoksa
+    yazdır(0)
+son
+
+işlev topla(a: tam, b: tam) -> tam
+    döndür a + b
+son
+
+yazdır(topla(3, 7))
+yazdır("merhaba dünya")

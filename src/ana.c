@@ -356,6 +356,7 @@ static void kullanim_goster(void) {
     fprintf(stderr, "  -profil       Profil entegrasyonu (i\xc5\x9flev zamanlama raporu)\n");
     fprintf(stderr, "  --s\xc4\xb1na        Test modunda derle (test bloklar\xc4\xb1n\xc4\xb1 \xc3\xa7al\xc4\xb1\xc5\x9ft\xc4\xb1r)\n");
     fprintf(stderr, "  --etkile\xc5\x9fimli Etkile\xc5\x9fimli REPL modunu ba\xc5\x9flat\n");
+    fprintf(stderr, "  --backend=vm   Bytecode VM backend (taşınabilir .trbc dosyası üret)\n");
 #ifdef LLVM_BACKEND_MEVCUT
     fprintf(stderr, "  --backend=llvm LLVM IR backend kullan (çoklu platform desteği)\n");
     fprintf(stderr, "  --emit-llvm   LLVM IR dosyası (.ll) üret\n");
@@ -749,6 +750,9 @@ int main(int argc, char **argv) {
     int test_modu = 0;
     const char *hedef = "x86_64";  /* varsayılan hedef platform */
 
+    /* VM backend seçeneği */
+    int vm_backend = 0;           /* --backend=vm */
+
     /* LLVM backend seçenekleri */
     int llvm_backend = 0;         /* --backend=llvm */
     int llvm_emit_ir = 0;         /* --emit-llvm (.ll dosyası üret) */
@@ -783,6 +787,8 @@ int main(int argc, char **argv) {
             repl_modu = 1;
         } else if (strcmp(argv[i], "-hedef") == 0 || strcmp(argv[i], "--hedef") == 0) {
             if (i + 1 < argc) hedef = argv[++i];
+        } else if (strcmp(argv[i], "--backend=vm") == 0 || strcmp(argv[i], "-backend=vm") == 0) {
+            vm_backend = 1;
         } else if (strcmp(argv[i], "--backend=llvm") == 0 || strcmp(argv[i], "-backend=llvm") == 0) {
 #ifdef LLVM_BACKEND_MEVCUT
             llvm_backend = 1;
@@ -1310,6 +1316,33 @@ int main(int argc, char **argv) {
     (void)llvm_jit_mode;
     (void)llvm_opt_seviye;
 #endif
+
+    /* 4.5. VM Backend */
+    if (vm_backend) {
+        Üretici vm_uretici;
+        memset(&vm_uretici, 0, sizeof(vm_uretici));
+
+        /* Çıktı dosya adını ayarla */
+        char vm_cikti[512];
+        if (cikti_dosya) {
+            snprintf(vm_cikti, sizeof(vm_cikti), "%s", cikti_dosya);
+        } else {
+            cikti_adi_olustur(kaynak_dosya, vm_cikti, sizeof(vm_cikti), ".trbc");
+        }
+        metin_baslat(&vm_uretici.cikti);
+        metin_ekle(&vm_uretici.cikti, vm_cikti);
+
+        kod_uret_vm(&vm_uretici, program, &arena);
+
+        fprintf(stderr, "tonyukuk-derle: '%s' VM backend ile derlendi -> %s\n",
+                kaynak_dosya, vm_cikti);
+
+        metin_serbest(&vm_uretici.cikti);
+        arena_serbest(&arena);
+        sözcük_serbest(&sc);
+        free(kaynak);
+        return 0;
+    }
 
     /* 5. Kod uretimi (hedef platforma gore) */
     Üretici üretici;

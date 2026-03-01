@@ -100,4 +100,7 @@ int assembly_yaz(Üretici *u, const char *dosya_adi);
 /* Temizlik */
 void üretici_serbest(Üretici *u);
 
+/* VM bytecode backend */
+void kod_uret_vm(Üretici *u, Düğüm *program, Arena *arena);
+
 #endif
