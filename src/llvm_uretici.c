@@ -493,6 +493,28 @@ void llvm_runtime_tanimla(LLVMÜretici *u) {
         LLVMValueRef fn = LLVMAddFunction(u->modul, "_tr_istisna_deger", ft);
         llvm_sembol_ekle(u, "_tr_istisna_deger", fn, ft, 0, 1);
     }
+    /* _tr_firlat_tipli(deger: i64, deger_len: i64, tip: i64) -> void */
+    {
+        LLVMTypeRef pt[] = { i64, i64, i64 };
+        LLVMTypeRef ft = LLVMFunctionType(void_tip, pt, 3, 0);
+        LLVMValueRef fn = LLVMAddFunction(u->modul, "_tr_firlat_tipli", ft);
+        unsigned kind2 = LLVMGetEnumAttributeKindForName("noreturn", 8);
+        LLVMAttributeRef attr2 = LLVMCreateEnumAttribute(u->baglam, kind2, 0);
+        LLVMAddAttributeAtIndex(fn, LLVMAttributeFunctionIndex, attr2);
+        llvm_sembol_ekle(u, "_tr_firlat_tipli", fn, ft, 0, 1);
+    }
+    /* _tr_istisna_tip() -> i64 */
+    {
+        LLVMTypeRef ft = LLVMFunctionType(i64, NULL, 0, 0);
+        LLVMValueRef fn = LLVMAddFunction(u->modul, "_tr_istisna_tip", ft);
+        llvm_sembol_ekle(u, "_tr_istisna_tip", fn, ft, 0, 1);
+    }
+    /* _tr_istisna_deger_len() -> i64 */
+    {
+        LLVMTypeRef ft = LLVMFunctionType(i64, NULL, 0, 0);
+        LLVMValueRef fn = LLVMAddFunction(u->modul, "_tr_istisna_deger_len", ft);
+        llvm_sembol_ekle(u, "_tr_istisna_deger_len", fn, ft, 0, 1);
+    }
 
     /* ==== Sözlük runtime fonksiyonları ==== */
 
@@ -1337,11 +1359,66 @@ LLVMValueRef llvm_ifade_uret(LLVMÜretici *u, Düğüm *dugum) {
                 case TOK_BÖLME:
                     if (ondalik_mi)
                         return LLVMBuildFDiv(u->olusturucu, sol, sag, "bolum");
-                    else
-                        return LLVMBuildSDiv(u->olusturucu, sol, sag, "bolum");
+                    else {
+                        /* Sıfıra bölme kontrolü */
+                        LLVMTypeRef i64_t = LLVMInt64TypeInContext(u->baglam);
+                        LLVMValueRef sifir_cmp = LLVMBuildICmp(u->olusturucu, LLVMIntEQ,
+                            sag, LLVMConstInt(i64_t, 0, 0), "sifir_cmp");
+                        LLVMBasicBlockRef hata_blok = LLVMAppendBasicBlockInContext(
+                            u->baglam, u->mevcut_islev, "bolme_hata");
+                        LLVMBasicBlockRef devam_blok = LLVMAppendBasicBlockInContext(
+                            u->baglam, u->mevcut_islev, "bolme_devam");
+                        LLVMBuildCondBr(u->olusturucu, sifir_cmp, hata_blok, devam_blok);
 
-                case TOK_YÜZDE:
+                        LLVMPositionBuilderAtEnd(u->olusturucu, hata_blok);
+                        LLVMSembolGirişi *firlat_tipli = llvm_sembol_bul(u, "_tr_firlat_tipli");
+                        if (firlat_tipli) {
+                            /* "Hata: sifira bolme" hata metni */
+                            const char *hata_msg = "Hata: sifira bolme";
+                            int hata_len = 18;
+                            LLVMValueRef hata_str = LLVMBuildGlobalStringPtr(u->olusturucu, hata_msg, "bolme_hata_msg");
+                            LLVMValueRef hata_ptr = LLVMBuildPtrToInt(u->olusturucu, hata_str, i64_t, "bolme_hata_ptr");
+                            LLVMValueRef hata_uzunluk = LLVMConstInt(i64_t, hata_len, 0);
+                            LLVMValueRef tip_kodu = LLVMConstInt(i64_t, 5, 0); /* BolmeHatasi=5 */
+                            LLVMValueRef firlat_args[] = { hata_ptr, hata_uzunluk, tip_kodu };
+                            LLVMBuildCall2(u->olusturucu, firlat_tipli->tip,
+                                firlat_tipli->deger, firlat_args, 3, "");
+                        }
+                        LLVMBuildUnreachable(u->olusturucu);
+
+                        LLVMPositionBuilderAtEnd(u->olusturucu, devam_blok);
+                        return LLVMBuildSDiv(u->olusturucu, sol, sag, "bolum");
+                    }
+
+                case TOK_YÜZDE: {
+                    /* Sıfıra bölme kontrolü (mod) */
+                    LLVMTypeRef i64_t = LLVMInt64TypeInContext(u->baglam);
+                    LLVMValueRef sifir_cmp = LLVMBuildICmp(u->olusturucu, LLVMIntEQ,
+                        sag, LLVMConstInt(i64_t, 0, 0), "sifir_cmp_mod");
+                    LLVMBasicBlockRef hata_blok = LLVMAppendBasicBlockInContext(
+                        u->baglam, u->mevcut_islev, "mod_hata");
+                    LLVMBasicBlockRef devam_blok = LLVMAppendBasicBlockInContext(
+                        u->baglam, u->mevcut_islev, "mod_devam");
+                    LLVMBuildCondBr(u->olusturucu, sifir_cmp, hata_blok, devam_blok);
+
+                    LLVMPositionBuilderAtEnd(u->olusturucu, hata_blok);
+                    LLVMSembolGirişi *firlat_tipli = llvm_sembol_bul(u, "_tr_firlat_tipli");
+                    if (firlat_tipli) {
+                        const char *hata_msg = "Hata: sifira bolme";
+                        int hata_len = 18;
+                        LLVMValueRef hata_str = LLVMBuildGlobalStringPtr(u->olusturucu, hata_msg, "mod_hata_msg");
+                        LLVMValueRef hata_ptr = LLVMBuildPtrToInt(u->olusturucu, hata_str, i64_t, "mod_hata_ptr");
+                        LLVMValueRef hata_uzunluk = LLVMConstInt(i64_t, hata_len, 0);
+                        LLVMValueRef tip_kodu = LLVMConstInt(i64_t, 5, 0);
+                        LLVMValueRef firlat_args[] = { hata_ptr, hata_uzunluk, tip_kodu };
+                        LLVMBuildCall2(u->olusturucu, firlat_tipli->tip,
+                            firlat_tipli->deger, firlat_args, 3, "");
+                    }
+                    LLVMBuildUnreachable(u->olusturucu);
+
+                    LLVMPositionBuilderAtEnd(u->olusturucu, devam_blok);
                     return LLVMBuildSRem(u->olusturucu, sol, sag, "kalan");
+                }
 
                 case TOK_KÜÇÜK:
                     if (ondalik_mi)
@@ -3974,15 +4051,25 @@ void llvm_deyim_uret(LLVMÜretici *u, Düğüm *dugum) {
         }
 
         case DÜĞÜM_DENE_YAKALA: {
-            /* dene ... yakala ... [sonunda ...] son */
-            /* _tr_dene_baslat() çağır: 0=normal, 1=istisna */
+            /* dene ... yakala [Tip] [degisken] ... [sonunda ...] son */
             LLVMSembolGirişi *dene_fn = llvm_sembol_bul(u, "_tr_dene_baslat");
             LLVMSembolGirişi *bitir_fn = llvm_sembol_bul(u, "_tr_dene_bitir");
-            if (!dene_fn || !bitir_fn) break;
+            LLVMSembolGirişi *tip_fn = llvm_sembol_bul(u, "_tr_istisna_tip");
+            LLVMSembolGirişi *deger_fn = llvm_sembol_bul(u, "_tr_istisna_deger");
+            LLVMSembolGirişi *deger_len_fn = llvm_sembol_bul(u, "_tr_istisna_deger_len");
+            if (!dene_fn || !bitir_fn || !tip_fn || !deger_fn || !deger_len_fn) break;
 
+            LLVMTypeRef i64_tip = LLVMInt64TypeInContext(u->baglam);
+
+            /* sonunda bloğu var mı? */
+            int sonunda_var = (dugum->veri.tanimlayici.tip &&
+                               strcmp(dugum->veri.tanimlayici.tip, "sonunda") == 0);
+            int yakala_son = sonunda_var ? dugum->çocuk_sayısı - 1 : dugum->çocuk_sayısı;
+            int sonunda_idx = sonunda_var ? dugum->çocuk_sayısı - 1 : -1;
+
+            /* _tr_dene_baslat() → 0=normal, 1=istisna */
             LLVMValueRef sonuc = LLVMBuildCall2(u->olusturucu, dene_fn->tip,
                 dene_fn->deger, NULL, 0, "dene_sonuc");
-            /* returns_twice attribute on call site */
             unsigned kind = LLVMGetEnumAttributeKindForName("returns_twice", 13);
             LLVMAttributeRef attr = LLVMCreateEnumAttribute(u->baglam, kind, 0);
             LLVMAddCallSiteAttribute(sonuc, LLVMAttributeFunctionIndex, attr);
@@ -3992,30 +4079,114 @@ void llvm_deyim_uret(LLVMÜretici *u, Düğüm *dugum) {
 
             LLVMBasicBlockRef dene_blok = LLVMAppendBasicBlockInContext(
                 u->baglam, u->mevcut_islev, "dene_govde");
-            LLVMBasicBlockRef yakala_blok = LLVMAppendBasicBlockInContext(
-                u->baglam, u->mevcut_islev, "yakala_govde");
+            LLVMBasicBlockRef yakala_dispatch = LLVMAppendBasicBlockInContext(
+                u->baglam, u->mevcut_islev, "yakala_dispatch");
+            LLVMBasicBlockRef sonunda_blok = LLVMAppendBasicBlockInContext(
+                u->baglam, u->mevcut_islev, "sonunda_blok");
             LLVMBasicBlockRef son_blok = LLVMAppendBasicBlockInContext(
                 u->baglam, u->mevcut_islev, "dene_son");
 
-            LLVMBuildCondBr(u->olusturucu, cmp, dene_blok, yakala_blok);
+            LLVMBuildCondBr(u->olusturucu, cmp, dene_blok, yakala_dispatch);
 
-            /* Dene gövdesi */
+            /* === Dene gövdesi === */
             LLVMPositionBuilderAtEnd(u->olusturucu, dene_blok);
             if (dugum->çocuk_sayısı > 0) {
                 llvm_blok_uret(u, dugum->çocuklar[0]);
             }
-            /* Normal tamamlanma: _tr_dene_bitir() */
             if (!LLVMGetBasicBlockTerminator(LLVMGetInsertBlock(u->olusturucu))) {
                 LLVMBuildCall2(u->olusturucu, bitir_fn->tip,
                     bitir_fn->deger, NULL, 0, "");
-                LLVMBuildBr(u->olusturucu, son_blok);
+                LLVMBuildBr(u->olusturucu, sonunda_blok);
             }
 
-            /* Yakala gövdesi */
-            LLVMPositionBuilderAtEnd(u->olusturucu, yakala_blok);
-            if (dugum->çocuk_sayısı > 1) {
-                /* İlk yakala bloğu (çocuklar[1]) */
-                llvm_blok_uret(u, dugum->çocuklar[1]);
+            /* === Yakala dispatch === */
+            LLVMPositionBuilderAtEnd(u->olusturucu, yakala_dispatch);
+
+            /* İstisna bilgilerini al */
+            LLVMValueRef ist_tip = LLVMBuildCall2(u->olusturucu, tip_fn->tip,
+                tip_fn->deger, NULL, 0, "ist_tip");
+            LLVMValueRef ist_deger = LLVMBuildCall2(u->olusturucu, deger_fn->tip,
+                deger_fn->deger, NULL, 0, "ist_deger");
+            LLVMValueRef ist_len = LLVMBuildCall2(u->olusturucu, deger_len_fn->tip,
+                deger_len_fn->deger, NULL, 0, "ist_len");
+
+            /* Çoklu yakala dispatch zinciri */
+            for (int i = 1; i < yakala_son; i++) {
+                Düğüm *yb = dugum->çocuklar[i];
+                char *tip_adi = yb->veri.tanimlayici.tip;
+                char *hata_isim = yb->veri.tanimlayici.isim;
+
+                LLVMBasicBlockRef bu_yakala = LLVMAppendBasicBlockInContext(
+                    u->baglam, u->mevcut_islev, "yakala_govde");
+                LLVMBasicBlockRef sonraki = LLVMAppendBasicBlockInContext(
+                    u->baglam, u->mevcut_islev, "yakala_sonraki");
+
+                /* Tip kontrolü */
+                if (tip_adi) {
+                    int tip_kodu = 0;
+                    int catch_all = 0;
+                    if (strcmp(tip_adi, "TipHatasi") == 0) tip_kodu = 1;
+                    else if (strcmp(tip_adi, "DegerHatasi") == 0) tip_kodu = 2;
+                    else if (strcmp(tip_adi, "DizinHatasi") == 0) tip_kodu = 3;
+                    else if (strcmp(tip_adi, "AnahtarHatasi") == 0) tip_kodu = 4;
+                    else if (strcmp(tip_adi, "BolmeHatasi") == 0) tip_kodu = 5;
+                    else if (strcmp(tip_adi, "DosyaHatasi") == 0) tip_kodu = 6;
+                    else if (strcmp(tip_adi, "BellekHatasi") == 0) tip_kodu = 7;
+                    else if (strcmp(tip_adi, "Hata") == 0) catch_all = 1;
+
+                    if (!catch_all) {
+                        LLVMValueRef tip_cmp = LLVMBuildICmp(u->olusturucu, LLVMIntEQ,
+                            ist_tip, LLVMConstInt(i64_tip, tip_kodu, 0), "tip_cmp");
+                        LLVMBuildCondBr(u->olusturucu, tip_cmp, bu_yakala, sonraki);
+                    } else {
+                        /* Hata = catch-all, koşulsuz */
+                        LLVMBuildBr(u->olusturucu, bu_yakala);
+                    }
+                } else {
+                    /* Tipsiz yakala = catch-all */
+                    LLVMBuildBr(u->olusturucu, bu_yakala);
+                }
+
+                /* Bu yakala bloğu */
+                LLVMPositionBuilderAtEnd(u->olusturucu, bu_yakala);
+
+                /* Hata değişkeni bağlama */
+                if (hata_isim) {
+                    LLVMTypeRef metin_t = llvm_metin_tipi_al(u);
+                    LLVMValueRef hata_alloca = LLVMBuildAlloca(u->olusturucu, metin_t, hata_isim);
+
+                    /* ist_deger (i64) → i8* pointer */
+                    LLVMValueRef ptr_val = LLVMBuildIntToPtr(u->olusturucu, ist_deger,
+                        LLVMPointerType(LLVMInt8TypeInContext(u->baglam), 0), "hata_ptr");
+
+                    /* metin struct {ptr, len} oluştur ve store et */
+                    LLVMValueRef metin_val = LLVMGetUndef(metin_t);
+                    metin_val = LLVMBuildInsertValue(u->olusturucu, metin_val, ptr_val, 0, "hata_m1");
+                    metin_val = LLVMBuildInsertValue(u->olusturucu, metin_val, ist_len, 1, "hata_m2");
+                    LLVMBuildStore(u->olusturucu, metin_val, hata_alloca);
+
+                    llvm_sembol_ekle(u, hata_isim, hata_alloca, metin_t, 0, 0);
+                }
+
+                llvm_blok_uret(u, yb);
+
+                if (!LLVMGetBasicBlockTerminator(LLVMGetInsertBlock(u->olusturucu))) {
+                    LLVMBuildBr(u->olusturucu, sonunda_blok);
+                }
+
+                /* Sonraki yakala deneme noktası */
+                LLVMPositionBuilderAtEnd(u->olusturucu, sonraki);
+            }
+
+            /* Hiçbir yakala eşleşmezse → sonunda */
+            if (!LLVMGetBasicBlockTerminator(LLVMGetInsertBlock(u->olusturucu))) {
+                LLVMBuildBr(u->olusturucu, sonunda_blok);
+            }
+
+            /* === Sonunda bloğu === */
+            LLVMPositionBuilderAtEnd(u->olusturucu, sonunda_blok);
+            if (sonunda_idx >= 0) {
+                llvm_blok_uret(u, dugum->çocuklar[sonunda_idx]);
             }
             if (!LLVMGetBasicBlockTerminator(LLVMGetInsertBlock(u->olusturucu))) {
                 LLVMBuildBr(u->olusturucu, son_blok);
@@ -4026,28 +4197,32 @@ void llvm_deyim_uret(LLVMÜretici *u, Düğüm *dugum) {
         }
 
         case DÜĞÜM_FIRLAT: {
-            /* fırlat ifade → _tr_firlat_deger(deger) */
-            LLVMSembolGirişi *firlat_fn = llvm_sembol_bul(u, "_tr_firlat_deger");
+            /* fırlat ifade → _tr_firlat_tipli(ptr, len, tip) */
+            LLVMSembolGirişi *firlat_fn = llvm_sembol_bul(u, "_tr_firlat_tipli");
             if (!firlat_fn) break;
 
-            LLVMValueRef deger = NULL;
+            LLVMTypeRef i64_tip = LLVMInt64TypeInContext(u->baglam);
+            LLVMValueRef deger_ptr = LLVMConstInt(i64_tip, 0, 0);
+            LLVMValueRef deger_len = LLVMConstInt(i64_tip, 0, 0);
+
             if (dugum->çocuk_sayısı > 0) {
-                deger = llvm_ifade_uret(u, dugum->çocuklar[0]);
+                LLVMValueRef deger = llvm_ifade_uret(u, dugum->çocuklar[0]);
+                if (deger) {
+                    LLVMTypeRef deger_tipi = LLVMTypeOf(deger);
+                    if (LLVMGetTypeKind(deger_tipi) == LLVMStructTypeKind) {
+                        /* Metin struct {ptr, len} → extract both */
+                        LLVMValueRef ptr_val = LLVMBuildExtractValue(u->olusturucu, deger, 0, "firlat_ptr");
+                        deger_ptr = LLVMBuildPtrToInt(u->olusturucu, ptr_val, i64_tip, "firlat_ptr_i64");
+                        deger_len = LLVMBuildExtractValue(u->olusturucu, deger, 1, "firlat_len");
+                    } else {
+                        deger_ptr = deger;
+                    }
+                }
             }
-            if (!deger) {
-                deger = LLVMConstInt(LLVMInt64TypeInContext(u->baglam), 0, 0);
-            }
-            /* Metin struct {ptr, i64} ise pointer'ı çıkarıp i64'e dönüştür */
-            LLVMTypeRef deger_tipi = LLVMTypeOf(deger);
-            if (LLVMGetTypeKind(deger_tipi) == LLVMStructTypeKind) {
-                /* Struct'ın ilk elemanını (ptr) çıkar ve ptrtoint ile i64'e dönüştür */
-                LLVMValueRef ptr_val = LLVMBuildExtractValue(u->olusturucu, deger, 0, "firlat_ptr");
-                deger = LLVMBuildPtrToInt(u->olusturucu, ptr_val,
-                    LLVMInt64TypeInContext(u->baglam), "firlat_i64");
-            }
-            LLVMValueRef args[] = { deger };
+            LLVMValueRef tip = LLVMConstInt(i64_tip, 0, 0);  /* genel hata */
+            LLVMValueRef args[] = { deger_ptr, deger_len, tip };
             LLVMBuildCall2(u->olusturucu, firlat_fn->tip,
-                firlat_fn->deger, args, 1, "");
+                firlat_fn->deger, args, 3, "");
             LLVMBuildUnreachable(u->olusturucu);
             /* Unreachable sonrası yeni blok lazım (LLVM gereksinimi) */
             LLVMBasicBlockRef devam_blok = LLVMAppendBasicBlockInContext(

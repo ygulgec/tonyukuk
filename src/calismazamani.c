@@ -332,6 +332,7 @@ void _tr_dizi_sinir_hatasi(void) {
 typedef struct {
     jmp_buf buf;
     long long deger;
+    long long deger_len;
     long long tip;
 } TrIstisnaCerceve;
 
@@ -358,6 +359,23 @@ void _tr_firlat_deger(long long deger) {
         _istisna_derinlik--;
         TrIstisnaCerceve *c = &_istisna_yigin[_istisna_derinlik];
         c->deger = deger;
+        c->deger_len = 0;
+        c->tip = 0;
+        longjmp(c->buf, 1);
+    } else {
+        fprintf(stderr, "Hata: Yakalanmam\xc4\xb1\xc5\x9f istisna!\n");
+        exit(1);
+    }
+}
+
+/* Tipli istisna fırlat */
+void _tr_firlat_tipli(long long deger, long long deger_len, long long tip) {
+    if (_istisna_derinlik > 0) {
+        _istisna_derinlik--;
+        TrIstisnaCerceve *c = &_istisna_yigin[_istisna_derinlik];
+        c->deger = deger;
+        c->deger_len = deger_len;
+        c->tip = tip;
         longjmp(c->buf, 1);
     } else {
         fprintf(stderr, "Hata: Yakalanmam\xc4\xb1\xc5\x9f istisna!\n");
@@ -369,6 +387,22 @@ void _tr_firlat_deger(long long deger) {
 long long _tr_istisna_deger(void) {
     if (_istisna_derinlik >= 0 && _istisna_derinlik < ISTISNA_MAKS_DERINLIK) {
         return _istisna_yigin[_istisna_derinlik].deger;
+    }
+    return 0;
+}
+
+/* Yakalanan istisna tip kodu */
+long long _tr_istisna_tip(void) {
+    if (_istisna_derinlik >= 0 && _istisna_derinlik < ISTISNA_MAKS_DERINLIK) {
+        return _istisna_yigin[_istisna_derinlik].tip;
+    }
+    return 0;
+}
+
+/* Yakalanan istisna metin uzunluğu */
+long long _tr_istisna_deger_len(void) {
+    if (_istisna_derinlik >= 0 && _istisna_derinlik < ISTISNA_MAKS_DERINLIK) {
+        return _istisna_yigin[_istisna_derinlik].deger_len;
     }
     return 0;
 }
