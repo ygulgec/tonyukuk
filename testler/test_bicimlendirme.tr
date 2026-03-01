@@ -1,0 +1,43 @@
+# Biçimlendirme modülü testi
+kullan bicimlendirme
+
+# sıfır_doldur (ASCII isimle)
+metin s1 = sifir_doldur(42, 5)
+yazdır(s1)
+
+metin s2 = sifir_doldur(7, 3)
+yazdır(s2)
+
+# para_biçimle
+metin s3 = para_bicimle(1234567.89)
+yazdır(s3)
+
+metin s4 = para_bicimle(0.5)
+yazdır(s4)
+
+# binlik_ayır
+metin s5 = binlik_ayir(1234567)
+yazdır(s5)
+
+metin s6 = binlik_ayir(42)
+yazdır(s6)
+
+# sağa_hizala
+metin s7 = saga_hizala("abc", 8)
+yazdır(s7)
+
+# sola_hizala
+metin s8 = sola_hizala("xyz", 8)
+yazdır(s8)
+
+# ortala
+metin s9 = ortala("hi", 8)
+yazdır(s9)
+
+# para_biçimle_sembol
+metin s10 = para_bicimle_sembol(1234.56, "TL")
+yazdır(s10)
+
+# ondalık_binlik
+metin s11 = ondalik_binlik(9876.54, 2)
+yazdır(s11)

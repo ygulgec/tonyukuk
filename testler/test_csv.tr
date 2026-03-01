@@ -1,0 +1,44 @@
+# CSV modülü testi
+kullan csv
+kullan dosya
+
+# Test 1: Dosya tabanlı CSV
+yaz("/tmp/test_tonyukuk.csv", "isim,yas,sehir\nAli,25,Ankara\nAyse,30,Istanbul\n")
+
+dizi veri = csv_oku("/tmp/test_tonyukuk.csv")
+tam satir_sayi = csv_satir_sayisi(veri)
+yazdır(satir_sayi)
+
+# Başlık satırı
+metin baslik0 = csv_alan_al(veri, 0, 0)
+yazdır(baslik0)
+
+metin baslik1 = csv_alan_al(veri, 0, 1)
+yazdır(baslik1)
+
+metin baslik2 = csv_alan_al(veri, 0, 2)
+yazdır(baslik2)
+
+# Veri satırları
+metin isim1 = csv_alan_al(veri, 1, 0)
+yazdır(isim1)
+
+metin yas1 = csv_alan_al(veri, 1, 1)
+yazdır(yas1)
+
+metin sehir1 = csv_alan_al(veri, 1, 2)
+yazdır(sehir1)
+
+metin isim2 = csv_alan_al(veri, 2, 0)
+yazdır(isim2)
+
+metin yas2 = csv_alan_al(veri, 2, 1)
+yazdır(yas2)
+
+# Alan sayısı
+tam alan_sayi = csv_alan_sayisi(veri, 0)
+yazdır(alan_sayi)
+
+# Temizlik
+sil("/tmp/test_tonyukuk.csv")
+yazdır("tamam")

@@ -157,6 +157,14 @@ long long _tr_indirge(long long *ptr, long long count, long long başlangıç,
     return acc;
 }
 
+/* her_biri(dizi, fonk_ptr) -> tam: her eleman için fonksiyonu çağır (forEach) */
+long long _tr_her_biri(long long *ptr, long long count, long long (*fn)(long long)) {
+    for (long long i = 0; i < count; i++) {
+        fn(ptr[i]);
+    }
+    return 0;
+}
+
 /* Sozluk sil: bir anahtari kaldir */
 long long _tr_sozluk_sil(long long sozluk_ptr,
                            const char *anahtar_ptr, long long anahtar_len) {

@@ -1,0 +1,47 @@
+# Fonksiyonel dizi işlemleri testi: dönüştür, filtrele, biriktir, her_biri
+
+işlev kare(x: tam) -> tam
+    döndür x * x
+son
+
+işlev cift_mi(x: tam) -> tam
+    eğer x % 2 == 0 ise
+        döndür 1
+    yoksa
+        döndür 0
+    son
+son
+
+işlev topla(a: tam, b: tam) -> tam
+    döndür a + b
+son
+
+dizi d = [1, 2, 3, 4, 5]
+
+# dönüştür (map) - Türkçe takma ad
+dizi kareler = dönüştür(d, kare)
+her e için kareler ise
+    yazdır(e)
+son
+
+# filtrele (filter) - Türkçe takma ad
+dizi ciftler = filtrele(d, cift_mi)
+her e için ciftler ise
+    yazdır(e)
+son
+
+# biriktir (reduce) - Türkçe takma ad
+tam toplam = biriktir(d, 0, topla)
+yazdır(toplam)
+
+# her_biri (forEach)
+her_biri(d, işlev(x: tam) -> tam
+    yazdır(x)
+    döndür 0
+son)
+
+# Geriye uyumluluk: eski isimler
+dizi eski = eşlem(d, kare)
+her e için eski ise
+    yazdır(e)
+son

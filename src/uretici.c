@@ -1541,8 +1541,9 @@ static void cagri_uret(Üretici *u, Düğüm *d) {
 
     /* === Birinci Sınıf Fonksiyon Desteği (eşle/filtre/indirge) === */
 
-    /* eşlem(d: dizi, fonk_adi) -> dizi  (map) */
-    if (strcmp(d->veri.tanimlayici.isim, "e\xc5\x9flem") == 0) {
+    /* eşlem/dönüştür(d: dizi, fonk_adi) -> dizi  (map) */
+    if (strcmp(d->veri.tanimlayici.isim, "e\xc5\x9flem") == 0 ||
+        strcmp(d->veri.tanimlayici.isim, "d\xc3\xb6n\xc3\xbc\xc5\x9ft\xc3\xbcr") == 0) {
         /* arg0: dizi (rax=ptr, rbx=count) */
         ifade_üret(u, d->çocuklar[0]);
         yaz(u, "    pushq   %%rbx");  /* count */
@@ -1561,8 +1562,9 @@ static void cagri_uret(Üretici *u, Düğüm *d) {
         return;
     }
 
-    /* filtre(d: dizi, fonk_adi) -> dizi */
-    if (strcmp(d->veri.tanimlayici.isim, "filtre") == 0) {
+    /* filtre/filtrele(d: dizi, fonk_adi) -> dizi */
+    if (strcmp(d->veri.tanimlayici.isim, "filtre") == 0 ||
+        strcmp(d->veri.tanimlayici.isim, "filtrele") == 0) {
         /* arg0: dizi (rax=ptr, rbx=count) */
         ifade_üret(u, d->çocuklar[0]);
         yaz(u, "    pushq   %%rbx");  /* count */
@@ -1581,8 +1583,9 @@ static void cagri_uret(Üretici *u, Düğüm *d) {
         return;
     }
 
-    /* indirge(d: dizi, başlangıç: tam, fonk_adi) -> tam */
-    if (strcmp(d->veri.tanimlayici.isim, "indirge") == 0) {
+    /* indirge/biriktir(d: dizi, başlangıç: tam, fonk_adi) -> tam */
+    if (strcmp(d->veri.tanimlayici.isim, "indirge") == 0 ||
+        strcmp(d->veri.tanimlayici.isim, "biriktir") == 0) {
         /* arg0: dizi (rax=ptr, rbx=count) */
         ifade_üret(u, d->çocuklar[0]);
         yaz(u, "    pushq   %%rbx");  /* count */
@@ -1601,6 +1604,25 @@ static void cagri_uret(Üretici *u, Düğüm *d) {
         yaz(u, "    popq    %%rdi");   /* ptr */
         yaz(u, "    popq    %%rsi");   /* count */
         yaz(u, "    call    _tr_indirge");
+        return;
+    }
+
+    /* her_biri(d: dizi, fonk_adi) -> tam (forEach) */
+    if (strcmp(d->veri.tanimlayici.isim, "her_biri") == 0) {
+        /* arg0: dizi (rax=ptr, rbx=count) */
+        ifade_üret(u, d->çocuklar[0]);
+        yaz(u, "    pushq   %%rbx");  /* count */
+        yaz(u, "    pushq   %%rax");  /* ptr */
+        /* arg1: fonksiyon adresi */
+        if (d->çocuklar[1]->tur == DÜĞÜM_TANIMLAYICI) {
+            yaz(u, "    leaq    %s(%%rip), %%rdx", d->çocuklar[1]->veri.tanimlayici.isim);
+        } else {
+            ifade_üret(u, d->çocuklar[1]);
+            yaz(u, "    movq    %%rax, %%rdx");
+        }
+        yaz(u, "    popq    %%rdi");   /* ptr */
+        yaz(u, "    popq    %%rsi");   /* count */
+        yaz(u, "    call    _tr_her_biri");
         return;
     }
 
@@ -1956,8 +1978,8 @@ static void cagri_uret(Üretici *u, Düğüm *d) {
         if (arg_tipleri[i] == TİP_ONDALIK) {
             yaz(u, "    subq    $8, %%rsp");
             yaz(u, "    movsd   %%xmm0, (%%rsp)");
-        } else if (arg_tipleri[i] == TİP_METİN) {
-            yaz(u, "    pushq   %%rbx");  /* length */
+        } else if (arg_tipleri[i] == TİP_METİN || arg_tipleri[i] == TİP_DİZİ) {
+            yaz(u, "    pushq   %%rbx");  /* length/count */
             yaz(u, "    pushq   %%rax");  /* pointer */
         } else {
             yaz(u, "    pushq   %%rax");
@@ -1974,7 +1996,7 @@ static void cagri_uret(Üretici *u, Düğüm *d) {
                 yaz(u, "    addq    $8, %%rsp");
                 xmm_reg_idx++;
             }
-        } else if (arg_tipleri[i] == TİP_METİN) {
+        } else if (arg_tipleri[i] == TİP_METİN || arg_tipleri[i] == TİP_DİZİ) {
             if (int_reg_idx + 1 < 6) {
                 yaz(u, "    popq    %%%s", int_regs[int_reg_idx]);
                 int_reg_idx++;

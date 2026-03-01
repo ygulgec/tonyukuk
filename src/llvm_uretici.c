@@ -1717,8 +1717,9 @@ LLVMValueRef llvm_ifade_uret(LLVMÜretici *u, Düğüm *dugum) {
 
             /* === Birinci Sınıf Fonksiyon Desteği (eşlem/filtre/indirge) === */
 
-            /* eşlem(d: dizi, fonk_adi) -> dizi (map) */
-            if (strcmp(isim, "e\xc5\x9flem") == 0 && dugum->çocuk_sayısı >= 2) {
+            /* eşlem/dönüştür(d: dizi, fonk_adi) -> dizi (map) */
+            if ((strcmp(isim, "e\xc5\x9flem") == 0 ||
+                 strcmp(isim, "d\xc3\xb6n\xc3\xbc\xc5\x9ft\xc3\xbcr") == 0) && dugum->çocuk_sayısı >= 2) {
                 LLVMValueRef dizi_val = llvm_ifade_uret(u, dugum->çocuklar[0]);
                 if (dizi_val && LLVMGetTypeKind(LLVMTypeOf(dizi_val)) == LLVMStructTypeKind) {
                     LLVMValueRef dizi_ptr = LLVMBuildExtractValue(u->olusturucu, dizi_val, 0, "d_ptr");
@@ -1741,15 +1742,20 @@ LLVMValueRef llvm_ifade_uret(LLVMÜretici *u, Düğüm *dugum) {
                         LLVMTypeRef esle_fn_tip = LLVMFunctionType(diz_t, p_tipleri, 3, 0);
                         LLVMValueRef esle_fn = LLVMGetNamedFunction(u->modul, "_tr_esle");
                         if (!esle_fn) esle_fn = LLVMAddFunction(u->modul, "_tr_esle", esle_fn_tip);
-                        LLVMValueRef fn_cast = LLVMBuildBitCast(u->olusturucu, fn_ptr, fn_cb_t, "fn_cast");
+                        LLVMValueRef fn_cast;
+                        if (LLVMGetTypeKind(LLVMTypeOf(fn_ptr)) == LLVMIntegerTypeKind)
+                            fn_cast = LLVMBuildIntToPtr(u->olusturucu, fn_ptr, fn_cb_t, "fn_cast");
+                        else
+                            fn_cast = LLVMBuildBitCast(u->olusturucu, fn_ptr, fn_cb_t, "fn_cast");
                         LLVMValueRef args[] = { dizi_ptr, dizi_cnt, fn_cast };
                         return LLVMBuildCall2(u->olusturucu, esle_fn_tip, esle_fn, args, 3, "esle_sonuc");
                     }
                 }
             }
 
-            /* filtre(d: dizi, fonk_adi) -> dizi */
-            if (strcmp(isim, "filtre") == 0 && dugum->çocuk_sayısı >= 2) {
+            /* filtre/filtrele(d: dizi, fonk_adi) -> dizi */
+            if ((strcmp(isim, "filtre") == 0 ||
+                 strcmp(isim, "filtrele") == 0) && dugum->çocuk_sayısı >= 2) {
                 LLVMValueRef dizi_val = llvm_ifade_uret(u, dugum->çocuklar[0]);
                 if (dizi_val && LLVMGetTypeKind(LLVMTypeOf(dizi_val)) == LLVMStructTypeKind) {
                     LLVMValueRef dizi_ptr = LLVMBuildExtractValue(u->olusturucu, dizi_val, 0, "d_ptr");
@@ -1770,15 +1776,20 @@ LLVMValueRef llvm_ifade_uret(LLVMÜretici *u, Düğüm *dugum) {
                         LLVMTypeRef filtre_fn_tip = LLVMFunctionType(diz_t, p_tipleri, 3, 0);
                         LLVMValueRef filtre_fn = LLVMGetNamedFunction(u->modul, "_tr_filtre");
                         if (!filtre_fn) filtre_fn = LLVMAddFunction(u->modul, "_tr_filtre", filtre_fn_tip);
-                        LLVMValueRef fn_cast = LLVMBuildBitCast(u->olusturucu, fn_ptr, fn_cb_t, "fn_cast");
+                        LLVMValueRef fn_cast;
+                        if (LLVMGetTypeKind(LLVMTypeOf(fn_ptr)) == LLVMIntegerTypeKind)
+                            fn_cast = LLVMBuildIntToPtr(u->olusturucu, fn_ptr, fn_cb_t, "fn_cast");
+                        else
+                            fn_cast = LLVMBuildBitCast(u->olusturucu, fn_ptr, fn_cb_t, "fn_cast");
                         LLVMValueRef args[] = { dizi_ptr, dizi_cnt, fn_cast };
                         return LLVMBuildCall2(u->olusturucu, filtre_fn_tip, filtre_fn, args, 3, "filtre_sonuc");
                     }
                 }
             }
 
-            /* indirge(d: dizi, başlangıç: tam, fonk_adi) -> tam */
-            if (strcmp(isim, "indirge") == 0 && dugum->çocuk_sayısı >= 3) {
+            /* indirge/biriktir(d: dizi, başlangıç: tam, fonk_adi) -> tam */
+            if ((strcmp(isim, "indirge") == 0 ||
+                 strcmp(isim, "biriktir") == 0) && dugum->çocuk_sayısı >= 3) {
                 LLVMValueRef dizi_val = llvm_ifade_uret(u, dugum->çocuklar[0]);
                 LLVMValueRef baslangic = llvm_ifade_uret(u, dugum->çocuklar[1]);
                 if (dizi_val && baslangic && LLVMGetTypeKind(LLVMTypeOf(dizi_val)) == LLVMStructTypeKind) {
@@ -1800,9 +1811,46 @@ LLVMValueRef llvm_ifade_uret(LLVMÜretici *u, Düğüm *dugum) {
                         LLVMTypeRef indirge_fn_tip = LLVMFunctionType(i64_t, p_tipleri, 4, 0);
                         LLVMValueRef indirge_fn = LLVMGetNamedFunction(u->modul, "_tr_indirge");
                         if (!indirge_fn) indirge_fn = LLVMAddFunction(u->modul, "_tr_indirge", indirge_fn_tip);
-                        LLVMValueRef fn_cast = LLVMBuildBitCast(u->olusturucu, fn_ptr, fn_cb_t, "fn_cast");
+                        LLVMValueRef fn_cast;
+                        if (LLVMGetTypeKind(LLVMTypeOf(fn_ptr)) == LLVMIntegerTypeKind)
+                            fn_cast = LLVMBuildIntToPtr(u->olusturucu, fn_ptr, fn_cb_t, "fn_cast");
+                        else
+                            fn_cast = LLVMBuildBitCast(u->olusturucu, fn_ptr, fn_cb_t, "fn_cast");
                         LLVMValueRef args[] = { dizi_ptr, dizi_cnt, baslangic, fn_cast };
                         return LLVMBuildCall2(u->olusturucu, indirge_fn_tip, indirge_fn, args, 4, "indirge_sonuc");
+                    }
+                }
+            }
+
+            /* her_biri(d: dizi, fonk_adi) -> tam (forEach) */
+            if (strcmp(isim, "her_biri") == 0 && dugum->çocuk_sayısı >= 2) {
+                LLVMValueRef dizi_val = llvm_ifade_uret(u, dugum->çocuklar[0]);
+                if (dizi_val && LLVMGetTypeKind(LLVMTypeOf(dizi_val)) == LLVMStructTypeKind) {
+                    LLVMValueRef dizi_ptr = LLVMBuildExtractValue(u->olusturucu, dizi_val, 0, "d_ptr");
+                    LLVMValueRef dizi_cnt = LLVMBuildExtractValue(u->olusturucu, dizi_val, 1, "d_cnt");
+                    LLVMValueRef fn_ptr = NULL;
+                    if (dugum->çocuklar[1]->tur == DÜĞÜM_TANIMLAYICI) {
+                        char *fn_isim = dugum->çocuklar[1]->veri.tanimlayici.isim;
+                        LLVMValueRef fn_val = LLVMGetNamedFunction(u->modul, fn_isim);
+                        if (fn_val) fn_ptr = fn_val;
+                    }
+                    if (!fn_ptr) fn_ptr = llvm_ifade_uret(u, dugum->çocuklar[1]);
+                    if (fn_ptr) {
+                        LLVMTypeRef i64_t = LLVMInt64TypeInContext(u->baglam);
+                        LLVMTypeRef i64p_t = LLVMPointerType(i64_t, 0);
+                        LLVMTypeRef fn_cb_t = LLVMPointerType(LLVMFunctionType(i64_t, &i64_t, 1, 0), 0);
+                        LLVMTypeRef p_tipleri[] = { i64p_t, i64_t, fn_cb_t };
+                        LLVMTypeRef hb_fn_tip = LLVMFunctionType(i64_t, p_tipleri, 3, 0);
+                        LLVMValueRef hb_fn = LLVMGetNamedFunction(u->modul, "_tr_her_biri");
+                        if (!hb_fn) hb_fn = LLVMAddFunction(u->modul, "_tr_her_biri", hb_fn_tip);
+                        /* fn_ptr i64 ise IntToPtr, pointer ise BitCast */
+                        LLVMValueRef fn_cast;
+                        if (LLVMGetTypeKind(LLVMTypeOf(fn_ptr)) == LLVMIntegerTypeKind)
+                            fn_cast = LLVMBuildIntToPtr(u->olusturucu, fn_ptr, fn_cb_t, "fn_cast");
+                        else
+                            fn_cast = LLVMBuildBitCast(u->olusturucu, fn_ptr, fn_cb_t, "fn_cast");
+                        LLVMValueRef args[] = { dizi_ptr, dizi_cnt, fn_cast };
+                        return LLVMBuildCall2(u->olusturucu, hb_fn_tip, hb_fn, args, 3, "hb_sonuc");
                     }
                 }
             }

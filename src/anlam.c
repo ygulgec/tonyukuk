@@ -108,6 +108,19 @@ static void donusum_fonksiyonlari_kaydet(AnlamÇözümleyici *ac) {
     s = sembol_ekle(ac->arena, ac->kapsam, "indirge", TİP_TAM);
     s->param_sayisi = 3; s->param_tipleri[0] = TİP_DİZİ; s->param_tipleri[1] = TİP_TAM; s->param_tipleri[2] = TİP_TAM; s->dönüş_tipi = TİP_TAM;
 
+    /* Türkçe takma adlar: dönüştür, filtrele, biriktir, her_biri */
+    s = sembol_ekle(ac->arena, ac->kapsam, "d\xc3\xb6n\xc3\xbc\xc5\x9ft\xc3\xbcr", TİP_DİZİ);
+    s->param_sayisi = 2; s->param_tipleri[0] = TİP_DİZİ; s->param_tipleri[1] = TİP_TAM; s->dönüş_tipi = TİP_DİZİ;
+
+    s = sembol_ekle(ac->arena, ac->kapsam, "filtrele", TİP_DİZİ);
+    s->param_sayisi = 2; s->param_tipleri[0] = TİP_DİZİ; s->param_tipleri[1] = TİP_TAM; s->dönüş_tipi = TİP_DİZİ;
+
+    s = sembol_ekle(ac->arena, ac->kapsam, "biriktir", TİP_TAM);
+    s->param_sayisi = 3; s->param_tipleri[0] = TİP_DİZİ; s->param_tipleri[1] = TİP_TAM; s->param_tipleri[2] = TİP_TAM; s->dönüş_tipi = TİP_TAM;
+
+    s = sembol_ekle(ac->arena, ac->kapsam, "her_biri", TİP_TAM);
+    s->param_sayisi = 2; s->param_tipleri[0] = TİP_DİZİ; s->param_tipleri[1] = TİP_TAM; s->dönüş_tipi = TİP_TAM;
+
     /* biçimle — özel codegen (tip-bağımlı dispatch) */
     s = sembol_ekle(ac->arena, ac->kapsam, "bi\xc3\xa7imle", TİP_METİN);
     s->param_sayisi = 2; s->dönüş_tipi = TİP_METİN;
